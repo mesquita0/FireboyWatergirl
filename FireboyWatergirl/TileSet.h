@@ -30,17 +30,35 @@ private:
     uint height;                            // altura de um quadro
     uint columns;                           // número de colunas na folha
     uint size;                              // quantidade de quadros na folha
+    uint offset_x, offset_y;
+    bool owns_image = true;
 
 public:
+    TileSet() = default;
+
     TileSet(string filename,                // nome do arquivo
             uint tileWidth,                 // largura de um quadro
             uint tileHeight,                // altura de um quadro
             uint numCols,                   // número de colunas na folha
-            uint numTiles);                 // quantidade de quadros
+            uint numTiles,                  // quantidade de quadros
+            uint offset_x=0, 
+            uint offset_y=0);         
 
     TileSet(string filename,                // nome do arquivo
             uint numLines,                  // número de linhas na folha
-            uint numCols);                  // número de colunas na folha
+            uint numCols,                   // número de colunas na folha
+            uint offset_x=0,
+            uint offset_y=0);
+
+    TileSet(Image* image,                
+            uint tileWidth,                 
+            uint tileHeight,                
+            uint numCols,                   
+            uint numTiles,                  
+            uint offset_x = 0,
+            uint offset_y = 0);
+
+    TileSet(const TileSet& tileset) = default; 
 
     ~TileSet();                                
 
@@ -50,6 +68,8 @@ public:
     uint    Columns();                      // retorna o número de colunas na folha
     uint    Width();                        // retorna a largura da folha
     uint    Height();                       // retorna a altura da folha
+    uint    OffsetX();
+    uint    OffsetY();
 
     // retorna view da textura da folha
     ID3D11ShaderResourceView * View();        
@@ -85,6 +105,13 @@ inline uint TileSet::Height()
 // retorna resource view do tileset
 inline ID3D11ShaderResourceView * TileSet::View()
 { return image->View(); }
+
+inline uint TileSet::OffsetX()
+{ return offset_x; }
+
+inline uint TileSet::OffsetY()
+{ return offset_y; }
+
 
 // ---------------------------------------------------------------------------------
 

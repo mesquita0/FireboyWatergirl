@@ -14,25 +14,39 @@
 
 // -------------------------------------------------------------------------------
 
-TileSet::TileSet(string filename, uint tileWidth, uint tileHeight, uint numCols, uint numTiles) : 
+TileSet::TileSet(string filename, uint tileWidth, uint tileHeight, uint numCols, uint numTiles, uint offset_x, uint offset_y) :
     image(new Image(filename)), 
     width(tileWidth), 
     height(tileHeight), 
     columns(numCols),    
-    size(numTiles)
+    size(numTiles),
+    offset_x(offset_x),
+    offset_y(offset_y)
 {
-    
+
 }
 
-// -------------------------------------------------------------------------------
-
-TileSet::TileSet(string filename, uint numLines, uint numCols) :
+TileSet::TileSet(string filename, uint numLines, uint numCols, uint offset_x, uint offset_y) :
     image(new Image(filename)),
     columns(numCols),
-    size(numLines* numCols)
+    size(numLines* numCols),
+    offset_x(offset_x),
+    offset_y(offset_y)
 {
     width = image->Width() / numCols;
     height = image->Height() / numLines;
+}
+
+TileSet::TileSet(Image* image, uint tileWidth, uint tileHeight, uint numLines, uint numCols, uint offset_x, uint offset_y) :
+    image(image),
+    width(tileWidth),
+    height(tileHeight),
+    columns(numCols),
+    size(numLines* numCols),
+    offset_x(offset_x),
+    offset_y(offset_y)
+{
+    owns_image = false;
 }
 
 // -------------------------------------------------------------------------------
@@ -40,7 +54,7 @@ TileSet::TileSet(string filename, uint numLines, uint numCols) :
 TileSet::~TileSet()
 {
     // libera memória ocupada pela imagem
-    if (image)
+    if (image && owns_image)
     {
          delete image;
     }

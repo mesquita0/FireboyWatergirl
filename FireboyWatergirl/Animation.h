@@ -40,13 +40,14 @@ private:
     bool  animLoop;             // animação em loop infinito
     float animDelay;            // espaço de tempo entre quadros (em segundos)
     Timer timer;                // medidor de tempo entre quadros da animação
-    TileSet * tileSet;          // ponteiro para folha de sprites da animação
+    TileSet * tiles;            // ponteiro para folha de sprites da animação
     SpriteData sprite;          // sprite a ser desenhado
     HashTable table;            // tabela com seqüências de animação
     uint * sequence;            // seqüência atualmente selecionada
+    float offset_x, offset_y;
 
 public:
-    Animation(TileSet* tiles, float delay, bool repeat);                
+    Animation(TileSet tiles, float delay, bool repeat);                
     ~Animation();                                                           
 
     void Add(uint id, uint * seq, uint seqSize);    // adiciona sequência de animação
@@ -66,6 +67,7 @@ public:
     void Frame(uint aFrame);                        // define o quadro atual da animação
     uint Frame();                                   // retorna o quadro de animação ativo
     void Delay(float delay);                        // define o tempo entre quadros
+    TileSet* tileSet();
 
     bool Inactive();                                // verifica se a animação já encerrou
     void NextFrame();                               // passa para o próximo frame da animação
@@ -89,6 +91,9 @@ inline unsigned Animation::Frame()
 
 inline void Animation::Delay(float delay)
 { animDelay = delay; }
+
+inline TileSet* Animation::tileSet()
+{ return tiles; }
 
 // verifica se a animação já encerrou
 inline bool Animation::Inactive()

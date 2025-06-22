@@ -12,26 +12,33 @@
 #include "Engine.h"
 #include "Animation.h"
 #include "Renderer.h"
+#include "TileSet.h"
 
 // ---------------------------------------------------------------------------------
 
-Animation::Animation(TileSet * tiles, float delay, bool repeat) : 
-    tileSet(tiles), 
+Animation::Animation(TileSet tiles, float delay, bool repeat) : 
     animDelay(delay), 
     animLoop(repeat)
 {
+    // copia tileset
+    this->tiles = new TileSet(tiles);
+
     // sempre inicia a animação pelo primeiro quadro
     frame = iniFrame = 0;
 
     // o último quadro é sempre um a menos que o número de quadros
-    endFrame = tileSet->Size() - 1;
+    endFrame = this->tiles->Size() - 1;
 
     // configura sprite
-    sprite.width     = tileSet->TileWidth();
-    sprite.height    = tileSet->TileHeight();
-    sprite.texSize.x = float(tileSet->TileWidth())  / tileSet->Width();
-    sprite.texSize.y = float(tileSet->TileHeight()) / tileSet->Height();
-    sprite.texture   = tileSet->View();
+    sprite.width     = this->tiles->TileWidth();
+    sprite.height    = this->tiles->TileHeight();
+    sprite.texSize.x = float(this->tiles->TileWidth())  / this->tiles->Width();
+    sprite.texSize.y = float(this->tiles->TileHeight()) / this->tiles->Height();
+    sprite.texture   = this->tiles->View(); 
+    
+    // configura offsets
+    offset_x = this->tiles->OffsetX() / static_cast<float>(this->tiles->Width());
+    offset_y = this->tiles->OffsetY() / static_cast<float>(this->tiles->Height());
     
     // animação iniciada (começa a contar o tempo)
     timer.Start();                
@@ -44,6 +51,9 @@ Animation::Animation(TileSet * tiles, float delay, bool repeat) :
 
 Animation::~Animation()
 {
+    if (tiles)
+        delete tiles;
+
     if (!table.empty())
     {
         // liberando memória dos vetores dinâmicos de sequências
@@ -144,8 +154,8 @@ void Animation::Draw(uint aFrame, float x, float y, float z, float scale, float 
     sprite.color = color;
 
     // configura coordenadas da textura do sprite
-    sprite.texCoord.x = (aFrame % tileSet->Columns()) * sprite.texSize.x;
-    sprite.texCoord.y = (aFrame / tileSet->Columns()) * sprite.texSize.y;
+    sprite.texCoord.x = offset_x + (aFrame % tiles->Columns()) * sprite.texSize.x;
+    sprite.texCoord.y = offset_y + (aFrame / tiles->Columns()) * sprite.texSize.y;
 
     // adiciona o sprite na lista de desenho
     Engine::renderer->Draw(sprite);
