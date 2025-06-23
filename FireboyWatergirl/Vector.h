@@ -16,12 +16,11 @@
 
 #include <cmath>
 
-// --------------------------------------------------------------------------------
+constexpr double PI = 3.1415926535897932384626433832;
 
 class Vector
 {
 private:
-    static const double PI;             // constante PI
     float angle;                        // ângulo do vetor com o eixo x
     float magnitude;                    // magnitude do vetor
 
@@ -38,8 +37,12 @@ public:
     float Angle() const;                // retorna ângulo do vetor
     float Magnitude() const;            // retorna magnitude do vetor
     float XComponent() const;           // retorna componente X do vetor
+    void  XComponent(float x);
     float YComponent() const;           // retorna componente Y do vetor
-    float Radians() const;              // retorna ângulo em radianos
+    void  YComponent(float y);
+    double Radians() const;              // retorna ângulo em radianos
+
+    Vector operator*(double x) const;
 }; 
 
 // ---------------------------------------------------------------------------------
@@ -58,13 +61,16 @@ inline float Vector::Magnitude() const
 { return magnitude; }
 
 inline float Vector::XComponent() const
-{ return magnitude * cos(Radians()); }    
+{ return (angle == 90 || angle == 270) ? 0 : magnitude * cos(Radians()); }
 
 inline float Vector::YComponent() const
-{ return magnitude * sin(Radians()); }    
+{ return (angle == 0 || angle == 180) ? 0 : magnitude * sin(Radians()); }
 
-inline float Vector::Radians() const
-{ return float(angle * PI / 180.0); }
+inline double Vector::Radians() const
+{ return angle * PI / 180.0; }
+
+inline Vector Vector::operator*(double x) const
+{ return Vector(angle, magnitude * x); }
 
 // ------------------------------------------------------------------------------
 

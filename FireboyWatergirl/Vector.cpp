@@ -13,10 +13,6 @@
 
 // ------------------------------------------------------------------------------
 
-const double Vector::PI = 3.1415926535;
-
-// ------------------------------------------------------------------------------
-
 Vector::Vector()
 {
     angle     = 0;
@@ -96,6 +92,32 @@ void Vector::Add(const Vector& v)
             angle = 270.0f;
         else // (ry == 0)
             angle = v.angle;
+    }
+}
+
+void Vector::XComponent(float x)
+{
+    if (magnitude == 0 || angle == 0 || angle == 180) {
+        magnitude = x;
+        angle = 0;
+    }
+    else {
+        float old_angle = Radians();
+        angle = atan(YComponent()/x) * (180 / PI);
+        magnitude *= sin(old_angle) / sin(Radians());
+    }
+}
+
+void Vector::YComponent(float y)
+{
+    if (magnitude == 0 || angle == 90 || angle == 270) {
+        magnitude = y;
+        angle = 90;
+    }
+    else {
+        float old_angle = Radians();
+        angle = atan(y / XComponent()) * (180 / PI);
+        magnitude *= cos(old_angle) / cos(Radians());
     }
 }
 
