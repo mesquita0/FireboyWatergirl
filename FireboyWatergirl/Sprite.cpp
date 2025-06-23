@@ -60,13 +60,14 @@ Sprite::~Sprite()
 
 // ---------------------------------------------------------------------------------
 
-void Sprite::Draw(float x, float y, float z, float scale, float rotation, Color color)
+void Sprite::Draw(float x, float y, float z, float scale, float rotation, bool mirror_x, Color color)
 {
     sprite.x = x;
     sprite.y = y;
     sprite.depth = z;
     sprite.scale = scale;
     sprite.rotation = rotation;
+    sprite.mirror_x = mirror_x;
     sprite.color = color;
 
     // adiciona o sprite na lista de desenho

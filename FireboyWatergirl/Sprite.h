@@ -52,6 +52,7 @@ struct SpriteData
     float depth;
     float scale;
     float rotation;
+    bool  mirror_x;
     uint  width;
     uint  height;
     ID3D11ShaderResourceView* texture;
@@ -61,7 +62,7 @@ struct SpriteData
 
     SpriteData() :
         x(0), y(0),
-        depth(0), scale(0), rotation(0),
+        depth(0), scale(0), rotation(0), mirror_x(false),
         width(0), height(0),
         texture(nullptr),
         texCoord(XMFLOAT2(0, 0)),
@@ -89,6 +90,7 @@ public:
     void Draw(                                                // desenha sprite
         float x, float y, float z = Layer::MIDDLE,            // coordenadas da tela
         float scale = 1.0f, float rotation = 0.0f,            // escala e rotação
+        bool mirror_x = false,
         Color color = { 1, 1, 1, 1 });                        // efeito de cor
 
     void Draw(                                                // desenha sprite

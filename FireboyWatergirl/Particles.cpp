@@ -142,7 +142,7 @@ void Particles::Draw(float z, float factor)
         float scale = 1.0f + pow(lifePercent, 2.0f) * factor;
 
         // desenha partícula
-        sprite->Draw(p->x, p->y, z, scale, -p->speed.Angle(), config.color);
+        sprite->Draw(p->x, p->y, z, scale, -p->speed.Angle(), false, config.color);
     }    
 }
 

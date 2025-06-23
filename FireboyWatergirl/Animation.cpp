@@ -143,7 +143,7 @@ void Animation::NextFrame()
 
 // ---------------------------------------------------------------------------------
 
-void Animation::Draw(uint aFrame, float x, float y, float z, float scale, float rotation, Color color)
+void Animation::Draw(uint aFrame, float x, float y, float z, float scale, float rotation, bool mirror_x, Color color)
 {
     // configura dados básicos
     sprite.x = x;
@@ -151,6 +151,7 @@ void Animation::Draw(uint aFrame, float x, float y, float z, float scale, float 
     sprite.depth = z;
     sprite.scale = scale;
     sprite.rotation = rotation * XM_PI / 180.0f;
+    sprite.mirror_x = mirror_x;
     sprite.color = color;
 
     // configura coordenadas da textura do sprite

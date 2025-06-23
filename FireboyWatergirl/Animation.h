@@ -56,12 +56,14 @@ public:
     void Draw(                                      // desenha o quadro atual da animação
         float x, float y, float z = Layer::MIDDLE,  // coordenadas da tela
         float scale = 1.0f, float rotation = 0.0f,  // escala e rotação
+        bool mirror_x = false,
         Color color = { 1, 1, 1, 1 });              // efeito de cor
 
     void Draw(                                      // desenha um quadro da folha de sprites    
         uint aFrame,                                // quadro da folha a desenhar
         float x, float y, float z = Layer::MIDDLE,  // coordenadas da tela
         float scale = 1.0f, float rotation = 0.0f,  // escala e rotação
+        bool mirror_x = false,
         Color color = { 1, 1, 1, 1 });              // efeito de cor
 
     void Frame(uint aFrame);                        // define o quadro atual da animação
@@ -78,8 +80,8 @@ public:
 // funções membro inline
 
 // desenha quadro atual da animação
-inline void Animation::Draw(float x, float y, float z, float scale, float rotation, Color color)
-{ sequence ? Draw(sequence[frame], x, y, z, scale, rotation, color) : Draw(frame, x, y, z, scale, rotation, color); }
+inline void Animation::Draw(float x, float y, float z, float scale, float rotation, bool mirror_x, Color color)
+{ sequence ? Draw(sequence[frame], x, y, z, scale, rotation, mirror_x, color) : Draw(frame, x, y, z, scale, rotation, mirror_x, color); }
 
 // define o frame atual da animação
 inline void Animation::Frame(uint aFrame)

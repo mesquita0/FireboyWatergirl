@@ -22,5 +22,5 @@ void Background::Update()
 void Background::Draw()
 {
     // desenha plano de fundo
-    backg->Draw(x, y, Layer::MIDDLE, 1.0f, 0.0f, color);
+    backg->Draw(x, y, Layer::MIDDLE, 1.0f, 0.0f, false, color);
 }

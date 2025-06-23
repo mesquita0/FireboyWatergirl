@@ -1062,6 +1062,7 @@ void Renderer::RenderBatch(ID3D11ShaderResourceView* texture, SpriteData** sprit
             XMFLOAT2 center(sprites[i]->width * sprites[i]->texSize.x / 2.0f, sprites[i]->height * sprites[i]->texSize.y / 2.0f);
             float rotation = sprites[i]->rotation;
             float layerDepth = sprites[i]->depth;
+            bool mirror_x = sprites[i]->mirror_x;
 
             // carrega informações do sprite em registros SIMD
             XMVECTOR source = XMVectorSet(sprites[i]->texCoord.x, sprites[i]->texCoord.y, sprites[i]->texSize.x, sprites[i]->texSize.y);
@@ -1098,12 +1099,12 @@ void Renderer::RenderBatch(ID3D11ShaderResourceView* texture, SpriteData** sprit
                 XMVECTOR sinV = XMLoadFloat(&sin);
                 XMVECTOR cosV = XMLoadFloat(&cos);
 
-                rotationMatrix1 = XMVectorMergeXY(cosV, sinV);
+                rotationMatrix1 = mirror_x ? XMVectorMergeXY(-cosV, -sinV) : XMVectorMergeXY(cosV, sinV);
                 rotationMatrix2 = XMVectorMergeXY(-sinV, cosV);
             }
             else
             {
-                rotationMatrix1 = g_XMIdentityR0;
+                rotationMatrix1 = mirror_x ? g_XMNegIdentityR0 : g_XMIdentityR0;
                 rotationMatrix2 = g_XMIdentityR1;
             }
 
