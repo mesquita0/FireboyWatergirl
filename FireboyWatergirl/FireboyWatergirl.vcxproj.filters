@@ -93,19 +93,7 @@
     <ClCompile Include="Background.cpp">
       <Filter>Engine\Arquivos de Origem</Filter>
     </ClCompile>
-    <ClCompile Include="GameOver.cpp">
-      <Filter>Game\Arquivos de Origem</Filter>
-    </ClCompile>
-    <ClCompile Include="Level.cpp">
-      <Filter>Game\Arquivos de Origem</Filter>
-    </ClCompile>
-    <ClCompile Include="LevelLoader.cpp">
-      <Filter>Game\Arquivos de Origem</Filter>
-    </ClCompile>
     <ClCompile Include="Player.cpp">
-      <Filter>Game\Arquivos de Origem</Filter>
-    </ClCompile>
-    <ClCompile Include="WorldEntity.cpp">
       <Filter>Game\Arquivos de Origem</Filter>
     </ClCompile>
     <ClCompile Include="FireboyWatergirl.cpp">
@@ -188,16 +176,7 @@
     <ClInclude Include="FireboyWatergirl.h">
       <Filter>Game\Arquivos de Cabeçalho</Filter>
     </ClInclude>
-    <ClInclude Include="Level.h">
-      <Filter>Game\Arquivos de Cabeçalho</Filter>
-    </ClInclude>
-    <ClInclude Include="LevelLoader.h">
-      <Filter>Game\Arquivos de Cabeçalho</Filter>
-    </ClInclude>
     <ClInclude Include="Player.h">
-      <Filter>Game\Arquivos de Cabeçalho</Filter>
-    </ClInclude>
-    <ClInclude Include="WorldEntity.h">
       <Filter>Game\Arquivos de Cabeçalho</Filter>
     </ClInclude>
   </ItemGroup>
