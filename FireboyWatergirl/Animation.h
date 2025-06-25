@@ -34,20 +34,23 @@ using HashTable = unordered_map<uint, AnimSeq>;
 class Animation
 {
 private:
+    static Timer shared_timer;
+
     uint  iniFrame;             // quadro inicial da seqüência
     uint  endFrame;             // quadro final da seqüência
     uint  frame;                // quadro atual da animação    
     bool  animLoop;             // animação em loop infinito
     float animDelay;            // espaço de tempo entre quadros (em segundos)
-    Timer timer;                // medidor de tempo entre quadros da animação
+    Timer * timer;              // medidor de tempo entre quadros da animação
     TileSet * tiles;            // ponteiro para folha de sprites da animação
     SpriteData sprite;          // sprite a ser desenhado
     HashTable table;            // tabela com seqüências de animação
     uint * sequence;            // seqüência atualmente selecionada
     float offset_x, offset_y;
+    bool used_shared_timer;
 
 public:
-    Animation(TileSet tiles, float delay, bool repeat);                
+    Animation(TileSet tiles, float delay, bool repeat, bool use_shared_timer = false);                
     ~Animation();                                                           
 
     void Add(uint id, uint * seq, uint seqSize);    // adiciona sequência de animação
@@ -70,6 +73,7 @@ public:
     uint Frame();                                   // retorna o quadro de animação ativo
     void Delay(float delay);                        // define o tempo entre quadros
     TileSet* tileSet();
+    bool timeElapsed();
 
     bool Inactive();                                // verifica se a animação já encerrou
     void NextFrame();                               // passa para o próximo frame da animação
@@ -97,13 +101,16 @@ inline void Animation::Delay(float delay)
 inline TileSet* Animation::tileSet()
 { return tiles; }
 
+inline bool Animation::timeElapsed()
+{ return timer->Elapsed(animDelay); }
+
 // verifica se a animação já encerrou
 inline bool Animation::Inactive()
-{ return !animLoop && (frame > endFrame || (frame == endFrame && timer.Elapsed(animDelay))); }
+{ return !animLoop && (frame > endFrame || (frame == endFrame && timer->Elapsed(animDelay))); }
 
 // reinicia a animacão (pelo primeiro frame da sequencia)
 inline void Animation::Restart()
-{ frame = 0; timer.Start(); }
+{ frame = 0; timer->Start(); }
 
 // ---------------------------------------------------------------------------------
 

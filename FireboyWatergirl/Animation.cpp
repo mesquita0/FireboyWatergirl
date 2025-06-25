@@ -16,9 +16,12 @@
 
 // ---------------------------------------------------------------------------------
 
-Animation::Animation(TileSet tiles, float delay, bool repeat) : 
+Timer Animation::shared_timer = {};
+
+Animation::Animation(TileSet tiles, float delay, bool repeat, bool use_shared_timer) :
     animDelay(delay), 
-    animLoop(repeat)
+    animLoop(repeat),
+    used_shared_timer(use_shared_timer)
 {
     // copia tileset
     this->tiles = new TileSet(tiles);
@@ -41,7 +44,8 @@ Animation::Animation(TileSet tiles, float delay, bool repeat) :
     offset_y = this->tiles->OffsetY() / static_cast<float>(this->tiles->Height());
     
     // animação iniciada (começa a contar o tempo)
-    timer.Start();                
+    timer = use_shared_timer ? &shared_timer : new Timer();
+    timer->Start();                
 
     // nenhuma sequência selecionada
     sequence = nullptr;
@@ -53,6 +57,9 @@ Animation::~Animation()
 {
     if (tiles)
         delete tiles;
+
+    if (!used_shared_timer)
+        delete timer;
 
     if (!table.empty())
     {
@@ -113,7 +120,7 @@ void Animation::Select(uint id)
 void Animation::NextFrame()
 {
     // passa para o próximo quadro após espaço de tempo estipulado em animDelay
-    if (timer.Elapsed(animDelay))
+    if (timeElapsed())
     {
         frame++;
 
@@ -125,7 +132,7 @@ void Animation::NextFrame()
             {
                 // volta ao primeiro quadro 
                 frame = 0;
-                timer.Start();
+                timer->Start();
             }
             else
             {
@@ -136,7 +143,7 @@ void Animation::NextFrame()
         else
         {
             // começa a contar o tempo do novo frame
-            timer.Start();
+            timer->Start();
         }
     }
 }
