@@ -1,7 +1,6 @@
 #include "Player.h"
 #include "Controller.h"
 #include "FireboyWatergirl.h"
-#include "WorldEntity.h"
 
 constexpr float player_scale = 0.2;
 
@@ -10,13 +9,13 @@ constexpr int key_up = 0;
 constexpr int key_left = 1;
 constexpr int key_right = 2;
 
-const Vector move_right  = { 0,   20  };
-const Vector gravity     = { 90,  500 };
-const Vector move_left   = { 180, 20  };
-const Vector jump        = { 270, 300  };
-                         
-const Vector slow_down_l = { 0,   20  };
-const Vector slow_down_r = { 180, 20  };
+const Vector move_right = { 0,   20 };
+const Vector gravity = { 90,  500 };
+const Vector move_left = { 180, 20 };
+const Vector jump = { 270, 300 };
+
+const Vector slow_down_l = { 0,   20 };
+const Vector slow_down_r = { 180, 20 };
 
 Player::Player(bool is_fireboy) : is_fireboy(is_fireboy)
 {
@@ -78,7 +77,7 @@ Player::~Player()
 void Player::Reset()
 {
     // volta ao estado inicial
-    
+
 }
 
 void Player::Reset(int level)
@@ -87,13 +86,13 @@ void Player::Reset(int level)
     this->level = level;
 }
 
-void Player::updateState() 
+void Player::updateState()
 {
     OutputDebugString(std::to_string(velocity->Angle()).c_str());
     OutputDebugString("\n");
     if (velocity->YComponent() < 0 && velocity->Angle() < 315 && velocity->Angle() > 225) {
         state = JUMPING;
-    } 
+    }
     else if (abs(velocity->XComponent()) > 0) {
         state = RUNNING;
     }
@@ -114,37 +113,55 @@ inline float Player::Height()
     return player_scale * (anim_body_idle->tileSet()->TileHeight() + anim_head_run->tileSet()->TileHeight());
 }
 
-void Player::OnCollision(Object * obj)
+void Player::slowDown() {
+    if (velocity->XComponent() > -slow_down_r.XComponent())
+        velocity->Add(slow_down_r);
+    else if (velocity->XComponent() < -slow_down_l.XComponent())
+        velocity->Add(slow_down_l);
+    else
+        velocity->XComponent(0);
+}
+
+void Player::OnCollision(Object* obj)
 {
     switch (obj->Type())
     {
-    
+
     }
 }
 
 void Player::Update()
 {
-    FireboyWatergirl::gamepad->XboxUpdateState();   
+    FireboyWatergirl::gamepad->XboxUpdateState();
 
-    // Teclas direita e esquerda, ação de pulo é tratada no onCollision
-    if (window->KeyDown(controls[key_left][is_fireboy]) || FireboyWatergirl::gamepad->XboxAnalog(ThumbLX) < 0) {
-        if (velocity->XComponent() > 0) velocity->XComponent(0);
-        velocity->Add(move_left);
-    }
-    if (window->KeyDown(controls[key_right][is_fireboy]) || FireboyWatergirl::gamepad->XboxAnalog(ThumbLX) > 0) {
-        if (velocity->XComponent() < 0) velocity->XComponent(0);
-        velocity->Add(move_right);
-    }
-
-    // Diminuir velocidade até parar se nenhuma ou as duas teclas de mover para os lados estão apertadas
-    if (FireboyWatergirl::gamepad->XboxAnalog(ThumbLX) == 0
-    ) {
-        if (velocity->XComponent() > -slow_down_r.XComponent()) 
-            velocity->Add(slow_down_r);
-        else if (velocity->XComponent() < -slow_down_l.XComponent()) 
-            velocity->Add(slow_down_l);
-        else 
+    if (FireboyWatergirl::xboxOn) {
+        //
+        if (velocity->XComponent() * FireboyWatergirl::gamepad->XboxAnalog(ThumbLX) < 0)
             velocity->XComponent(0);
+
+        velocity->Add(move_right * (static_cast<float>(FireboyWatergirl::gamepad->XboxAnalog(ThumbLX)) / SHRT_MAX));
+
+        if (FireboyWatergirl::gamepad->XboxAnalog(ThumbLX) == 0)
+            slowDown();
+    }
+    else {
+        // Teclas direita e esquerda, ação de pulo é tratada no onCollision
+        if (window->KeyDown(controls[key_left][is_fireboy])) {
+            if (velocity->XComponent() > 0) velocity->XComponent(0);
+            velocity->Add(move_left);
+        }
+        if (window->KeyDown(controls[key_right][is_fireboy])) {
+            if (velocity->XComponent() < 0) velocity->XComponent(0);
+            velocity->Add(move_right);
+        }
+
+        // Diminuir velocidade até parar se nenhuma ou as duas teclas de mover para os lados estão apertadas
+        if (
+            !window->KeyDown(controls[key_right][is_fireboy]) && !window->KeyDown(controls[key_left][is_fireboy]) ||
+            window->KeyDown(controls[key_right][is_fireboy]) && window->KeyDown(controls[key_left][is_fireboy])
+            ) {
+            slowDown();
+        }
     }
 
     // Ação da gravidade sobre o personagem

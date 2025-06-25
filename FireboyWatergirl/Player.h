@@ -32,6 +32,7 @@ private:
     State state;
 
     void updateState();
+    void slowDown();
 
 public:
     Player(bool is_fireboy);            // construtor
