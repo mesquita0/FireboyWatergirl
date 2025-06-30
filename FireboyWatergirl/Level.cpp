@@ -3,6 +3,7 @@
 #include "LevelLoader.h"
 #include "Player.h"
 #include "Background.h"
+#include "WorldEntity.h"
 #include <string>
 
 using std::string;
@@ -22,12 +23,16 @@ void Level::Init()
     scene->Add(FireboyWatergirl::fireboy, MOVING);
     scene->Add(FireboyWatergirl::watergirl, MOVING);
 
+    // Temporary
+    scene->Add(new WorldEntity(window->CenterX(), 450, GROUND1, Color{1, 1, 1, 1}), STATIC);
+    scene->Add(new WorldEntity(window->CenterX(), 300, GROUND1, Color{1, 1, 1, 1}), STATIC);
+
     FireboyWatergirl::fireboy->Level(level_number - 1);
     FireboyWatergirl::watergirl->Level(level_number - 1);
-    FireboyWatergirl::fireboy->MoveTo(window->CenterX(), window->CenterY() + 100);
-    FireboyWatergirl::watergirl->MoveTo(window->CenterX(), window->CenterY() + 100);
+    FireboyWatergirl::fireboy->MoveTo(window->CenterX(), window->CenterY());
+    FireboyWatergirl::watergirl->MoveTo(window->CenterX(), window->CenterY());
 
-    // inicia com m�sica
+    // inicia com música
     FireboyWatergirl::audio->Frequency(MUSIC, 0.94f);
     FireboyWatergirl::audio->Play(MUSIC);
 }

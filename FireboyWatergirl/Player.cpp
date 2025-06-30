@@ -1,6 +1,7 @@
 #include "Player.h"
 #include "Controller.h"
 #include "FireboyWatergirl.h"
+#include "WorldEntity.h"
 
 constexpr float player_scale = 0.2;
 
@@ -70,6 +71,8 @@ Player::Player(bool is_fireboy) : is_fireboy(is_fireboy)
 
     // posição inicial
     MoveTo(window->CenterX(), 24.0f, Layer::FRONT);
+
+    type = -1;
 }
 
 Player::~Player()
@@ -133,9 +136,27 @@ void Player::slowDown() {
 
 void Player::OnCollision(Object* obj)
 {
+    bool can_jump = false;
+
     switch (obj->Type())
     {
+    case GROUND:
 
+        // mantém personagem em cima (ou em baixo) da plataforma
+        if (y < obj->Y()) {
+            Translate(0, ((Rect*)obj->BBox())->Top() - ((Rect*)BBox())->Bottom());
+            can_jump = true;
+        }
+        else {
+            Translate(0, ((Rect*)obj->BBox())->Bottom() - ((Rect*)BBox())->Top());
+        }
+        velocity->YComponent(0);
+
+        // Ação pulo
+        if (can_jump && window->KeyDown(controls[key_up][is_fireboy]) || FireboyWatergirl::gamepad->XboxButton(ButtonA))
+            velocity->Add(jump);
+
+        break;
     }
 }
 
@@ -185,7 +206,7 @@ void Player::Update()
     current_anim_head->NextFrame();
     current_anim_body->NextFrame();
 
-    // JUMP : MOVE TO ONCOLLISION
+    // Temporary
     if (((Rect*)BBox())->Bottom() > window->Height()) {
         Translate(0, window->Height() - ((Rect*)BBox())->Bottom());
         velocity->YComponent(0);

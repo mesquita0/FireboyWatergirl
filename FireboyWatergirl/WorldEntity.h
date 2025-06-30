@@ -49,7 +49,7 @@ enum EntityTypeSprite {
 class WorldEntity : public Object
 {
 private:
-    Sprite * entity = nullptr;            // sprite da plataforma
+    Sprite * entity = nullptr;              // sprite da plataforma
     Color color;                            // cor da plataforma
     uint  width = 0;
     uint  height = 0;
