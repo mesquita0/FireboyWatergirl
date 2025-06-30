@@ -55,11 +55,11 @@ void FireboyWatergirl::Init()
 
 void FireboyWatergirl::Update()
 {
-    // habilita/desabilita visualiza��o da bounding box
+    // habilita/desabilita visualização da bounding box
     if (window->KeyPress('B'))
         viewBBox = !viewBBox;
 
-    // atualiza n�vel
+    // atualiza nível
     current_level->Update();
 } 
 

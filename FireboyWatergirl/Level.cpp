@@ -20,11 +20,12 @@ void Level::Init()
 
     //loadLevel(*this, window, "Level" + std::to_string(level_number) + ".txt");
     scene->Add(FireboyWatergirl::fireboy, MOVING);
-    //scene->Add(FireboyWatergirl::watergirl, MOVING);
+    scene->Add(FireboyWatergirl::watergirl, MOVING);
 
     FireboyWatergirl::fireboy->Level(level_number - 1);
     FireboyWatergirl::watergirl->Level(level_number - 1);
     FireboyWatergirl::fireboy->MoveTo(window->CenterX(), window->CenterY() + 100);
+    FireboyWatergirl::watergirl->MoveTo(window->CenterX(), window->CenterY() + 100);
 
     // inicia com m�sica
     FireboyWatergirl::audio->Frequency(MUSIC, 0.94f);

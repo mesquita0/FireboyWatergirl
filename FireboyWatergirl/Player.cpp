@@ -4,7 +4,7 @@
 
 constexpr float player_scale = 0.2;
 
-constexpr int controls[3][2] = { { 'w', VK_UP }, { 'a', VK_LEFT }, { 'd', VK_RIGHT } };
+constexpr int controls[3][2] = { { 'W', VK_UP }, { 'A', VK_LEFT }, { 'D', VK_RIGHT } };
 constexpr int key_up = 0;
 constexpr int key_left = 1;
 constexpr int key_right = 2;
@@ -24,9 +24,9 @@ Player::Player(bool is_fireboy) : is_fireboy(is_fireboy)
     if (is_fireboy) {
         tiles = new Image("Resources/Characters/Fireboy.png");
 
-        anim_head_idle = new Animation(TileSet(tiles, 217, 338, 1, 4, 2, 162), 0.05f, true, true);
-        anim_head_fall = new Animation(TileSet(tiles, 217, 338, 1, 4, 2, 532), 0.05f, true, true);
-        anim_head_jump = new Animation(TileSet(tiles, 217, 338, 1, 4, 2, 900), 0.05f, true, true);
+        anim_head_idle = new Animation(TileSet(tiles, 217, 338, 1, 5, 2, 162), 0.05f, true, true);
+        anim_head_fall = new Animation(TileSet(tiles, 217, 338, 1, 5, 2, 532), 0.05f, true, true);
+        anim_head_jump = new Animation(TileSet(tiles, 217, 338, 1, 5, 2, 900), 0.05f, true, true);
 
         anim_head_run = new Animation(TileSet(tiles, 344, 204, 1, 5, 2, 1267), 0.05f, true, true);
 
@@ -35,27 +35,38 @@ Player::Player(bool is_fireboy) : is_fireboy(is_fireboy)
         anim_body_idle = new Animation(TileSet(tiles, 102, 100, 1, 1, 3, 31), 0.05f, true, true);
 
         // TODO
-        anim_win = new Animation(TileSet(tiles, 341, 204, 1, 5, 3, 1267), 0.05f, true, true);
-
-        state = IDLE;
-        current_anim_head = anim_head_idle;
-        current_anim_body = anim_body_idle;
-
-        // cria bounding box
-        constexpr int offset_center = 100 * player_scale;
-        BBox(new Rect(
-            -1.0f * (Width()) / 2.0f,
-            -1.0f * (Height() + offset_center) / 2.0f,
-            (Width()) / 2.0f,
-            (Height() - offset_center) / 2.0f));
+        anim_win = new Animation(TileSet(tiles, 341, 204, 1, 5, 3, 1267), 0.05f, true, true);     
     }
     else {
+        tiles = new Image("Resources/Characters/Watergirl.png");
+
+        anim_head_idle = new Animation(TileSet(tiles, 208, 250, 1, 11, 2, 240), 0.03f, true);
+        anim_head_fall = new Animation(TileSet(tiles, 205, 400, 1, 11, 2, 673), 0.05f, true);
+        anim_head_jump = new Animation(TileSet(tiles, 209, 473, 1, 11, 2, 1256), 0.05f, true);
+
+        anim_head_run = new Animation(TileSet(tiles, 378, 240, 1, 11, 2, 1877), 0.05f, true);
+
+        anim_body_run = new Animation(TileSet(tiles, 72, 84, 1, 8, 108, 31), 0.05f, true);
+
+        anim_body_idle = new Animation(TileSet(tiles, 102, 100, 1, 1, 3, 31), 0.05f, true);
+
         // TODO
+        anim_win = new Animation(TileSet(tiles, 341, 204, 1, 5, 3, 1267), 0.05f, true);
     }
 
     velocity = new Vector();
 
+    state = IDLE;
+    current_anim_head = anim_head_idle;
+    current_anim_body = anim_body_idle;
+
     // cria bounding box
+    constexpr int offset_center = 100 * player_scale;
+    BBox(new Rect(
+        -1.0f * (Width()) / 2.0f,
+        -1.0f * (Height() + offset_center) / 2.0f,
+        (Width()) / 2.0f,
+        (Height() - offset_center) / 2.0f));
 
     // posição inicial
     MoveTo(window->CenterX(), 24.0f, Layer::FRONT);
@@ -88,8 +99,6 @@ void Player::Reset(int level)
 
 void Player::updateState()
 {
-    OutputDebugString(std::to_string(velocity->Angle()).c_str());
-    OutputDebugString("\n");
     if (velocity->YComponent() < 0 && velocity->Angle() < 315 && velocity->Angle() > 225) {
         state = JUMPING;
     }
@@ -192,7 +201,9 @@ inline void Player::Draw()
 {
     updateState();
     bool mirror_x = false;
+    float offset_x = is_fireboy ? 5 : -5;
     float offset_y = current_anim_head->tileSet()->TileHeight() / 2.0 - 25;
+    float scale_head = is_fireboy ? 1 : 1.09;
     float rotation_head = 0;
 
     switch (state)
@@ -220,6 +231,13 @@ inline void Player::Draw()
         break;
     }
 
-    current_anim_body->Draw(x, y + (current_anim_body->tileSet()->TileHeight() / 2.0) * player_scale, z, player_scale, 0, mirror_x);
-    current_anim_head->Draw(x - 5 * player_scale, y - offset_y * player_scale, z, player_scale, rotation_head, mirror_x);
+    if (state != JUMPING) {
+        current_anim_body->Draw(x, y + (current_anim_body->tileSet()->TileHeight() / 2.0) * player_scale, z, player_scale, 0, mirror_x);
+        current_anim_head->Draw(x - offset_x * player_scale, y - offset_y * scale_head * player_scale, z, scale_head * player_scale, rotation_head, mirror_x);
+    }
+    else {
+        offset_y -= 25;
+        current_anim_head->Draw(x - offset_x * player_scale, y - offset_y * scale_head * player_scale, z, scale_head * player_scale, rotation_head, mirror_x);
+        current_anim_body->Draw(x, y + (current_anim_body->tileSet()->TileHeight() / 2.0) * player_scale, z, player_scale, 0, mirror_x);
+    }
 }
