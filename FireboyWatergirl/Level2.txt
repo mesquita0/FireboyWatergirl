@@ -1,0 +1,32 @@
+// Informações sobre plano de fundo do level
+// Componentes RGB entre 0 e 1
+// background    color_R  color_G  color_B
+          bkg        0.2      0.2        1
+
+
+// Informações sobre a posição inicial dos jogadores
+// posX e posY são as posições do centro do player
+// posXFireboy    posYFireboy    posXWatergirl    posYWatergirl
+             0              0                0                0
+
+
+// Informações sobre as entidades do mundo
+//
+// posX e posY são as posições do centro da plataforma
+// rotation: 
+//             rotação das plataforma em graus (default = 0)
+// scale: 
+//             escala da plataforma (default = 1)
+// color RGB: 
+//             componentes RGB entre 0 e 1 (default = branco)
+// 
+// d - valor default para coluna
+//
+// EntityType:
+//            0 - chão (1)
+//
+//  posX    posY   EntityType   scale   rotation   color_R  color_G  color_B
+     512     600            0       d          d         d        d        d
+     512     750            0       d          d         d        d        d
+      10     400            0     1.1         90         d        d        d
+    1014     400            0     1.1         90         d        d        d

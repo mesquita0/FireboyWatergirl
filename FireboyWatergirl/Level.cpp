@@ -19,13 +19,7 @@ void Level::Init()
     // cria gerenciador de cena
     scene = new Scene();
 
-    //loadLevel(*this, window, "Level" + std::to_string(level_number) + ".txt");
-    scene->Add(FireboyWatergirl::fireboy, MOVING);
-    scene->Add(FireboyWatergirl::watergirl, MOVING);
-
-    // Temporary
-    scene->Add(new WorldEntity(window->CenterX(), 600, GROUND1, Color{1, 1, 1, 1}), STATIC);
-    scene->Add(new WorldEntity(window->CenterX(), 750, GROUND1, Color{1, 1, 1, 1}), STATIC);
+    loadLevel(*this, window, "Level" + std::to_string(level_number) + ".txt");
 
     FireboyWatergirl::fireboy->Level(level_number - 1);
     FireboyWatergirl::watergirl->Level(level_number - 1);

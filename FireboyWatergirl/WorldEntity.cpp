@@ -1,7 +1,8 @@
 #include "WorldEntity.h"
 #include "FireboyWatergirl.h"
 
-WorldEntity::WorldEntity(float posX, float posY, EntityTypeSprite platType, Color tint) : color(tint)
+WorldEntity::WorldEntity(float posX, float posY, EntityTypeSprite platType, float scale, float rotation, Color tint) 
+    : scale(scale), rotation(rotation), color(tint)
 {
     switch (platType)
     {
