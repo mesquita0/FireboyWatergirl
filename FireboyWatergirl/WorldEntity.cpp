@@ -14,13 +14,19 @@ WorldEntity::WorldEntity(float posX, float posY, EntityTypeSprite platType, floa
         height = entity->Height();
     }
     
-    Point points[3];
+    Point points[4];
     switch (type) {
     case GROUND:
-        BBox(new Rect(-entity->Width() / 2.0f,
-            -entity->Height() / 2.0f,
-            entity->Width() / 2.0f,
-            entity->Height() / 2.0f));
+        points[0] = { -entity->Width() / 2.0f, -entity->Height() / 2.0f };
+        points[1] = {  entity->Width() / 2.0f, -entity->Height() / 2.0f };
+        points[3] = { -entity->Width() / 2.0f,  entity->Height() / 2.0f };
+        points[2] = {  entity->Width() / 2.0f,  entity->Height() / 2.0f };
+
+        BBox(new Poly(points, 4));
+
+        BBox()->RotateTo(rotation);
+        BBox()->ScaleTo(scale);
+
         break;
     }
 

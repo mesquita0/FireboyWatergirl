@@ -245,7 +245,6 @@ Poly::Poly()
 {
     vertexCount = 0;            // polígono não tem vértices
     vertexList  = nullptr;      // inicialmente a lista de vértices é vazia
-    bbox = new Circle();        // bounding box padrão é um círculo
     type = POLYGON_T;           // tipo polígono
 }
 
@@ -260,11 +259,13 @@ Poly::Poly(Point * vList, uint vCount)
     vertexList = new Point[vCount];    
 
     // guarda lista de vértices do polígono
-    for (uint i=0; i < vCount; ++i)        
+    float center_x = 0, center_y = 0;
+    for (uint i = 0; i < vCount; ++i) {
         vertexList[i].MoveTo(vList[i].X(), vList[i].Y());
-
-    // calcula bounding box deste polígono
-    BuildBBox();
+        center_x += vList[i].X();
+        center_y += vList[i].Y();
+    }
+    center = Point(center_x / vertexCount, center_y / vertexCount);
 
     // tipo polígono
     type = POLYGON_T;
@@ -284,8 +285,7 @@ Poly::Poly(const Poly& p)
     for (uint i=0; i < vertexCount; ++i)
         vertexList[i].MoveTo(p.vertexList[i].X(), p.vertexList[i].Y());
 
-    // calcula bounding box deste polígono
-    BuildBBox();
+    center = Point(p.center);
 
     // tipo polígono
     type = POLYGON_T;
@@ -308,8 +308,8 @@ const Poly& Poly::operator=(const Poly& p)
     // guarda lista de vértices do polígono
     for (uint i=0; i < vertexCount; ++i)
         vertexList[i].MoveTo(p.vertexList[i].X(), p.vertexList[i].Y());
-    // calcula bounding box deste polígono
-    BuildBBox();
+
+    center = Point(p.center);
 
     // tipo polígono
     type = POLYGON_T;
@@ -323,7 +323,6 @@ void Poly::Translate(float dx, float dy)
 {
     x += dx; 
     y += dy;
-    bbox->Translate(dx, dy);
 }
 
 // --------------------------------------------------------------------------
@@ -332,7 +331,6 @@ void Poly::MoveTo(float px, float py)
 {
     x = px;
     y = py;
-    bbox->MoveTo(px, py);
 }
 
 // --------------------------------------------------------------------------
@@ -346,42 +344,39 @@ float Poly::Scale() const
 
 void Poly::Scale(float factor)
 {
-    scale *= factor;
-    bbox->Scale(factor);
+    ScaleTo(scale *= factor);
 }
 
 // --------------------------------------------------------------------------
 
-void Poly::ScaleTo(float value)
+void Poly::ScaleTo(float scale)
 {
-    scale = value;
-    bbox->ScaleTo(value);
-}
+    this->scale = scale;
 
-// --------------------------------------------------------------------------
-
-void Poly::BuildBBox()
-{
-    float curRadius;
-    float maxRadius = 0.0f;
-
-    // acha a maior distância para o centro do polígono
-    for (uint i = 0; i < vertexCount; ++i)
-    {
-        // aplica fator de escala
-        float pX = vertexList[i].X() * scale;
-        float pY = vertexList[i].Y() * scale;
-
-        // calcula o raio de cada vértice do polígono
-        curRadius = Point::Distance(Point(pX,pY), Point(0,0));
-        if (maxRadius < curRadius)
-            maxRadius = curRadius;
+    for (uint i = 0; i < vertexCount; i++) {
+        vertexList[i].X(center.X() + scale * (vertexList[i].X() - center.X()));
+        vertexList[i].Y(center.Y() + scale * (vertexList[i].Y() - center.Y()));
     }
+}
 
-    // a bounding box é um círculo que engloba o polígono
-    if (bbox) delete bbox;
-    bbox = new Circle(maxRadius);
-    bbox->MoveTo(x, y);
+// --------------------------------------------------------------------------
+
+void Poly::Rotate(float angle) {
+    RotateTo(rotation + angle);
+}
+
+// --------------------------------------------------------------------------
+
+void Poly::RotateTo(float angle) {
+    rotation = angle;
+
+    for (uint i = 0; i < vertexCount; i++) {
+        float old_x = vertexList[i].X();
+        float old_y = vertexList[i].Y();
+
+        vertexList[i].X(center.X() + (old_x - center.X()) * cos(angle) - (old_y - center.Y()) * sin(angle));
+        vertexList[i].Y(center.Y() + (old_x - center.X()) * sin(angle) + (old_y - center.Y()) * cos(angle));
+    }
 }
 
 // --------------------------------------------------------------------------

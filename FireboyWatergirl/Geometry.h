@@ -92,6 +92,11 @@ public:
     Point(float posX, float posY);                      // construtor usando pontos-flutuantes
     Point(int posX, int posY);                          // construtor usando inteiros
     
+    float X() const { return x; }
+    float Y() const { return y; }
+    void X(float x) { this->x = x; }
+    void Y(float y) { this->y = y; }
+
     // retorna a distância entre os pontos
     static float Distance(const Point& pa, const Point& pb);              
 };
@@ -166,13 +171,10 @@ public:
 
 class Poly : public Geometry
 {
-private:
-    Circle * bbox;                                      // bounding box do polígono
-    void     BuildBBox();                               // cria a bounding box do polígono
-
 public:
     uint      vertexCount;                              // número de vértices 
     Point*    vertexList;                               // vetor de vértices do polígono
+    Point     center;                                   // centro do polígono
 
     Poly();                                             // construtor padrão
     Poly(Point * vList, uint vCount);                   // construtor
@@ -184,10 +186,11 @@ public:
     void Translate(float dx, float dy);                 // move polígono por (dx,dy)
     void MoveTo(float px, float py);                    // move plígono para a posição (px,py)
     void Scale(float factor);                           // amplia ou reduz geometria por um fator
-    void ScaleTo(float factor);                         // ajusta a escala para novo valor
+    void ScaleTo(float scale);                         // ajusta a escala para novo valor
+    void Rotate(float angle);
+    void RotateTo(float angle);
 
     float Scale() const;                                // retorna escala do polígono    
-    Circle * BBox() const { return bbox; }              // retorna bounding box do polígono
 }; 
 
 // --------------------------------------------------------------------------

@@ -162,8 +162,6 @@ void Scene::DrawBBox()
         if (obj->BBox())
         {
             Engine::renderer->Draw(obj->BBox(), 0xffff00ff);
-            if (obj->BBox()->Type() == POLYGON_T)
-                Engine::renderer->Draw(((Poly*)obj->BBox())->BBox(), 0x7fff00ff);
         }
     }
 
@@ -173,8 +171,6 @@ void Scene::DrawBBox()
         if (obj->BBox())
         {
             Engine::renderer->Draw(obj->BBox(), 0xffff00ff);
-            if (obj->BBox()->Type() == POLYGON_T)
-                Engine::renderer->Draw(((Poly*)obj->BBox())->BBox(), 0x7fff00ff);
         }
     }
 
@@ -261,7 +257,7 @@ bool Scene::Collision(Point* p, Poly* pol)
     // passe para uma investigação mais profunda e lenta
     // caso contrário não há colisão
 
-    if (Collision(p, pol->BBox()))
+    if (Collision(p, pol))
     {
         bool crossings = false;
         int nvertex = pol->vertexCount;
@@ -354,60 +350,6 @@ bool Scene::Collision(Rect * r, Circle * c)
 
 bool Scene::Collision(Rect * r, Poly * pol)
 {
-    // se o retângulo colidir com a bounding box do polígono,
-    // passe para uma investigação mais profunda e lenta
-    // caso contrário não há colisão
-
-    if (Collision(r, pol->BBox()))
-    {
-        // recupera os cantos do retângulo
-        Point corners[4] =
-        {
-            Point(r->Left(), r->Top()),
-            Point(r->Right(), r->Top()),
-            Point(r->Right(), r->Bottom()),
-            Point(r->Left(), r->Bottom())
-        };
-
-        // verifica se algum canto do retângulo está dentro do polígono
-        for (int i = 0; i < 4; ++i)
-            if (Collision(&corners[i], pol))
-                return true;
-
-        // recupera vértices do polígono
-        int nv = pol->vertexCount;
-        Point * v = pol->vertexList;
-
-        // converte ângulo de rotação para radianos
-        const double PIunder180 = 0.0174532925194444;
-        float theta = float(pol->Rotation() * PIunder180);
-
-        // verifica se algum vértice está dentro do retângulo
-        float pX, pY;
-        float pXr, pYr;
-        float pXs, pYs;
-
-        for (int i = 0; i < nv; ++i)
-        {
-            // aplica rotação aos pontos
-            pXr = float(v[i].X() * cos(theta) - v[i].Y() * sin(theta));
-            pYr = float(v[i].X() * sin(theta) + v[i].Y() * cos(theta));
-            
-            // aplica escala aos pontos
-            pXs = pXr * pol->Scale();
-            pYs = pYr * pol->Scale();
-            
-            // transforma coordenadas locais em globais
-            pX = pol->X() + pXs;
-            pY = pol->Y() + pYs;
-
-            Point p(pX, pY);
-
-            if (Collision(&p, r))
-                return true;
-        }
-    }
-
     return false;
 }
 
@@ -436,49 +378,6 @@ bool Scene::Collision(Circle * ca, Circle * cb)
 
 bool Scene::Collision(Circle* c, Poly* pol)
 {
-    // se o círculo colidir com a bounding box do polígono,
-    // passe para uma investigação mais profunda e lenta
-    // caso contrário não há colisão
-
-    if (Collision(c, pol->BBox()))
-    {
-        // recupera vértices do polígono
-        int nv = pol->vertexCount;
-        Point * v = pol->vertexList;
-
-        // TODO: identificar o ponto do círculo mais próximo de cada aresta 
-        // e verificar se este ponto está dentro do polígono
-
-        // converte ângulo de rotação para radianos
-        const double PIunder180 = 0.0174532925194444;
-        float theta = float(pol->Rotation() * PIunder180);
-
-        // verifica se algum vértice está dentro do círculo
-        float pX, pY;
-        float pXr, pYr;
-        float pXs, pYs;
-
-        for (int i = 0; i < nv; ++i)
-        {
-            // aplica rotação aos pontos
-            pXr = float(v[i].X() * cos(theta) - v[i].Y() * sin(theta));
-            pYr = float(v[i].X() * sin(theta) + v[i].Y() * cos(theta));
-
-            // aplica escala aos pontos
-            pXs = pXr * pol->Scale();
-            pYs = pYr * pol->Scale();
-
-            // transforma coordenadas locais em globais
-            pX = pol->X() + pXs;
-            pY = pol->Y() + pYs;
-
-            Point p(pX, pY);
-
-            if (Collision(&p, c))
-                return true;
-        }
-    }
-
     return false;
 
 }
@@ -487,75 +386,6 @@ bool Scene::Collision(Circle* c, Poly* pol)
 
 bool Scene::Collision(Poly* pa, Poly* pb)
 {
-    // se as bounding boxes estiverem colidindo, 
-    // passe para uma investigação mais profunda e lenta
-    // caso contrário não há colisão
-
-    if (Collision(pa->BBox(), pb->BBox()))
-    {
-        // recupera vértices do polígono A
-        int nva = pa->vertexCount;
-        Point * va = pa->vertexList;
-        
-        float pX, pY;
-        float pXr, pYr;
-        float pXs, pYs;
-        float theta;
-
-        // converte ângulo de rotação para radianos
-        const double PIunder180 = 0.0174532925194444;
-        theta = float(pa->Rotation() * PIunder180);
-
-        // verifica se vértices de A estão dentro do polígono B
-        for (int i = 0; i < nva; ++i)
-        {
-            // aplica rotação aos pontos
-            pXr = float(va[i].X() * cos(theta) - va[i].Y() * sin(theta));
-            pYr = float(va[i].X() * sin(theta) + va[i].Y() * cos(theta));
-
-            // aplica escala aos pontos
-            pXs = pXr * pa->Scale();
-            pYs = pYr * pa->Scale();
-
-            // transforma coordenadas locais em globais
-            pX = pa->X() + pXs;
-            pY = pa->Y() + pYs;
-
-            Point p(pX, pY);
-
-            if (Collision(&p, pb))
-                return true;
-        }
-
-        // recupera vértices do polígono B
-        int nvb = pb->vertexCount;
-        Point * vb = pb->vertexList;
-
-        // converte ângulo de rotação para radianos
-        theta = float(pb->Rotation() * PIunder180);
-
-        // verifica se vértices de B estão dentro do polígono A
-        for (int i = 0; i < nvb; ++i)
-        {
-            // aplica rotação aos pontos
-            pXr = float(vb[i].X() * cos(theta) - vb[i].Y() * sin(theta));
-            pYr = float(vb[i].X() * sin(theta) + vb[i].Y() * cos(theta));
-
-            // aplica escala aos pontos
-            pXs = pXr * pb->Scale();
-            pYs = pYr * pb->Scale();
-
-            // transforma coordenadas locais em globais
-            pX = pb->X() + pXs;
-            pY = pb->Y() + pYs;
-
-            Point p(pX, pY);
-
-            if (Collision(&p, pa))
-                return true;
-        }
-    }
-
     return false;
 }
 
