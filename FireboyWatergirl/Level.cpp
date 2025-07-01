@@ -24,8 +24,8 @@ void Level::Init()
     scene->Add(FireboyWatergirl::watergirl, MOVING);
 
     // Temporary
-    scene->Add(new WorldEntity(window->CenterX(), 450, GROUND1, Color{1, 1, 1, 1}), STATIC);
-    scene->Add(new WorldEntity(window->CenterX(), 300, GROUND1, Color{1, 1, 1, 1}), STATIC);
+    scene->Add(new WorldEntity(window->CenterX(), 600, GROUND1, Color{1, 1, 1, 1}), STATIC);
+    scene->Add(new WorldEntity(window->CenterX(), 750, GROUND1, Color{1, 1, 1, 1}), STATIC);
 
     FireboyWatergirl::fireboy->Level(level_number - 1);
     FireboyWatergirl::watergirl->Level(level_number - 1);
