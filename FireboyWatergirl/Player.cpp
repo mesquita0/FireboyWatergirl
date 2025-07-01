@@ -136,25 +136,42 @@ void Player::slowDown() {
 
 void Player::OnCollision(Object* obj)
 {
-    bool can_jump = false;
-
     switch (obj->Type())
     {
     case GROUND:
-
-        // mantém personagem em cima (ou em baixo) da plataforma
-        if (y < obj->Y()) {
-            Translate(0, ((Rect*)obj->BBox())->Top() - ((Rect*)BBox())->Bottom());
-            can_jump = true;
+        // Mantém personagem fora da plataforma
+        if ( // Colisão lado esquerdo do bloco
+            ((Rect*)BBox())->Right() >= ((Rect*)obj->BBox())->Left() &&
+            ((Rect*)BBox())->Left() < ((Rect*)obj->BBox())->Left()
+        ) { 
+            Translate(((Rect*)obj->BBox())->Left() - ((Rect*)BBox())->Right(), 0);
+            if (abs(velocity->XComponent()) > 0) velocity->XComponent(velocity->XComponent() * 0.0001);
         }
-        else {
+        else if ( // Colisão lado direito do bloco
+            ((Rect*)BBox())->Left() <= ((Rect*)obj->BBox())->Right() &&
+            ((Rect*)BBox())->Right() > ((Rect*)obj->BBox())->Right()
+        ) {
+            Translate(((Rect*)obj->BBox())->Right() - ((Rect*)BBox())->Left(), 0);
+            if (abs(velocity->XComponent()) > 0) velocity->XComponent(velocity->XComponent() * 0.0001);
+        }
+        else if ( // Colisão em baixo do bloco
+            ((Rect*)BBox())->Top() <= ((Rect*)obj->BBox())->Bottom() &&
+            ((Rect*)BBox())->Bottom() > ((Rect*)obj->BBox())->Bottom()
+        ) { 
             Translate(0, ((Rect*)obj->BBox())->Bottom() - ((Rect*)BBox())->Top());
+            velocity->YComponent(0);
         }
-        velocity->YComponent(0);
+        else if ( // Colisão em cima do bloco
+            ((Rect*)BBox())->Bottom() >= ((Rect*)obj->BBox())->Top() &&
+            ((Rect*)BBox())->Top() < ((Rect*)obj->BBox())->Top()
+        ) {
+            Translate(0, ((Rect*)obj->BBox())->Top() - ((Rect*)BBox())->Bottom());
+            velocity->YComponent(0);
 
-        // Ação pulo
-        if (can_jump && window->KeyDown(controls[key_up][is_fireboy]) || FireboyWatergirl::gamepad->XboxButton(ButtonA))
-            velocity->Add(jump);
+            // Ação pulo
+            if (window->KeyDown(controls[key_up][is_fireboy]) || FireboyWatergirl::gamepad->XboxButton(ButtonA))
+                velocity->Add(jump);
+        }
 
         break;
     }
