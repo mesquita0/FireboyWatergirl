@@ -23,8 +23,6 @@ void Level::Init()
 
     FireboyWatergirl::fireboy->Level(level_number - 1);
     FireboyWatergirl::watergirl->Level(level_number - 1);
-    FireboyWatergirl::fireboy->MoveTo(window->CenterX(), window->CenterY());
-    FireboyWatergirl::watergirl->MoveTo(window->CenterX(), window->CenterY());
 
     // inicia com música
     FireboyWatergirl::audio->Frequency(MUSIC, 0.94f);

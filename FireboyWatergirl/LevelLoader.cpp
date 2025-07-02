@@ -38,14 +38,18 @@ void loadLevel(Level& level, Window* window, const std::string& path) {
     level.scene->Add(FireboyWatergirl::watergirl, MOVING);
 
     int posXfire, posYfire, posXwater, posYwater;
+    float player_scale;
 
     // Posição inicial dos jogadores
     fin >> posXfire;
     fin >> posYfire;
     fin >> posXwater;
     fin >> posYwater;
+    fin >> player_scale;
     FireboyWatergirl::fireboy->MoveTo(posXfire, posYfire);
+    FireboyWatergirl::fireboy->ScaleTo(player_scale);
     FireboyWatergirl::watergirl->MoveTo(posXwater, posYwater);
+    FireboyWatergirl::watergirl->ScaleTo(player_scale);
 
     float posX, posY, rotation, scale;
     uint  entityType;

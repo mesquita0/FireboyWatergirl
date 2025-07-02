@@ -6,8 +6,8 @@
 
 // Informações sobre a posição inicial dos jogadores
 // posX e posY são as posições do centro do player
-// posXFireboy    posYFireboy    posXWatergirl    posYWatergirl
-             0              0                0                0
+// posXFireboy    posYFireboy    posXWatergirl    posYWatergirl    scale
+             0              0                0                0      0.2
 
 
 // Informações sobre as entidades do mundo
@@ -28,5 +28,5 @@
 //  posX    posY   EntityType   scale   rotation   color_R  color_G  color_B
      512     600            0       d          d         d        d        d
      512     750            0       d          d         d        d        d
-      10     400            0     1.1         90         d        d        d
-    1014     400            0     1.1         90         d        d        d
+      10     400            0     1.1         45         d        d        d
+     950     400            0     1.1         90         d        d        d

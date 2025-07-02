@@ -48,6 +48,8 @@ public:
     float Width();                        
     bool  IsAlive();
 
+    void setScale(float scale);
+
     void OnCollision(Object * obj);     // resolução da colisão
     void Update();                      // atualização do objeto
     void Draw();                        // desenho do objeto
@@ -67,3 +69,6 @@ inline float Player::Top()
 
 inline bool Player::IsAlive() 
 { return is_alive; }
+
+inline void Player::setScale(float scale)
+{ ScaleTo(scale); }

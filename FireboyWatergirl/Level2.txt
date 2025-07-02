@@ -6,8 +6,8 @@
 
 // Informações sobre a posição inicial dos jogadores
 // posX e posY são as posições do centro do player
-// posXFireboy    posYFireboy    posXWatergirl    posYWatergirl
-             0              0                0                0
+// posXFireboy    posYFireboy    posXWatergirl    posYWatergirl    scale
+             0              0                0                0      0.2
 
 
 // Informações sobre as entidades do mundo

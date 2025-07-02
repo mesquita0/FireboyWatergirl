@@ -3,8 +3,6 @@
 #include "FireboyWatergirl.h"
 #include "WorldEntity.h"
 
-constexpr float player_scale = 0.2;
-
 constexpr int controls[3][2] = { { 'W', VK_UP }, { 'A', VK_LEFT }, { 'D', VK_RIGHT } };
 constexpr int key_up = 0;
 constexpr int key_left = 1;
@@ -62,7 +60,7 @@ Player::Player(bool is_fireboy) : is_fireboy(is_fireboy)
     current_anim_body = anim_body_idle;
 
     // cria bounding box
-    constexpr int offset_center = 100 * player_scale;
+    int offset_center = 100 * scale;
     BBox(new Rect(
         -1.0f * (Width()) / 2.0f,
         -1.0f * (Height() + offset_center) / 2.0f,
@@ -117,12 +115,12 @@ void Player::updateState()
 }
 
 float Player::Width() {
-    return player_scale * anim_body_idle->tileSet()->TileWidth();
+    return scale * anim_body_idle->tileSet()->TileWidth();
 }
 
 inline float Player::Height()
 {
-    return player_scale * (anim_body_idle->tileSet()->TileHeight() + anim_head_run->tileSet()->TileHeight());
+    return scale * (anim_body_idle->tileSet()->TileHeight() + anim_head_run->tileSet()->TileHeight());
 }
 
 void Player::slowDown() {
@@ -145,8 +143,34 @@ void Player::OnCollision(Object* obj)
         else
             Translate(obj->BBox()->mtv_water.XComponent(), obj->BBox()->mtv_water.YComponent());
 
-        // TODO
-        velocity->YComponent(0);
+        //
+        float angle_fb = obj->BBox()->mtv_fire.Angle();
+        float angle_wg = obj->BBox()->mtv_water.Angle();
+        if (
+            (is_fireboy  && angle_fb == 270) ||
+            (!is_fireboy && angle_wg == 270)
+        ) {
+            velocity->YComponent(0);
+
+            // Ação pulo
+            if (window->KeyDown(controls[key_up][is_fireboy]) || FireboyWatergirl::gamepad->XboxButton(ButtonA)) {
+                velocity->Add(jump);
+            }
+        }
+
+        if (
+            (is_fireboy  && angle_fb == 90) ||
+            (!is_fireboy && angle_wg == 90)
+        ) {
+            velocity->YComponent(0);
+        }
+
+        if (
+            (is_fireboy  && (angle_fb == 0 || angle_fb == 180)) ||
+            (!is_fireboy && (angle_wg == 0 || angle_wg == 180))
+        ) {
+            velocity->XComponent(velocity->XComponent() * 0.0001);
+        }
 
         break;
     }
@@ -245,12 +269,12 @@ inline void Player::Draw()
     }
 
     if (state != JUMPING) {
-        current_anim_body->Draw(x, y + (current_anim_body->tileSet()->TileHeight() / 2.0) * player_scale, z, player_scale, 0, mirror_x);
-        current_anim_head->Draw(x - offset_x * player_scale, y - offset_y * scale_head * player_scale, z, scale_head * player_scale, rotation_head, mirror_x);
+        current_anim_body->Draw(x, y + (current_anim_body->tileSet()->TileHeight() / 2.0) * scale, z, scale, 0, mirror_x);
+        current_anim_head->Draw(x - offset_x * scale, y - offset_y * scale_head * scale, z, scale_head * scale, rotation_head, mirror_x);
     }
     else {
         offset_y -= 25;
-        current_anim_head->Draw(x - offset_x * player_scale, y - offset_y * scale_head * player_scale, z, scale_head * player_scale, rotation_head, mirror_x);
-        current_anim_body->Draw(x, y + (current_anim_body->tileSet()->TileHeight() / 2.0) * player_scale, z, player_scale, 0, mirror_x);
+        current_anim_head->Draw(x - offset_x * scale, y - offset_y * scale_head * scale, z, scale_head * scale, rotation_head, mirror_x);
+        current_anim_body->Draw(x, y + (current_anim_body->tileSet()->TileHeight() / 2.0) * scale, z, scale, 0, mirror_x);
     }
 }
