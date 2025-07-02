@@ -20,6 +20,13 @@
 
 // ---------------------------------------------------------------------------------
 
+float dotProduct(const Point& a, const Point& b);
+Point getNormal(Point& v1, Point& v2);
+float project(const Point vertex, const Point& axis);
+float getOverlap(Point axis, Poly* c, Poly* polygonB);
+
+// ---------------------------------------------------------------------------------
+
 Scene::Scene()
 {
 
@@ -253,52 +260,7 @@ bool Scene::Collision(Point * p, Circle * c)
 
 bool Scene::Collision(Point* p, Poly* pol)
 {
-    // se o ponto colidir com a bounding box do polígono,
-    // passe para uma investigação mais profunda e lenta
-    // caso contrário não há colisão
-
-    if (Collision(p, pol))
-    {
-        bool crossings = false;
-        int nvertex = pol->vertexCount;
-        Point * vertex = pol->vertexList;
-
-        float Ix, Iy, Jx, Jy;
-        float Ixr, Iyr, Jxr, Jyr;
-        float Ixs, Iys, Jxs, Jys;
-        const double PIunder180 = 0.0174532925194444;
-
-        // converte ângulo de rotação para radianos
-        float theta = float(pol->Rotation() * PIunder180);
-
-        for (int i = 0, j = nvertex - 1; i < nvertex; j = i++)
-        {
-            // aplica rotação aos pontos
-            Ixr = float(vertex[i].X() * cos(theta) - vertex[i].Y() * sin(theta));
-            Iyr = float(vertex[i].X() * sin(theta) + vertex[i].Y() * cos(theta));
-            Jxr = float(vertex[j].X() * cos(theta) - vertex[j].Y() * sin(theta));
-            Jyr = float(vertex[j].X() * sin(theta) + vertex[j].Y() * cos(theta));
-
-            // aplica escala aos pontos
-            Ixs = Ixr * pol->Scale();
-            Iys = Iyr * pol->Scale();
-            Jxs = Jxr * pol->Scale();
-            Jys = Jyr * pol->Scale();
-
-            // transforma coordenadas locais em globais
-            Ix = pol->X() + Ixs;
-            Iy = pol->Y() + Iys;
-            Jx = pol->X() + Jxs;
-            Jy = pol->Y() + Jys;
-
-            if (((Iy < p->Y()) && (Jy >= p->Y())) || ((Jy < p->Y()) && (Iy >= p->Y())))
-                if (Jx - (((Jy - p->Y()) * (Jx - Ix)) / (Jy - Iy)) < p->X())
-                    crossings = !crossings;
-        }
-
-        return crossings;
-    }
-
+    // Unimplemented
     return false;
 }
 
@@ -350,7 +312,15 @@ bool Scene::Collision(Rect * r, Circle * c)
 
 bool Scene::Collision(Rect * r, Poly * pol)
 {
-    return false;
+    Point points[4] = {
+        { r->Left(),  r->Top() },
+        { r->Left(),  r->Bottom() },
+        { r->Right(), r->Bottom() },
+        { r->Right(), r->Top() }
+    };
+    Poly rect = Poly(points, 4);
+
+    return Collision(pol, &rect);
 }
 
 // --------------------------------------------------------------------------------
@@ -378,15 +348,33 @@ bool Scene::Collision(Circle * ca, Circle * cb)
 
 bool Scene::Collision(Circle* c, Poly* pol)
 {
+    // Unimplemented
     return false;
-
 }
 
 // --------------------------------------------------------------------------------
 
 bool Scene::Collision(Poly* pa, Poly* pb)
 {
-    return false;
+    // Test axes from pa
+    for (int i = 0; i < pa->vertexCount; ++i) {
+        Point v1 = pa->vertexList[i];
+        Point v2 = pa->vertexList[(i + 1) % pa->vertexCount];
+        v1.Translate(pa->X(), pa->Y());
+        v2.Translate(pa->X(), pa->Y());
+        if (getOverlap(getNormal(v1, v2), pa, pb) <= 0) return false; // Separating axis found, no collision
+    }
+
+    // Test axes from pb 
+    for (int i = 0; i < pb->vertexCount; ++i) {
+        Point v1 = pb->vertexList[i];
+        Point v2 = pb->vertexList[(i + 1) % pb->vertexCount];
+        v1.Translate(pb->X(), pb->Y());
+        v2.Translate(pb->X(), pb->Y());
+        if (getOverlap(getNormal(v1, v2), pa, pb) <= 0) return false; // Separating axis found, no collision
+    }
+
+    return true; // No separating axis found, collision detected
 }
 
 // --------------------------------------------------------------------------------
@@ -667,3 +655,41 @@ void Scene::CollisionDetection()
 }
 
 // --------------------------------------------------------------------------------
+
+float dotProduct(const Point& a, const Point& b) {
+    return a.X() * b.X() + a.Y() * b.Y();
+}
+
+Point getNormal(Point& v1, Point& v2) {
+    return { -(v2.Y() - v1.Y()), v2.X() - v1.X() };
+}
+
+float project(const Point vertex, const Point& axis) {
+    float len = sqrt(dotProduct(axis, axis));
+    return dotProduct(vertex, axis) / len;
+}
+
+float getOverlap(Point axis, Poly* polygonA, Poly* polygonB) {
+    float minA = FLT_MAX;
+    float maxA = -FLT_MAX;
+    float minB = FLT_MAX;
+    float maxB = -FLT_MAX;
+
+    for (int i = 0; i < polygonA->vertexCount; i++) {
+        Point p = polygonA->vertexList[i];
+        p.Translate(polygonA->X(), polygonA->Y());
+        float projection = project(p, axis);
+        minA = min(minA, projection);
+        maxA = max(maxA, projection);
+    }
+
+    for (int i = 0; i < polygonB->vertexCount; i++) {
+        Point p = polygonB->vertexList[i];
+        p.Translate(polygonB->X(), polygonB->Y());
+        float projection = project(p, axis);
+        minB = min(minB, projection);
+        maxB = max(maxB, projection);
+    }
+
+    return min(maxA, maxB) - max(minA, minB);
+}
