@@ -108,7 +108,7 @@ int APIENTRY WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 
     // configura o motor
     engine->window->Mode(WINDOWED); // mudar pra borderless
-    engine->window->Size(1024, 768);
+    engine->window->Size(960, 768);   // mudar pra 1280 x 1024
     engine->window->Color(30, 50, 80);
     engine->window->Title("Fireboy and Watergirl");
     engine->window->Icon(IDI_ICON);
