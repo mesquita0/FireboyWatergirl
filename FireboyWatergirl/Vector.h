@@ -29,7 +29,7 @@ public:
     Vector(float ang, float mag);       // construtor com ângulo e magnitude
 
     void Scale(float factor);           // amplia ou reduz vetor por um fator
-    void ScaleTo(float value);          // ajusta rotação para valor indicado
+    void ScaleTo(float scale);          // ajusta rotação para valor indicado
     void Rotate(float theta);           // rotaciona vetor por ângulo em graus
     void RotateTo(float value);         // ajusta rotação para valor indicado
     void Add(const Vector& v);          // adiciona vetor recebido por parâmetro
@@ -48,8 +48,8 @@ public:
 // ---------------------------------------------------------------------------------
 // Funções Membro Inline
 
-inline void Vector::ScaleTo(float value)
-{ magnitude = value; }
+inline void Vector::Scale(float factor)
+{ ScaleTo(magnitude * factor); }
 
 inline void Vector::RotateTo(float value)
 { angle = value; }

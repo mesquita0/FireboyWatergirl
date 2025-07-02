@@ -17,6 +17,7 @@
 #include "Engine.h"
 #include "Scene.h"
 #include "Object.h"
+#include "FireboyWatergirl.h"
 
 // ---------------------------------------------------------------------------------
 
@@ -320,7 +321,7 @@ bool Scene::Collision(Rect * r, Poly * pol)
     };
     Poly rect = Poly(points, 4);
 
-    return Collision(pol, &rect);
+    return Collision(pol, &rect, r);
 }
 
 // --------------------------------------------------------------------------------
@@ -354,15 +355,26 @@ bool Scene::Collision(Circle* c, Poly* pol)
 
 // --------------------------------------------------------------------------------
 
-bool Scene::Collision(Poly* pa, Poly* pb)
+bool Scene::Collision(Poly* pa, Poly* pb, Rect * r = nullptr)
 {
+    float min_overlap = FLT_MAX;
+    Point axis_min_overlap = { };
+
     // Test axes from pa
     for (int i = 0; i < pa->vertexCount; ++i) {
         Point v1 = pa->vertexList[i];
         Point v2 = pa->vertexList[(i + 1) % pa->vertexCount];
         v1.Translate(pa->X(), pa->Y());
         v2.Translate(pa->X(), pa->Y());
-        if (getOverlap(getNormal(v1, v2), pa, pb) <= 0) return false; // Separating axis found, no collision
+
+        Point axis = getNormal(v1, v2);
+        float overlap = getOverlap(axis, pa, pb);
+        if (overlap < 0) return false; // Separating axis found, no collision
+
+        if (overlap < min_overlap) {
+            min_overlap = overlap;
+            axis_min_overlap = axis;
+        }
     }
 
     // Test axes from pb 
@@ -371,7 +383,36 @@ bool Scene::Collision(Poly* pa, Poly* pb)
         Point v2 = pb->vertexList[(i + 1) % pb->vertexCount];
         v1.Translate(pb->X(), pb->Y());
         v2.Translate(pb->X(), pb->Y());
-        if (getOverlap(getNormal(v1, v2), pa, pb) <= 0) return false; // Separating axis found, no collision
+
+        Point axis = getNormal(v1, v2);
+        float overlap = getOverlap(axis, pa, pb);
+        if (overlap < 0) return false; // Separating axis found, no collision
+
+        if (overlap < min_overlap) {
+            min_overlap = overlap;
+            axis_min_overlap = axis;
+        }
+    }
+
+    bool is_fireboy = (r && r == FireboyWatergirl::fireboy->BBox());
+    Vector* mtv_pa = is_fireboy ? &pa->mtv_fire : &pa->mtv_water;
+    Vector* mtv_pb = is_fireboy ? &pb->mtv_fire : &pb->mtv_water;
+    
+    // Save axis with minimum overlap to geometries
+    mtv_pa->XComponent(axis_min_overlap.X());
+    mtv_pa->YComponent(axis_min_overlap.Y());
+    mtv_pb->XComponent(axis_min_overlap.X());
+    mtv_pb->YComponent(axis_min_overlap.Y());
+    
+    // Compute minimum translation vector
+    mtv_pa->ScaleTo(min_overlap);
+    mtv_pb->ScaleTo(min_overlap);
+
+    // Direction of mtv
+    Point centers_vector = { pb->center.X() - pa->center.X(), pb->center.Y() - pa->center.Y() };
+    if (dotProduct(centers_vector, axis_min_overlap) < 0) {
+        mtv_pa->Scale(-1);
+        mtv_pb->Scale(-1);
     }
 
     return true; // No separating axis found, collision detected

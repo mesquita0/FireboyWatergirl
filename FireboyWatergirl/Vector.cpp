@@ -29,9 +29,10 @@ Vector::Vector(float ang, float mag)
 
 // ------------------------------------------------------------------------------
 
-void Vector::Scale(float factor)
+void Vector::ScaleTo(float scale)
 {
-    magnitude *= factor;
+    magnitude = abs(scale);
+    if (scale < 0) Rotate(180);
 }
 
 // ------------------------------------------------------------------------------
@@ -98,26 +99,26 @@ void Vector::Add(const Vector& v)
 void Vector::XComponent(float x)
 {
     if (magnitude == 0 || angle == 0 || angle == 180) {
-        magnitude = x;
-        angle = 0;
+        magnitude = abs(x);
+        angle = (x > 0) ? 0 : 180;
     }
     else {
         float old_angle = Radians();
-        angle = atan(YComponent()/x) * (180 / PI);
-        magnitude *= sin(old_angle) / sin(Radians());
+        magnitude = sqrt(pow(x, 2) + pow(YComponent(), 2));
+        angle = atan2(YComponent(), x) * (180 / PI);
     }
 }
 
 void Vector::YComponent(float y)
 {
     if (magnitude == 0 || angle == 90 || angle == 270) {
-        magnitude = y;
-        angle = 90;
+        magnitude = abs(y);
+        angle = (y > 0) ? 90 : 270;
     }
     else {
         float old_angle = Radians();
-        angle = atan(y / XComponent()) * (180 / PI);
-        magnitude *= cos(old_angle) / cos(Radians());
+        magnitude = sqrt(pow(XComponent(), 2) + pow(y, 2));
+        angle = atan2(y, XComponent()) * (180 / PI);
     }
 }
 

@@ -15,6 +15,7 @@
 #define _PROGJOGOS_GEOMETRY_H_
 
 #include "Types.h"                                      // tipos da engine
+#include "Vector.h"
 #include <list>                                         // lista da STL
 using std::list;                                        // usar list sem std::
 
@@ -34,7 +35,6 @@ enum GeometryTypes
 // ---------------------------------------------------------------------------
 // Geometry
 // ---------------------------------------------------------------------------
-
 class Geometry
 {
 protected:
@@ -44,6 +44,9 @@ protected:
     uint type;                                          // tipo da geometria
 
 public:
+    Vector mtv_fire = {};
+    Vector mtv_water = {};
+
     Geometry();                                         // construtor
     virtual ~Geometry();                                // destrutor
 

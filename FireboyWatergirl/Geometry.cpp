@@ -323,12 +323,14 @@ void Poly::Translate(float dx, float dy)
 {
     x += dx; 
     y += dy;
+    center.Translate(dx, dy);
 }
 
 // --------------------------------------------------------------------------
 
 void Poly::MoveTo(float px, float py)
 {
+    center.Translate(px - x, py - y);
     x = px;
     y = py;
 }

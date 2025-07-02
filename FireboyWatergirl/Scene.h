@@ -66,7 +66,7 @@ private:
     bool Collision(Circle * c, Rect * r);       // colisão entre círculo e retângulo (inline)
     bool Collision(Circle * c, Poly * pol);     // colisão entre círculo e polígono
 
-    bool Collision(Poly* pa, Poly* pb);         // colisão entre polígonos
+    bool Collision(Poly* pa, Poly* pb, Rect* r);// colisão entre polígonos
     bool Collision(Poly* pol, Point* p);        // colisão entre polígono e ponto (inline)
     bool Collision(Poly* pol, Rect* r);         // colisão entre polígono e retângulo (inline)
     bool Collision(Poly* pol, Circle* c);       // colisão entre polígono e círculo (inline)
