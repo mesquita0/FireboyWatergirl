@@ -11,6 +11,7 @@
 
 #include "Engine.h"         // motor do jogo
 #include "Font.h"           // definições da classe Font
+#include <algorithm>
 #include <cmath>            // funções matemáticas
 #include <fstream>          // entrada/sanída de arquivos
 using namespace std;        // dispensa o uso do std::
@@ -26,6 +27,14 @@ Font::Font(const string & filename)
     // inicialmente a largura de cada letra é fixa
     proportional = false;
     charWidth = fontTiles->TileWidth();
+}
+
+Font::Font(const Font& font) {
+    this->fontTiles = new TileSet(*font.fontTiles);
+    sprite = font.sprite;
+    std::copy(font.spacing, &font.spacing[256], spacing);
+    this->proportional = font.proportional;
+    this->charWidth = font.charWidth;
 }
 
 // -------------------------------------------------------------------------------

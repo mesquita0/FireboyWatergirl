@@ -58,7 +58,7 @@ public:
             uint offset_x = 0,
             uint offset_y = 0);
 
-    TileSet(const TileSet& tileset) = default; 
+    TileSet(const TileSet& tileset); 
 
     ~TileSet();                                
 

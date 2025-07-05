@@ -49,6 +49,17 @@ TileSet::TileSet(Image* image, uint tileWidth, uint tileHeight, uint numLines, u
     owns_image = false;
 }
 
+TileSet::TileSet(const TileSet & tileset) {
+    this->image = tileset.image;
+    this->width = tileset.width;
+    this->height = tileset.height;
+    this->columns = tileset.columns;
+    this->size = tileset.size;
+    this->offset_x = tileset.offset_x;
+    this->offset_y = tileset.offset_y;
+    owns_image = false;
+}
+
 // -------------------------------------------------------------------------------
 
 TileSet::~TileSet()
