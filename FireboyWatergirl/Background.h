@@ -12,8 +12,8 @@ private:
     Color color;                        // cor do pano de fundo
 
 public:
-    Background(std::string& background, Color tint);     // construtor
-    ~Background();                                       // destrutor
+    Background(std::string background, Color tint = Color{1, 1, 1, 1});
+    ~Background();
                                                          
     void Update();                                       // atualização do objeto
     void Draw();                                         // desenho do objeto

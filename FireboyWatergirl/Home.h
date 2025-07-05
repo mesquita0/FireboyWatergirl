@@ -13,7 +13,7 @@ class Home : public Game
 {
 private:
     Scene * scene = nullptr;
-    Sprite* backg = nullptr;
+    Background * backg = nullptr;
 
 public:
     Home() = default;

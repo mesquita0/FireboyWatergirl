@@ -136,6 +136,14 @@ void Player::OnCollision(Object* obj)
 {
     switch (obj->Type())
     {
+    case FINISH_PORTAL_FIRE:
+        if (is_fireboy) ready_next_level = true;
+        break;
+
+    case FINISH_PORTAL_WATER:
+        if (!is_fireboy) ready_next_level = true;
+        break;
+
     case GROUND:
         // Mantém personagem fora da plataforma
         if (is_fireboy)
@@ -178,6 +186,9 @@ void Player::OnCollision(Object* obj)
 
 void Player::Update()
 {
+    // Resetar o estado em todo frame para conferir na colisão com o portal para o próximo nível
+    ready_next_level = false;
+
     FireboyWatergirl::gamepad->XboxUpdateState();
 
     if (FireboyWatergirl::xboxOn) {

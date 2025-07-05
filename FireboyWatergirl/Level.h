@@ -10,8 +10,8 @@ private:
     int level_number;
 
 public:
-    Background* backg = nullptr;   // pano de fundo
     static Scene* scene;           // cena do nível
+    Background * backg = nullptr;   // pano de fundo
     int num_ground_blocks = 0;
 
     Level(int level_number);

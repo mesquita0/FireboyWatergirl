@@ -10,7 +10,7 @@
 void Home::Init()
 {
     scene = new Scene();
-    backg = new Sprite("");
+    backg = new Background("");
 
     // inicia com música
     FireboyWatergirl::audio->Play(MENU, true);
@@ -35,7 +35,7 @@ void Home::Update()
 
 void Home::Draw()
 {
-    backg->Draw(window->CenterX(), window->CenterY(), Layer::FRONT);
+    backg->Draw();
 }
 
 void Home::Finalize()
