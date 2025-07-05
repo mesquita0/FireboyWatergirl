@@ -33,10 +33,14 @@ private:
     
 public:
     Font(const string & filename);              // construtor
+    Font(const Font& font);
     ~Font();                                    // destrutor
 
     void Spacing(int width);                    // valor fixo para o espaçamento 
     void Spacing(const string & filename);      // ajusta espaçamento entre letras    
+
+    int getCharWidth() const  { return charWidth; }
+    int getCharHeight() const { return fontTiles->TileHeight(); }
 
     void Draw(                                  // exibe texto na tela
         float x,                                // posição x do texto
