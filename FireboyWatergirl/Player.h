@@ -26,8 +26,8 @@ private:
     Animation    * current_anim_body;
 
     Vector       * velocity;
-    int         level;                  // nível finalizado
-    bool        is_alive, is_fireboy;
+    int          level;                  // nível finalizado
+    bool         is_alive, is_fireboy, ready_next_level;
 
     State state;
 
@@ -47,6 +47,7 @@ public:
     float Height();                        
     float Width();                        
     bool  IsAlive();
+    bool  IsReadyNextLevel();
 
     void setScale(float scale);
 
@@ -69,6 +70,9 @@ inline float Player::Top()
 
 inline bool Player::IsAlive() 
 { return is_alive; }
+
+inline bool Player::IsReadyNextLevel() 
+{ return ready_next_level; }
 
 inline void Player::setScale(float scale)
 { ScaleTo(scale); }

@@ -5,10 +5,14 @@
 
 enum EntityType { 
     GROUND,
+    FINISH_PORTAL_FIRE,
+    FINISH_PORTAL_WATER
 };
 
 enum EntityTypeSprite {
     GROUND1,
+    FINISH_PORTAL1,
+    FINISH_PORTAL2
 };
 
 class WorldEntity : public Object

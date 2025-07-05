@@ -24,9 +24,13 @@
 //
 // EntityType:
 //            0 - chão (1)
+//            1 - Portão fogo
+//            2 - Portão água
 //
 //  posX    posY   EntityType   scale   rotation   color_R  color_G  color_B
      512     600            0       d          d         d        d        d
      512     750            0       d          d         d        d        d
       10     400            0     1.1         45         d        d        d
      950     400            0     1.1         90         d        d        d
+     500     540            1     0.9          d         d        d        d
+     600     540            2       d          d         d        d        d

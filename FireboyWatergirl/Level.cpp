@@ -19,6 +19,8 @@ void Level::Init()
     // cria gerenciador de cena
     scene = new Scene();
 
+    backg = new Background("");
+
     loadLevel(*this, window, "Level" + std::to_string(level_number) + ".txt");
 
     FireboyWatergirl::fireboy->Level(level_number - 1);
@@ -42,9 +44,12 @@ void Level::Update()
         FireboyWatergirl::fireboy->Reset(level_number-1); 
         FireboyWatergirl::watergirl->Reset(level_number-1); 
     }
-    else if (FireboyWatergirl::fireboy->Level() != level_number - 1 || window->KeyPress('N'))
+    else if (
+        (FireboyWatergirl::fireboy->IsReadyNextLevel() 
+        && FireboyWatergirl::watergirl->IsReadyNextLevel())
+        || window->KeyPress('N'))
     {
-        FireboyWatergirl::fireboy->Reset(level_number);
+        FireboyWatergirl::fireboy->Reset(level_number-1);
         FireboyWatergirl::watergirl->Reset(level_number-1); 
         FireboyWatergirl::NextLevel();
     } 
@@ -52,7 +57,7 @@ void Level::Update()
 
 void Level::Draw()
 {
-    //backg->Draw();
+    backg->Draw();
     scene->Draw();
 
     if (FireboyWatergirl::viewBBox)

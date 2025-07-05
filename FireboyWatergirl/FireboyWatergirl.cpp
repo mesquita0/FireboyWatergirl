@@ -1,6 +1,8 @@
 ﻿#include "FireboyWatergirl.h"
 #include "Controller.h"
 #include "Engine.h"
+#include "GameOver.h"
+#include "Home.h"
 #include "Level.h"
 #include "Player.h"
 
@@ -43,9 +45,11 @@ void FireboyWatergirl::Init()
     watergirl = new Player(false);
 
     // cria níveis
-    Level* level1 = new Level(1);
     levels = {
-        level1
+        new Home(),
+        new Level(1),
+        new Level(2),
+        new GameOver(),
     };
 
     // inicializa nível de abertura do jogo

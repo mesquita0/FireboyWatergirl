@@ -1,7 +1,7 @@
 #include "Background.h"
 #include <string>
 
-Background::Background(std::string& background, Color tint) : color(tint)
+Background::Background(std::string background, Color tint) : color(tint)
 {
     MoveTo(window->CenterX(), window->CenterY(), Layer::BACK);
 
