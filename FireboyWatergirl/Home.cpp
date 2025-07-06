@@ -19,10 +19,21 @@ void Home::Init()
     mouse = new Mouse();
     scene->Add(mouse, MOVING);
 
+    // Adiciona botões
     play_button = new Button(window->CenterX(), window->CenterY(), "PLAY", *font, Color{1, 1, 1, 1}, Color{1, 1, 0, 1}, 0.4f);
     quit_button = new Button(window->CenterX(), window->CenterY() + 100, "QUIT", *font, Color{1, 1, 1, 1}, Color{1, 1, 0, 1}, 0.4f);
     scene->Add(play_button, STATIC);
     scene->Add(quit_button, STATIC);
+
+    // Adiciona players
+    FireboyWatergirl::fireboy->Reset();
+    FireboyWatergirl::watergirl->Reset();
+    scene->Add(FireboyWatergirl::fireboy, STATIC);
+    scene->Add(FireboyWatergirl::watergirl, STATIC);
+    FireboyWatergirl::fireboy->MoveTo(200, 750);
+    FireboyWatergirl::watergirl->MoveTo(800, 750);
+    FireboyWatergirl::fireboy->disableControls();
+    FireboyWatergirl::watergirl->disableControls();
 
     // inicia com música
     FireboyWatergirl::audio->Play(MENU, true);
@@ -58,6 +69,9 @@ void Home::Draw()
 
 void Home::Finalize()
 {
+    scene->Remove(FireboyWatergirl::fireboy, STATIC);
+    scene->Remove(FireboyWatergirl::watergirl, STATIC);
+
     delete scene;
     delete backg;
     delete font;

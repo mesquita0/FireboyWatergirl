@@ -27,7 +27,7 @@ private:
 
     Vector       * velocity;
     int          level;                  // nível finalizado
-    bool         is_alive, is_fireboy, ready_next_level;
+    bool         is_alive, is_fireboy, ready_next_level, enable_controls;
 
     State state;
 
@@ -50,6 +50,8 @@ public:
     bool  IsReadyNextLevel();
 
     void setScale(float scale);
+    void enableControls();
+    void disableControls();
 
     void OnCollision(Object * obj);     // resolução da colisão
     void Update();                      // atualização do objeto
@@ -76,3 +78,9 @@ inline bool Player::IsReadyNextLevel()
 
 inline void Player::setScale(float scale)
 { ScaleTo(scale); }
+
+inline void Player::enableControls()
+{ enable_controls = true; }
+
+inline void Player::disableControls()
+{ enable_controls = false; }
