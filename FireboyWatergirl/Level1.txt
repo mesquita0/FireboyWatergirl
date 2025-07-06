@@ -7,12 +7,19 @@
 // Informações sobre a posição inicial dos jogadores
 // posX e posY são as posições do centro do player
 // posXFireboy    posYFireboy    posXWatergirl    posYWatergirl    scale
-             0              0                0                0      0.2
+           500             0               500                0      0.2
 
 
 // Informações sobre as entidades do mundo
 //
 // posX e posY são as posições do centro da plataforma
+// posZ:
+//             profundidade da plataforma (defualt = LAYER::FRONT)
+//             Layer::FRONT  = F
+//             Layer::UPPER  = U
+//             Layer::MIDDLE = M
+//             Layer::LOWER  = L
+//             Layer::BACK   = B (nível de profundidade do background)
 // rotation: 
 //             rotação das plataforma em graus (default = 0)
 // scale: 
@@ -24,44 +31,48 @@
 //
 // EntityType:
 //            0 - chão (1)
-//            1 - Portão fogo
-//            2 - Portão água
+//            1 - Plataforma de madeira (1)
+//            2 - Plataforma de madeira (2)
+//            3 - Plataforma de madeira (3)
+//            4 - Plataforma de madeira (4)
+//            5 - Plataforma de madeira (5)
+//            6 - Portão próximo nível fogo
+//            7 - Portão próximo nível água
 //
-//  posX    posY   EntityType   scale   rotation   color_R  color_G  color_B
-     512     600            0       d          d         d        d        d
-     512     750            0       d          d         d        d        d
-      10     400            0     1.1         45         d        d        d
-     950     400            0     1.1         90         d        d        d
-     600     540            4       d          d         d        d        d
-     0       750            1     1.0          d         d        d        d
-     32      750            1     1.0          d         d        d        d
-     64      750            1     1.0          d         d        d        d
-     96      750            1     1.0          d         d        d        d
-     128     750            1     1.0          d         d        d        d
-     160     750            1     1.0          d         d        d        d
-     192     750            1     1.0          d         d        d        d
-     224     750            1     1.0          d         d        d        d
-     256     750            1     1.0          d         d        d        d
-     288     750            1     1.0          d         d        d        d
-     320     750            1     1.0          d         d        d        d
-     352     750            1     1.0          d         d        d        d
-     384     750            1     1.0          d         d        d        d
-     416     750            1     1.0          d         d        d        d
-     448     750            1     1.0          d         d        d        d
-     480     750            1     1.0          d         d        d        d
-     512     750            1     1.0          d         d        d        d
-     544     750            1     1.0          d         d        d        d
-     576     750            1     1.0          d         d        d        d
-     608     750            1     1.0          d         d        d        d
-     640     750            1     1.0          d         d        d        d
-     672     750            1     1.0          d         d        d        d
-     704     750            1     1.0          d         d        d        d
-     736     750            1     1.0          d         d        d        d
-     768     750            1     1.0          d         d        d        d
-     800     750            1     1.0          d         d        d        d
-     832     750            1     1.0          d         d        d        d
-     864     750            1     1.0          d         d        d        d
-     896     750            1     1.0          d         d        d        d
-     928     750            1     1.0          d         d        d        d
-     960     750            1     1.0          d         d        d        d
-     
+//  posX    posY   posZ  EntityType   scale   rotation   color_R  color_G  color_B
+     512     600      d           0       d          d         d        d        d
+     512     750      d           0       d          d         d        d        d
+      10     400      d           0     1.1         45         d        d        d
+     950     400      d           0     1.1         90         d        d        d
+     600     540      d           4       d          d         d        d        d
+     0       750      d           1     1.0          d         d        d        d
+     32      750      d           1     1.0          d         d        d        d
+     64      750      d           1     1.0          d         d        d        d
+     96      750      d           1     1.0          d         d        d        d
+     128     750      d           1     1.0          d         d        d        d
+     160     750      d           1     1.0          d         d        d        d
+     192     750      d           1     1.0          d         d        d        d
+     224     750      d           1     1.0          d         d        d        d
+     256     750      d           1     1.0          d         d        d        d
+     288     750      d           1     1.0          d         d        d        d
+     320     750      d           1     1.0          d         d        d        d
+     352     750      d           1     1.0          d         d        d        d
+     384     750      d           1     1.0          d         d        d        d
+     416     750      d           1     1.0          d         d        d        d
+     448     750      d           1     1.0          d         d        d        d
+     480     750      d           1     1.0          d         d        d        d
+     512     750      d           1     1.0          d         d        d        d
+     544     750      d           1     1.0          d         d        d        d
+     576     750      d           1     1.0          d         d        d        d
+     608     750      d           1     1.0          d         d        d        d
+     640     750      d           1     1.0          d         d        d        d
+     672     750      d           1     1.0          d         d        d        d
+     704     750      d           1     1.0          d         d        d        d
+     736     750      d           1     1.0          d         d        d        d
+     768     750      d           1     1.0          d         d        d        d
+     800     750      d           1     1.0          d         d        d        d
+     832     750      d           1     1.0          d         d        d        d
+     864     750      d           1     1.0          d         d        d        d
+     896     750      d           1     1.0          d         d        d        d
+     928     750      d           1     1.0          d         d        d        d
+     960     750      d           1     1.0          d         d        d        d

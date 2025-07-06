@@ -51,7 +51,8 @@ void loadLevel(Level& level, Window* window, const std::string& path) {
     FireboyWatergirl::watergirl->MoveTo(posXwater, posYwater);
     FireboyWatergirl::watergirl->ScaleTo(player_scale);
 
-    float posX, posY, rotation, scale;
+    char layer;
+    float posX, posY, posZ, rotation, scale;
     uint  entityType;
     WorldEntity* entity;
 
@@ -59,8 +60,21 @@ void loadLevel(Level& level, Window* window, const std::string& path) {
     fin >> posX;
     while (!fin.eof()) {
         if (fin.good()) {
-            // Lê linha com informações da entidade
+            
+            // Lê posições y e z
             fin >> posY;
+            skipComments(fin);
+            fin >> layer;
+            switch (layer) {
+            case 'F': posZ = Layer::FRONT;  break;
+            case 'U': posZ = Layer::UPPER;  break;
+            case 'M': posZ = Layer::MIDDLE; break;
+            case 'L': posZ = Layer::LOWER;  break;
+            case 'B': posZ = Layer::BACK;   break;
+            default:  posZ = Layer::FRONT;  break;
+            }
+
+            // Lê linha com informações da entidade
             fin >> entityType;
             scale = getAttribute(fin, 1);
             rotation = getAttribute(fin, 0);
@@ -68,7 +82,7 @@ void loadLevel(Level& level, Window* window, const std::string& path) {
             cG = getAttribute(fin, 1);
             cB = getAttribute(fin, 1);
 
-            entity = new WorldEntity(posX, posY, (EntityTypeSprite)entityType, scale, rotation * (PI/180), Color{cR, cG, cB, 1});
+            entity = new WorldEntity(posX, posY, posZ, (EntityTypeSprite)entityType, scale, rotation * (PI/180), Color{cR, cG, cB, 1});
 
             level.scene->Add(entity, STATIC);
         }
