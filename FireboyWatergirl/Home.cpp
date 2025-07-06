@@ -38,8 +38,8 @@ void Home::Update()
     {
         FireboyWatergirl::audio->Stop(MENU);
         FireboyWatergirl::audio->Play(TRANSITION);
-        FireboyWatergirl::fireboy->Level(0);
-        FireboyWatergirl::watergirl->Level(0);
+        FireboyWatergirl::fireboy->LevelNumber(0);
+        FireboyWatergirl::watergirl->LevelNumber(0);
         FireboyWatergirl::NextLevel();
     }
     else if ((scene->Collision(mouse, quit_button) && mouse->Clicked()) || window->KeyPress(VK_ESCAPE)) {

@@ -2,6 +2,7 @@
 #include "Controller.h"
 #include "FireboyWatergirl.h"
 #include "WorldEntity.h"
+#include "Level.h"
 
 constexpr int controls[3][2] = { { 'W', VK_UP }, { 'A', VK_LEFT }, { 'D', VK_RIGHT } };
 constexpr int key_up = 0;
@@ -9,9 +10,9 @@ constexpr int key_left = 1;
 constexpr int key_right = 2;
 
 const Vector move_right = { 0,   20 };
-const Vector gravity = { 90,  500 };
+const Vector gravity = { 90,  700 };
 const Vector move_left = { 180, 20 };
-const Vector jump = { 270, 300 };
+const Vector jump = { 270, 370 };
 
 const Vector slow_down_l = { 0,   20 };
 const Vector slow_down_r = { 180, 20 };
@@ -145,6 +146,14 @@ void Player::OnCollision(Object* obj)
         break;
 
     case GROUND:
+        if (
+            !static_cast<Level*>(FireboyWatergirl::current_level)->scene->Collision(this, obj) ||
+            (is_fireboy  && obj->BBox()->mtv_fire.Magnitude()  == 0) ||
+            (!is_fireboy && obj->BBox()->mtv_water.Magnitude() == 0)
+        ) {
+            return;
+        }
+
         // Mantém personagem fora da plataforma
         if (is_fireboy)
             Translate(obj->BBox()->mtv_fire.XComponent(), obj->BBox()->mtv_fire.YComponent());

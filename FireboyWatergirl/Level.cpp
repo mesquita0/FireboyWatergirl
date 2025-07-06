@@ -23,8 +23,8 @@ void Level::Init()
 
     loadLevel(*this, window, "Level" + std::to_string(level_number) + ".txt");
 
-    FireboyWatergirl::fireboy->Level(level_number - 1);
-    FireboyWatergirl::watergirl->Level(level_number - 1);
+    FireboyWatergirl::fireboy->LevelNumber(level_number - 1);
+    FireboyWatergirl::watergirl->LevelNumber(level_number - 1);
 
     // inicia com música
     FireboyWatergirl::audio->Frequency(MUSIC, 0.94f);
