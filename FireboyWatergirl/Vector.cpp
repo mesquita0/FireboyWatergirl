@@ -57,35 +57,7 @@ void Vector::Add(const Vector& v)
 
     magnitude = sqrt(pow(rx, 2.0f) + pow(ry, 2.0f));
 
-    // ajusta o ângulo de acordo com o quadrante do vetor resultante
-    if (rx > 0)
-    {
-        // 1o Quadrante
-        if (ry >= 0)
-        {
-            // acha o ângulo em radianos
-            angle = atan(ry / rx);
-            // converte de radianos para graus
-            angle = float((180.0 * angle) / PI);
-        }
-        // 4o Quadrante
-        else // (ry < 0)
-        {
-            // acha o ângulo em radianos
-            angle = atan(ry / rx);
-            // converte de radianos para graus
-            angle = float((180.0 * angle) / PI) + 360.0f;
-        }
-    }
-    // 2o e 3o Quadrante
-    else if (rx < 0)
-    {
-        // acha o ângulo em radianos
-        angle = atan(ry / rx);
-        // converte de radianos para graus
-        angle = float((180.0 * angle) / PI) + 180.0f;
-    }
-    else // (rx == 0)
+    if (rx == 0)
     {
         if (ry > 0)
             angle = 90.0f;
@@ -93,6 +65,20 @@ void Vector::Add(const Vector& v)
             angle = 270.0f;
         else // (ry == 0)
             angle = v.angle;
+    }
+    else {
+        // acha o ângulo em radianos
+        angle = atan2(ry, rx);
+
+        // converte de radianos para graus
+        Angle(float((180.0 * angle) / PI));
+    }
+}
+
+void Vector::Angle(float angle) {
+    this->angle = fmod(angle, 360);
+    if (this->angle < 0) {
+        this->angle += 360;
     }
 }
 
@@ -104,8 +90,9 @@ void Vector::XComponent(float x)
     }
     else {
         float old_angle = Radians();
+        float old_y = YComponent();
         magnitude = sqrt(pow(x, 2) + pow(YComponent(), 2));
-        angle = atan2(YComponent(), x) * (180 / PI);
+        Angle(atan2(old_y, x) * (180 / PI));
     }
 }
 
@@ -117,8 +104,9 @@ void Vector::YComponent(float y)
     }
     else {
         float old_angle = Radians();
+        float old_x = XComponent();
         magnitude = sqrt(pow(XComponent(), 2) + pow(y, 2));
-        angle = atan2(y, XComponent()) * (180 / PI);
+        Angle(atan2(y, old_x) * (180 / PI));
     }
 }
 

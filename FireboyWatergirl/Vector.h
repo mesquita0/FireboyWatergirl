@@ -35,6 +35,7 @@ public:
     void Add(const Vector& v);          // adiciona vetor recebido por parâmetro
     
     float Angle() const;                // retorna ângulo do vetor
+    void  Angle(float angle);
     float Magnitude() const;            // retorna magnitude do vetor
     float XComponent() const;           // retorna componente X do vetor
     void  XComponent(float x);
