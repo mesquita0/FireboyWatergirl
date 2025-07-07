@@ -26,18 +26,18 @@ Player::Player(bool is_fireboy) : is_fireboy(is_fireboy)
     if (is_fireboy) {
         tiles = new Image("Resources/Characters/Fireboy.png");
 
-        anim_head_idle = new Animation(TileSet(tiles, 217, 338, 1, 5, 2, 162), 0.05f, true, true);
-        anim_head_fall = new Animation(TileSet(tiles, 217, 338, 1, 5, 2, 532), 0.05f, true, true);
-        anim_head_jump = new Animation(TileSet(tiles, 217, 338, 1, 5, 2, 900), 0.05f, true, true);
+        anim_head_idle = new Animation(TileSet(tiles, 217, 338, 1, 5, 2, 162), 0.05f, true);
+        anim_head_fall = new Animation(TileSet(tiles, 217, 338, 1, 5, 2, 532), 0.05f, true);
+        anim_head_jump = new Animation(TileSet(tiles, 217, 338, 1, 5, 2, 900), 0.05f, true);
 
-        anim_head_run = new Animation(TileSet(tiles, 344, 204, 1, 5, 2, 1267), 0.05f, true, true);
+        anim_head_run = new Animation(TileSet(tiles, 344, 204, 1, 5, 2, 1267), 0.05f, true);
 
-        anim_body_run = new Animation(TileSet(tiles, 72, 84, 1, 8, 108, 31), 0.05f, true, true);
+        anim_body_run = new Animation(TileSet(tiles, 116, 100, 1, 8, 106, 40), 0.05f, true);
 
-        anim_body_idle = new Animation(TileSet(tiles, 102, 100, 1, 1, 3, 31), 0.05f, true, true);
+        anim_body_idle = new Animation(TileSet(tiles, 102, 100, 1, 1, 3, 31), 0.05f, true);
 
         // TODO
-        anim_win = new Animation(TileSet(tiles, 341, 204, 1, 5, 3, 1267), 0.05f, true, true);     
+        anim_win = new Animation(TileSet(tiles, 341, 204, 1, 5, 3, 1267), 0.05f, true);     
     }
     else {
         tiles = new Image("Resources/Characters/Watergirl.png");
@@ -48,7 +48,7 @@ Player::Player(bool is_fireboy) : is_fireboy(is_fireboy)
 
         anim_head_run = new Animation(TileSet(tiles, 378, 240, 1, 11, 2, 1877), 0.05f, true);
 
-        anim_body_run = new Animation(TileSet(tiles, 72, 84, 1, 8, 108, 31), 0.05f, true);
+        anim_body_run = new Animation(TileSet(tiles, 118, 100, 1, 8, 95, 40), 0.05f, true);
 
         anim_body_idle = new Animation(TileSet(tiles, 102, 100, 1, 1, 3, 31), 0.05f, true);
 
@@ -109,10 +109,10 @@ void Player::Reset(int level)
 
 void Player::updateState()
 {
-    if (velocity->YComponent() > 0 && velocity->Angle() == 90) {
+    if (velocity->YComponent() > 0 && velocity->Angle() > 85 && velocity->Angle() < 95) {
         state = JUMPING;
     }
-    else if (abs(velocity->XComponent()) > 0) {
+    else if (abs(velocity->XComponent()) > 0.1) {
         state = RUNNING;
     }
     else if (velocity->YComponent() < 0) {
@@ -215,9 +215,6 @@ void Player::Update()
 
     if (!enable_controls) return;
 
-    OutputDebugString(std::to_string(gameTime).c_str());
-    OutputDebugString("\n");
-
     // Resetar o estado em todo frame para conferir na colisão com o portal para o próximo nível
     ready_next_level = false;
 
@@ -248,7 +245,7 @@ void Player::Update()
         if (
             !window->KeyDown(controls[key_right][is_fireboy]) && !window->KeyDown(controls[key_left][is_fireboy]) ||
             window->KeyDown(controls[key_right][is_fireboy]) && window->KeyDown(controls[key_left][is_fireboy])
-            ) {
+        ) {
             slowDown();
         }
     }
@@ -284,10 +281,22 @@ inline void Player::Draw()
     case RUNNING:
         current_anim_body = anim_body_run;
         current_anim_head = anim_head_run;
-        mirror_x = (velocity->XComponent() < 0);
+        if (velocity->YComponent() != 0) current_anim_body->Restart();
+
         rotation_head = (velocity->XComponent() > 0) ? velocity->Angle() : velocity->Angle() - 180;
         if (rotation_head > 45 && rotation_head < 90)        rotation_head = 45;
         else if (rotation_head < 315 && rotation_head > 270) rotation_head = 315;
+
+        mirror_x = (velocity->XComponent() < 0);
+        offset_y -= 20;
+        if (is_fireboy) {
+            offset_x = mirror_x ? -35 : 40;
+        }
+        else {
+            offset_x = mirror_x ? -40 : 40;
+            if (rotation_head != 0 && velocity->YComponent() > 0) offset_y -= 10;
+            if (velocity->YComponent() < 0) offset_x -= 10;
+        }
         break;
     case JUMPING:
         current_anim_body = anim_body_idle;
@@ -301,21 +310,26 @@ inline void Player::Draw()
     default:
         break;
     }
-
-    //if (!is_fireboy) {
-    //    OutputDebugString(std::to_string(velocity->Angle()).c_str());
-    //    OutputDebugString(" ");
-    //    OutputDebugString(std::to_string(velocity->Magnitude()).c_str());
-    //    OutputDebugString("\n");
-    //}
     
+    float offset_body = is_fireboy ? 0 : -13;
+    offset_y += offset_body;
+
+    float head_x = x - offset_x * scale_head * scale;
+    float head_y = y - offset_y * scale_head * scale;
+
     if (state != JUMPING) {
-        current_anim_body->Draw(x, y + (current_anim_body->tileSet()->TileHeight() / 2.0) * scale, z, scale, 0, mirror_x);
-        current_anim_head->Draw(x - offset_x * scale, y - offset_y * scale_head * scale, z, scale_head * scale, -rotation_head, mirror_x);
+        float point_rotation_x = head_x - x;
+        float point_rotation_y = 0;
+        float angle_radians = rotation_head * (PI / 180);
+        head_x += point_rotation_x * (1 - cos(angle_radians)) + point_rotation_y * sin(angle_radians);
+        head_y += -point_rotation_x * sin(angle_radians) + point_rotation_y * (1 - cos(angle_radians));
+
+        current_anim_body->Draw(x, y + (current_anim_body->tileSet()->TileHeight() / 2.0 - offset_body) * scale, z, scale, 0, mirror_x);
+        current_anim_head->Draw(head_x, head_y, z, scale_head * scale, -rotation_head, mirror_x);
     }
     else {
         offset_y -= 25;
-        current_anim_head->Draw(x - offset_x * scale, y - offset_y * scale_head * scale, z, scale_head * scale, -rotation_head, mirror_x);
-        current_anim_body->Draw(x, y + (current_anim_body->tileSet()->TileHeight() / 2.0) * scale, z, scale, 0, mirror_x);
+        current_anim_head->Draw(head_x, head_y, z, scale_head * scale, -rotation_head, mirror_x);
+        current_anim_body->Draw(x, y + (current_anim_body->tileSet()->TileHeight() / 2.0 - offset_body) * scale, z, scale, 0, mirror_x);
     }
 }
