@@ -40,8 +40,8 @@ public:
 
     void Reset();                       // volta ao estado inicial
     void Reset(int level);              
-    int Level();                        // último nível finalizado                     
-    void Level(int level);                                          
+    int LevelNumber();                        // último nível finalizado                     
+    void LevelNumber(int level);                                          
     float Bottom();                     // coordenadas da base
     float Top();                        // coordenadas do topo
     float Height();                        
@@ -58,10 +58,10 @@ public:
     void Draw();                        // desenho do objeto
 };
 
-inline int Player::Level()
+inline int Player::LevelNumber()
 { return level; }
 
-inline void Player::Level(int level)
+inline void Player::LevelNumber(int level)
 { this->level = level; }
 
 inline float Player::Bottom()

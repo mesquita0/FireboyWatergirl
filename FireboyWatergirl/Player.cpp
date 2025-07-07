@@ -2,16 +2,19 @@
 #include "Controller.h"
 #include "FireboyWatergirl.h"
 #include "WorldEntity.h"
+#include "Level.h"
 
 constexpr int controls[3][2] = { { 'W', VK_UP }, { 'A', VK_LEFT }, { 'D', VK_RIGHT } };
 constexpr int key_up = 0;
 constexpr int key_left = 1;
 constexpr int key_right = 2;
 
-const Vector move_right = { 0,   20 };
-const Vector gravity = { 90,  500 };
-const Vector move_left = { 180, 20 };
-const Vector jump = { 270, 300 };
+constexpr float max_velocity_x = 200;
+
+const Vector move_right = { 0, 200 };
+const Vector jump = { 90, 370 };
+const Vector move_left = { 180, 200 };
+const Vector gravity = { 270,  700 };
 
 const Vector slow_down_l = { 0,   20 };
 const Vector slow_down_r = { 180, 20 };
@@ -106,13 +109,13 @@ void Player::Reset(int level)
 
 void Player::updateState()
 {
-    if (velocity->YComponent() < 0 && velocity->Angle() < 315 && velocity->Angle() > 225) {
+    if (velocity->YComponent() > 0 && velocity->Angle() == 90) {
         state = JUMPING;
     }
     else if (abs(velocity->XComponent()) > 0) {
         state = RUNNING;
     }
-    else if (velocity->YComponent() > 0) {
+    else if (velocity->YComponent() < 0) {
         state = FALLING;
     }
     else {
@@ -151,6 +154,14 @@ void Player::OnCollision(Object* obj)
         break;
 
     case GROUND:
+        if (
+            !static_cast<Level*>(FireboyWatergirl::current_level)->scene->Collision(this, obj) ||
+            (is_fireboy  && obj->BBox()->mtv_fire.Magnitude()  == 0) ||
+            (!is_fireboy && obj->BBox()->mtv_water.Magnitude() == 0)
+        ) {
+            return;
+        }
+
         // Mantém personagem fora da plataforma
         if (is_fireboy)
             Translate(obj->BBox()->mtv_fire.XComponent(), obj->BBox()->mtv_fire.YComponent());
@@ -161,8 +172,8 @@ void Player::OnCollision(Object* obj)
         float angle_fb = obj->BBox()->mtv_fire.Angle();
         float angle_wg = obj->BBox()->mtv_water.Angle();
         if (
-            (is_fireboy  && angle_fb == 270) ||
-            (!is_fireboy && angle_wg == 270)
+            (is_fireboy  && (angle_fb == 270)) ||
+            (!is_fireboy && (angle_wg == 270))
         ) {
             velocity->YComponent(0);
 
@@ -171,15 +182,27 @@ void Player::OnCollision(Object* obj)
                 velocity->Add(jump);
             }
         }
+        else if (
+            (is_fireboy && angle_fb > 225 && angle_fb < 315) ||
+            (!is_fireboy && angle_wg > 225 && angle_wg < 315)
+        ) {
+            if (abs(velocity->XComponent()) > max_velocity_x / 2.0f) 
+                velocity->YComponent(0);
 
-        if (
+            // Ação pulo
+            if (window->KeyDown(controls[key_up][is_fireboy]) || FireboyWatergirl::gamepad->XboxButton(ButtonA)) {
+                velocity->Add(jump);
+            }
+        }
+
+        else if (
             (is_fireboy  && angle_fb == 90) ||
             (!is_fireboy && angle_wg == 90)
         ) {
             velocity->YComponent(0);
         }
 
-        if (
+        else if (
             (is_fireboy  && (angle_fb == 0 || angle_fb == 180)) ||
             (!is_fireboy && (angle_wg == 0 || angle_wg == 180))
         ) {
@@ -232,25 +255,17 @@ void Player::Update()
         }
     }
 
+    // Limitar velocidade
+    if (abs(velocity->XComponent()) > max_velocity_x)
+        velocity->XComponent((velocity->XComponent() > 0) ? max_velocity_x : -max_velocity_x);
+
     // Ação da gravidade sobre o personagem
     velocity->Add(gravity * gameTime);
 
-    // Limitar velocidade
-    if (abs(velocity->XComponent()) > 200)
-        velocity->XComponent((velocity->XComponent() > 0) ? 200 : -200);
+    Translate(velocity->XComponent() * gameTime, -velocity->YComponent() * gameTime);
 
-    Translate(velocity->XComponent() * gameTime, velocity->YComponent() * gameTime);
-
-    // Temporary
-    if (((Rect*)BBox())->Bottom() > window->Height()) {
-        Translate(0, window->Height() - ((Rect*)BBox())->Bottom());
-        velocity->YComponent(0);
-
-        // Ação pulo
-        if (window->KeyDown(controls[key_up][is_fireboy]) || FireboyWatergirl::gamepad->XboxButton(ButtonA)) {
-            velocity->Add(jump);
-        }
-    }
+    current_anim_head->NextFrame();
+    current_anim_body->NextFrame();
 }
 
 inline void Player::Draw()
@@ -272,7 +287,9 @@ inline void Player::Draw()
         current_anim_body = anim_body_run;
         current_anim_head = anim_head_run;
         mirror_x = (velocity->XComponent() < 0);
-        rotation_head = max(min(velocity->Angle(), 45), -45);
+        rotation_head = (velocity->XComponent() > 0) ? velocity->Angle() : velocity->Angle() - 180;
+        if (rotation_head > 45 && rotation_head < 90)        rotation_head = 45;
+        else if (rotation_head < 315 && rotation_head > 270) rotation_head = 315;
         break;
     case JUMPING:
         current_anim_body = anim_body_idle;
@@ -287,13 +304,20 @@ inline void Player::Draw()
         break;
     }
 
+    if (!is_fireboy) {
+        OutputDebugString(std::to_string(velocity->Angle()).c_str());
+        OutputDebugString(" ");
+        OutputDebugString(std::to_string(velocity->Magnitude()).c_str());
+        OutputDebugString("\n");
+    }
+    
     if (state != JUMPING) {
         current_anim_body->Draw(x, y + (current_anim_body->tileSet()->TileHeight() / 2.0) * scale, z, scale, 0, mirror_x);
-        current_anim_head->Draw(x - offset_x * scale, y - offset_y * scale_head * scale, z, scale_head * scale, rotation_head, mirror_x);
+        current_anim_head->Draw(x - offset_x * scale, y - offset_y * scale_head * scale, z, scale_head * scale, -rotation_head, mirror_x);
     }
     else {
         offset_y -= 25;
-        current_anim_head->Draw(x - offset_x * scale, y - offset_y * scale_head * scale, z, scale_head * scale, rotation_head, mirror_x);
+        current_anim_head->Draw(x - offset_x * scale, y - offset_y * scale_head * scale, z, scale_head * scale, -rotation_head, mirror_x);
         current_anim_body->Draw(x, y + (current_anim_body->tileSet()->TileHeight() / 2.0) * scale, z, scale, 0, mirror_x);
     }
 }

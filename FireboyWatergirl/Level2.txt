@@ -13,6 +13,13 @@
 // Informações sobre as entidades do mundo
 //
 // posX e posY são as posições do centro da plataforma
+// posZ:
+//             profundidade da plataforma (defualt = LAYER::FRONT)
+//             Layer::FRONT  = F
+//             Layer::UPPER  = U
+//             Layer::MIDDLE = M
+//             Layer::LOWER  = L
+//             Layer::BACK   = B (nível de profundidade do background)
 // rotation: 
 //             rotação das plataforma em graus (default = 0)
 // scale: 
@@ -24,9 +31,17 @@
 //
 // EntityType:
 //            0 - chão (1)
+//            1 - Plataforma de madeira (1)
+//            2 - Plataforma de madeira (2)
+//            3 - Plataforma de madeira (3)
+//            4 - Plataforma de madeira (4)
+//            5 - Plataforma de madeira (5)
+//            6 - Portão próximo nível fogo
+//            7 - Portão próximo nível água
 //
-//  posX    posY   EntityType   scale   rotation   color_R  color_G  color_B
-     512     600            0       d          d         d        d        d
-     512     750            0       d          d         d        d        d
-      10     400            0     1.1         90         d        d        d
-     950     400            0     1.1         90         d        d        d
+//  posX    posY   posZ  EntityType   scale   rotation   color_R  color_G  color_B
+     512     600      d           0       d          d         d        d        d
+     512     750      d           0       d          d         d        d        d
+      10     400      d           0     1.1         90         d        d        d
+     950     400      d           0     1.1         90         d        d        d
+                      

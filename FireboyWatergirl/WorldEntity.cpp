@@ -1,12 +1,18 @@
 #include "WorldEntity.h"
 #include "FireboyWatergirl.h"
 
-WorldEntity::WorldEntity(float posX, float posY, EntityTypeSprite platType, float scale, float rotation, Color tint) 
+WorldEntity::WorldEntity(float posX, float posY, float posZ, EntityTypeSprite platType, float scale, float rotation, Color tint)
     : scale(scale), rotation(rotation), color(tint)
 {
     switch (platType)
     {
-    case GROUND1:        type = GROUND;              entity = new Sprite("Resources/LongGray.png"); break;
+    case GROUND1:        type = GROUND;              entity = new Sprite("Resources/Platforms/Madeira/PisoMadeira.png"); break;
+    case PLATWOOD1:      type = GROUND;              entity = new Sprite("Resources/Platforms/Madeira/MeiaPlataformaMadeira.png"); break;
+    case PLATWOOD2:      type = GROUND;              entity = new Sprite("Resources/Platforms/Madeira/MeiaPlataformaMadeira2.png"); break;
+    case PLATWOOD3:      type = GROUND;              entity = new Sprite("Resources/Platforms/Madeira/MeiaPlataformaMadeira4.png"); break;
+    case PLATWOOD4:      type = GROUND;              entity = new Sprite("Resources/Platforms/Madeira/PlataformaMadeiraH.png"); break;
+    case PLATWOOD5:      type = GROUND;              entity = new Sprite("Resources/Platforms/Madeira/PilarMadeira3.png"); break;
+    case PLATWOOD6:      type = GROUND;              entity = new Sprite("Resources/Platforms/Madeira/CaixaMadeira.png"); break;
     case FINISH_PORTAL1: type = FINISH_PORTAL_FIRE;  entity = new Sprite("Resources/FireDoor.png"); break;
     case FINISH_PORTAL2: type = FINISH_PORTAL_WATER; entity = new Sprite("Resources/WaterDoor.png"); break;
     }
@@ -34,7 +40,7 @@ WorldEntity::WorldEntity(float posX, float posY, EntityTypeSprite platType, floa
         break;
     }
 
-    MoveTo(posX, posY, Layer::MIDDLE);
+    MoveTo(posX, posY, posZ);
 }
 
 WorldEntity::~WorldEntity()
