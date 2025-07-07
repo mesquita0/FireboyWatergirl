@@ -88,6 +88,10 @@ int Engine::Start(Game* level)
 
 // -----------------------------------------------------------------------------
 
+void Engine::ResetFrameTime() {
+    timer.Reset();
+}
+
 void Engine::Pause()
 {
     paused = true;

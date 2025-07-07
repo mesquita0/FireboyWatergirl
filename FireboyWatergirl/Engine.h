@@ -48,6 +48,7 @@ public:
 
     int Start(Game* level);              // inicia a execução do jogo
     
+    static void ResetFrameTime();
     static void Pause();                 // pausa o jogo
     static void Resume();                // reinicia o jogo
 

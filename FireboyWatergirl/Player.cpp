@@ -220,6 +220,9 @@ void Player::Update()
 
     if (!enable_controls) return;
 
+    OutputDebugString(std::to_string(gameTime).c_str());
+    OutputDebugString("\n");
+
     // Resetar o estado em todo frame para conferir na colisão com o portal para o próximo nível
     ready_next_level = false;
 
@@ -304,12 +307,12 @@ inline void Player::Draw()
         break;
     }
 
-    if (!is_fireboy) {
-        OutputDebugString(std::to_string(velocity->Angle()).c_str());
-        OutputDebugString(" ");
-        OutputDebugString(std::to_string(velocity->Magnitude()).c_str());
-        OutputDebugString("\n");
-    }
+    //if (!is_fireboy) {
+    //    OutputDebugString(std::to_string(velocity->Angle()).c_str());
+    //    OutputDebugString(" ");
+    //    OutputDebugString(std::to_string(velocity->Magnitude()).c_str());
+    //    OutputDebugString("\n");
+    //}
     
     if (state != JUMPING) {
         current_anim_body->Draw(x, y + (current_anim_body->tileSet()->TileHeight() / 2.0) * scale, z, scale, 0, mirror_x);
