@@ -88,9 +88,9 @@
       900     0       d            7     1.0           180       d        d        d
     
      // ANDAR 1                   
-     100     622       d            4     1.0         d          d        d        d
-     196     622       d            4     1.0         d          d        d        d
-     292     622       d            4     1.0         d          d        d        d
+     98     622       d             4     1.0         d          d        d        d
+     194     622       d            4     1.0         d          d        d        d
+     290     622       d            4     1.0         d          d        d        d
      850     680       d            2     2.0         d          d        d        d
      60      500       d            0     0.8         d          d        d        d
      86      500       d            0     0.8         d          d        d        d
@@ -110,29 +110,29 @@
     440      500       d            0     0.8         d          d        d        d
     466      500       d            0     0.8         d          d        d        d
     550      545       U            7     0.8         30         d        d        d
-    645      600       d            0     0.8         30          d        d        d
-    650      600       d            0     0.8         d          d        d        d
-    676      600       d            0     0.8         d          d        d        d
-    702      600       d            0     0.8         d          d        d        d
+    645      601       d            0     0.8         30         d        d        d
+    650      601       d            0     0.8         d          d        d        d
+    676      601       d            0     0.8         d          d        d        d
+    702      601       d            0     0.8         d          d        d        d
     //ANDAR 2                      
     96       380       d            5     1.0         90         d        d        d
-    154      380       d            0     0.8         d          d        d        d
-    180      380       d            0     0.8         d          d        d        d
-    206      380       d            0     0.8         d          d        d        d
-    232      380       d            0     0.8         d          d        d        d
-    258      380       d            0     0.8         d          d        d        d
-    284      380       d            0     0.8         d          d        d        d
-    310      380       d            0     0.8         d          d        d        d
-    336      380       d            0     0.8         d          d        d        d
-    362      380       d            0     0.8         d          d        d        d
-    388      380       d            0     0.8         d          d        d        d
-    414      380       d            0     0.8         d          d        d        d
-    440      380       d            0     0.8         d          d        d        d
-    466      380       d            0     0.8         d          d        d        d
-    492      380       d            0     0.8         d          d        d        d
-    518      380       d            0     0.8         d          d        d        d
-    544      380       d            0     0.8         d          d        d        d
-    570      380       d            0     0.8         d          d        d        d
+    154      379       d            0     0.8         d          d        d        d
+    180      379       d            0     0.8         d          d        d        d
+    206      379       d            0     0.8         d          d        d        d
+    232      379       d            0     0.8         d          d        d        d
+    258      379       d            0     0.8         d          d        d        d
+    284      379       d            0     0.8         d          d        d        d
+    310      379       d            0     0.8         d          d        d        d
+    336      379       d            0     0.8         d          d        d        d
+    362      379       d            0     0.8         d          d        d        d
+    388      379       d            0     0.8         d          d        d        d
+    414      379       d            0     0.8         d          d        d        d
+    440      379       d            0     0.8         d          d        d        d
+    466      379       d            0     0.8         d          d        d        d
+    492      379       d            0     0.8         d          d        d        d
+    518      379       d            0     0.8         d          d        d        d
+    544      379       d            0     0.8         d          d        d        d
+    570      379       d            0     0.8         d          d        d        d
     660      410       U            7     0.8        20          d        d       d
     749      440       d            0     0.8         d          d        d       d
     775      440       d            0     0.8         d          d        d       d
@@ -142,12 +142,11 @@
     879      440       d            0     0.8         d          d        d       d
     905      440       d            0     0.8         d          d        d       d
     // ANDAR 3                     
-    870      260       d            3     1.0         d          d        d       d
-    810      260       d            0     0.8         d          d        d       d
-    784      260       d            0     0.8         d          d        d       d
-    758      260       d            0     0.8         d          d        d       d
-    732      260       d            0     0.8         d          d        d       d
-    706      260       d            0     0.8         d          d        d       d
+    869      264       d            3     1.0         d          d        d       d
+    808      264       d            0     0.8         d          d        d       d
+    782      264       d            0     0.8         d          d        d       d
+    756      264       d            0     0.8         d          d        d       d
+    730      264       d            0     0.8         d          d        d       d
     646      230       U            7     0.7         25         d        d       d
     576      200       d            0     0.8          d         d        d       d
     550      200       d            0     0.8          d         d        d       d
@@ -170,11 +169,11 @@
     //ANDAR 4                     
     880      110       d            4     0.8         d          d        d       d
     805      110       d            4     0.8         d          d        d       d
-    880      75        d            9     0.6        d          d        d       d
+    880      75        d            9     0.6         d          d        d       d
     820      75        d            8     0.5         d          d        d       d
     730      110       d            4     0.8         d          d        d       d
     655      110       d            4     0.8         d          d        d       d
     580      110       d            4     0.8         d          d        d       d
     505      110       d            4     0.8         d          d        d       d
     430      110       d            4     0.8         d          d        d       d
-    380      110       d            4     0.8         d          d        d       d
+    355      110       d            4     0.8         d          d        d       d
