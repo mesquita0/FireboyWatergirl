@@ -23,9 +23,13 @@ void FireboyWatergirl::Init()
     // cria sistema de �udio
     audio = new Audio();
     audio->Add(MENU, "Resources/sfx/Menu.wav");
-    audio->Add(MUSIC, "Resources/sfx/Music.wav");
-    audio->Add(DIED, "Resources/sfx/Died.wav");
-    audio->Add(TRANSITION, "Resources/sfx/Transition.wav");
+    audio->Add(MUSIC, "Resources/sfx/Level.wav");
+    audio->Add(DIED, "Resources/sfx/Death.wav");
+    audio->Add(FB_JUMP, "Resources/sfx/FireboyJump.wav");
+    audio->Add(WG_JUMP, "Resources/sfx/WatergirlJump.wav");
+    audio->Add(GAMEOVER, "Resources/sfx/GameOver.wav");
+    audio->Add(LEVEL_START, "Resources/sfx/LevelStart.wav");
+    audio->Add(BUTTON_SELECT, "Resources/sfx/ButtonSelect.wav");
 
     // cria gerenciador de controles
     gamepad = new Controller();

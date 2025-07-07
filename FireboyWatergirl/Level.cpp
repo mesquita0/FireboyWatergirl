@@ -33,9 +33,7 @@ void Level::Init()
 
     // inicia com música
     FireboyWatergirl::audio->Frequency(MUSIC, 0.94f);
-    FireboyWatergirl::audio->Play(MUSIC);
-
-    timer.Start();
+    FireboyWatergirl::audio->Play(MUSIC, true);
 }
 
 void Level::Update()
@@ -56,6 +54,7 @@ void Level::Update()
         && FireboyWatergirl::watergirl->IsReadyNextLevel())
         || window->KeyPress('N'))
     {
+        FireboyWatergirl::audio->Stop(MUSIC);
         FireboyWatergirl::fireboy->Reset(level_number-1);
         FireboyWatergirl::watergirl->Reset(level_number-1); 
         FireboyWatergirl::NextLevel();
