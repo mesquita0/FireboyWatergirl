@@ -6,7 +6,7 @@
 #include "Resources.h"
 #include <vector>
 
-enum Sounds {MENU, MUSIC, DIED, TRANSITION};
+enum Sounds { MENU, MUSIC, DIED, FB_JUMP, WG_JUMP, GAMEOVER, LEVEL_START, BUTTON_SELECT };
 
 class FireboyWatergirl : public Game
 {

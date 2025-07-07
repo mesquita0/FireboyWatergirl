@@ -172,26 +172,21 @@ void Player::OnCollision(Object* obj)
         float angle_fb = obj->BBox()->mtv_fire.Angle();
         float angle_wg = obj->BBox()->mtv_water.Angle();
         if (
-            (is_fireboy  && (angle_fb == 270)) ||
-            (!is_fireboy && (angle_wg == 270))
-        ) {
-            velocity->YComponent(0);
-
-            // Ação pulo
-            if (window->KeyDown(controls[key_up][is_fireboy]) || FireboyWatergirl::gamepad->XboxButton(ButtonA)) {
-                velocity->Add(jump);
-            }
-        }
-        else if (
             (is_fireboy && angle_fb > 225 && angle_fb < 315) ||
             (!is_fireboy && angle_wg > 225 && angle_wg < 315)
         ) {
-            if (abs(velocity->XComponent()) > max_velocity_x / 2.0f) 
+            if (
+                (is_fireboy && (angle_fb == 270)) ||
+                (!is_fireboy && (angle_wg == 270)) ||
+                abs(velocity->XComponent()) > max_velocity_x / 2.0f
+            ) {
                 velocity->YComponent(0);
+            }
 
             // Ação pulo
             if (window->KeyDown(controls[key_up][is_fireboy]) || FireboyWatergirl::gamepad->XboxButton(ButtonA)) {
                 velocity->Add(jump);
+                FireboyWatergirl::audio->Play(is_fireboy ? FB_JUMP : WG_JUMP);
             }
         }
 

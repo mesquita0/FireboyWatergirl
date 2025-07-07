@@ -20,8 +20,9 @@ void Home::Init()
     scene->Add(mouse, MOVING);
 
     // Adiciona botões
-    play_button = new Button(window->CenterX(), window->CenterY(), "PLAY", *font, Color{1, 1, 1, 1}, Color{1, 1, 0, 1}, 2);
-    quit_button = new Button(window->CenterX(), window->CenterY() + 100, "QUIT", *font, Color{1, 1, 1, 1}, Color{1, 1, 0, 1}, 2);
+    callback_function play_sfx = []() { FireboyWatergirl::audio->Play(BUTTON_SELECT); };
+    play_button = new Button(window->CenterX(), window->CenterY(), "PLAY", *font, Color{1, 1, 1, 1}, Color{1, 1, 0, 1}, 2, play_sfx);
+    quit_button = new Button(window->CenterX(), window->CenterY() + 100, "QUIT", *font, Color{1, 1, 1, 1}, Color{1, 1, 0, 1}, 2, play_sfx);
     scene->Add(play_button, STATIC);
     scene->Add(quit_button, STATIC);
 
@@ -48,7 +49,7 @@ void Home::Update()
     if (scene->Collision(mouse, play_button) && mouse->Clicked())
     {
         FireboyWatergirl::audio->Stop(MENU);
-        FireboyWatergirl::audio->Play(TRANSITION);
+        FireboyWatergirl::audio->Play(LEVEL_START);
         FireboyWatergirl::fireboy->LevelNumber(0);
         FireboyWatergirl::watergirl->LevelNumber(0);
         FireboyWatergirl::NextLevel();
@@ -75,6 +76,4 @@ void Home::Finalize()
     delete scene;
     delete backg;
     delete font;
-  
-    FireboyWatergirl::audio->Play(MUSIC, true);
 }
