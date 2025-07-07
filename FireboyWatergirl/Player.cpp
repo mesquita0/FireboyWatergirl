@@ -56,12 +56,6 @@ Player::Player(bool is_fireboy) : is_fireboy(is_fireboy)
         anim_win = new Animation(TileSet(tiles, 341, 204, 1, 5, 3, 1267), 0.05f, true);
     }
 
-    velocity = new Vector();
-
-    state = IDLE;
-    current_anim_head = anim_head_idle;
-    current_anim_body = anim_body_idle;
-
     // cria bounding box
     int offset_center = 100 * scale;
     BBox(new Rect(
@@ -70,10 +64,7 @@ Player::Player(bool is_fireboy) : is_fireboy(is_fireboy)
         (Width()) / 2.0f,
         (Height() - offset_center) / 2.0f));
 
-    // posição inicial
-    MoveTo(window->CenterX(), 24.0f, Layer::FRONT);
-
-    type = -1;
+    Reset();
 }
 
 Player::~Player()
@@ -91,8 +82,23 @@ Player::~Player()
 
 void Player::Reset()
 {
-    // volta ao estado inicial
+    // estado inicial
+    enable_controls = true;
 
+    if (velocity)
+        delete velocity;
+    velocity = new Vector();
+
+    state = IDLE;
+    current_anim_head = anim_head_idle;
+    current_anim_body = anim_body_idle;
+    enable_controls = true;
+
+    // posição inicial
+    MoveTo(window->CenterX(), 24.0f, Layer::FRONT);
+    ScaleTo(0.2); // default scale
+
+    type = -1;
 }
 
 void Player::Reset(int level)
@@ -209,6 +215,11 @@ void Player::OnCollision(Object* obj)
 
 void Player::Update()
 {
+    current_anim_head->NextFrame();
+    current_anim_body->NextFrame();
+
+    if (!enable_controls) return;
+
     // Resetar o estado em todo frame para conferir na colisão com o portal para o próximo nível
     ready_next_level = false;
 

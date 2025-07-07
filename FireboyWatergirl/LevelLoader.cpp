@@ -34,6 +34,8 @@ void loadLevel(Level& level, Window* window, const std::string& path) {
     skipComments(fin);
 
     // Adiciona jogadores na cena
+    FireboyWatergirl::fireboy->Reset();
+    FireboyWatergirl::watergirl->Reset();
     level.scene->Add(FireboyWatergirl::fireboy, MOVING);
     level.scene->Add(FireboyWatergirl::watergirl, MOVING);
 
