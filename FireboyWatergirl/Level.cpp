@@ -4,7 +4,9 @@
 #include "LevelLoader.h"
 #include "Player.h"
 #include "Background.h"
+#include "Font.h"
 #include "WorldEntity.h"
+#include <format>
 #include <string>
 
 using std::string;
@@ -16,11 +18,12 @@ Level::Level(int level_number) : level_number(level_number) {}
 void Level::Init()
 {
     if (scene) return;
-        
-    // cria gerenciador de cena
+    
     scene = new Scene();
-
     backg = new Background("");
+    font  = new Font("Resources/Font.png");
+    font->Spacing("Resources/FontMetrics.dat");
+    timer = {};
 
     loadLevel(*this, window, "Level" + std::to_string(level_number) + ".txt");
     Engine::ResetFrameTime();
@@ -31,6 +34,8 @@ void Level::Init()
     // inicia com música
     FireboyWatergirl::audio->Frequency(MUSIC, 0.94f);
     FireboyWatergirl::audio->Play(MUSIC);
+
+    timer.Start();
 }
 
 void Level::Update()
@@ -62,12 +67,17 @@ void Level::Draw()
     backg->Draw();
     scene->Draw();
 
+    // Tempo do level
+    int seconds = timer.Elapsed();
+    font->Draw(window->CenterX() - 25, 15, std::format("{:02}:{:02}", seconds / 60, seconds % 60), Color{1, 1, 1, 1}, 0, 2);
+
     if (FireboyWatergirl::viewBBox)
         scene->DrawBBox();
 }
 
 void Level::Finalize()
 {
+    delete font;
     scene->Remove(FireboyWatergirl::fireboy, MOVING);
     scene->Remove(FireboyWatergirl::watergirl, MOVING);
     delete scene;
