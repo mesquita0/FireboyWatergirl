@@ -17,6 +17,7 @@ enum EntityTypeSprite {
     PLATWOOD4,
     PLATWOOD5,
     PLATWOOD6,
+    PLATWOOD7,
     FINISH_PORTAL1,
     FINISH_PORTAL2
 };
