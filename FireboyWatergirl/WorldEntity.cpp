@@ -12,6 +12,7 @@ WorldEntity::WorldEntity(float posX, float posY, float posZ, EntityTypeSprite pl
     case PLATWOOD3:      type = GROUND;              entity = new Sprite("Resources/Platforms/Madeira/MeiaPlataformaMadeira4.png"); break;
     case PLATWOOD4:      type = GROUND;              entity = new Sprite("Resources/Platforms/Madeira/PlataformaMadeiraH.png"); break;
     case PLATWOOD5:      type = GROUND;              entity = new Sprite("Resources/Platforms/Madeira/PilarMadeira3.png"); break;
+    case PLATWOOD6:      type = GROUND;              entity = new Sprite("Resources/Platforms/Madeira/CaixaMadeira.png"); break;
     case FINISH_PORTAL1: type = FINISH_PORTAL_FIRE;  entity = new Sprite("Resources/FireDoor.png"); break;
     case FINISH_PORTAL2: type = FINISH_PORTAL_WATER; entity = new Sprite("Resources/WaterDoor.png"); break;
     }

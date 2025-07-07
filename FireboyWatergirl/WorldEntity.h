@@ -1,5 +1,5 @@
 #pragma once
-#include "Types.h"                                      // tipos específicos da engine
+#include "Types.h"                                      // tipos especï¿½ficos da engine
 #include "Object.h"                                     // interface de Object
 #include "Sprite.h"                                     // desenho de sprites
 
@@ -16,6 +16,7 @@ enum EntityTypeSprite {
     PLATWOOD3,
     PLATWOOD4,
     PLATWOOD5,
+    PLATWOOD6,
     FINISH_PORTAL1,
     FINISH_PORTAL2
 };
@@ -39,7 +40,7 @@ public:
     uint Width() const;
     uint Height() const;
 
-    void Update();                          // atualização do objeto
+    void Update();                          // atualizaï¿½ï¿½o do objeto
     void Draw();                            // desenho do objeto
 }; 
 
