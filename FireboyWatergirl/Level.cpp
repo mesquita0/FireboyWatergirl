@@ -1,5 +1,6 @@
 #include "Level.h"
 #include "FireboyWatergirl.h"
+#include "Engine.h"
 #include "LevelLoader.h"
 #include "Player.h"
 #include "Background.h"
@@ -22,6 +23,7 @@ void Level::Init()
     backg = new Background("");
 
     loadLevel(*this, window, "Level" + std::to_string(level_number) + ".txt");
+    Engine::ResetFrameTime();
 
     FireboyWatergirl::fireboy->LevelNumber(level_number - 1);
     FireboyWatergirl::watergirl->LevelNumber(level_number - 1);
