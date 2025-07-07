@@ -8,7 +8,7 @@ void GameOver::Init()
 {
     title = new Sprite("");
     font = new Font("Resources/Font.png");
-    font->Spacing(60);
+    font->Spacing("Resources/FontMetrics.dat");
 }
 
 void GameOver::Update()

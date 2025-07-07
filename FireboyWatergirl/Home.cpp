@@ -14,14 +14,14 @@ void Home::Init()
     backg = new Background("");
 
     font = new Font("Resources/Font.png");
-    font->Spacing(60);
+    font->Spacing("Resources/FontMetrics.dat");
 
     mouse = new Mouse();
     scene->Add(mouse, MOVING);
 
     // Adiciona botões
-    play_button = new Button(window->CenterX(), window->CenterY(), "PLAY", *font, Color{1, 1, 1, 1}, Color{1, 1, 0, 1}, 0.4f);
-    quit_button = new Button(window->CenterX(), window->CenterY() + 100, "QUIT", *font, Color{1, 1, 1, 1}, Color{1, 1, 0, 1}, 0.4f);
+    play_button = new Button(window->CenterX(), window->CenterY(), "PLAY", *font, Color{1, 1, 1, 1}, Color{1, 1, 0, 1}, 2);
+    quit_button = new Button(window->CenterX(), window->CenterY() + 100, "QUIT", *font, Color{1, 1, 1, 1}, Color{1, 1, 0, 1}, 2);
     scene->Add(play_button, STATIC);
     scene->Add(quit_button, STATIC);
 
