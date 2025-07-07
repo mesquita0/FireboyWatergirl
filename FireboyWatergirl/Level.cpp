@@ -34,6 +34,7 @@ void Level::Init()
     // inicia com música
     FireboyWatergirl::audio->Frequency(MUSIC, 0.94f);
     FireboyWatergirl::audio->Play(MUSIC, true);
+    timer.Start();
 }
 
 void Level::Update()
