@@ -201,7 +201,7 @@ void Player::OnCollision(Object* obj)
             (is_fireboy  && (angle_fb == 0 || angle_fb == 180)) ||
             (!is_fireboy && (angle_wg == 0 || angle_wg == 180))
         ) {
-            velocity->XComponent(velocity->XComponent() * 0.0001);
+            velocity->XComponent(velocity->XComponent() * 0.001);
         }
 
         break;
