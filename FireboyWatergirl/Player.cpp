@@ -157,6 +157,21 @@ void Player::OnCollision(Object* obj)
         is_alive = false;
         break;
 
+    case MOVABLE_BOX:
+        // Mantém plataforma para fora do personagem no eixo x (pode ser movida horizontalmente)
+        // Mantém personagem para fora da plataforma no eixo y (não pode ser movida verticalmente)
+        if (is_fireboy) {
+            obj->Translate(-obj->BBox()->mtv_fire.XComponent(), 0);
+            this->Translate(0, obj->BBox()->mtv_fire.YComponent());
+            if (obj->BBox()->mtv_fire.Angle() == 270) velocity->YComponent(0);
+        }      
+        else {
+            obj->Translate(-obj->BBox()->mtv_water.XComponent(), 0);
+            this->Translate(0, obj->BBox()->mtv_water.YComponent());
+            if (obj->BBox()->mtv_water.Angle() == 270) velocity->YComponent(0);
+        }
+        break;
+
     case GROUND:
         if (
             !static_cast<Level*>(FireboyWatergirl::current_level)->scene->Collision(this, obj) ||

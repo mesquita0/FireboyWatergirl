@@ -7,7 +7,8 @@ enum EntityType {
     GROUND,
     FINISH_PORTAL_FIRE,
     FINISH_PORTAL_WATER,
-    THORN
+    THORN,
+    MOVABLE_BOX
 };
 
 enum EntityTypeSprite {
@@ -17,8 +18,8 @@ enum EntityTypeSprite {
     PLATWOOD3,
     PLATWOOD4,
     PLATWOOD5,
+    MOVABLE_BOX_WOOD,
     PLATWOOD6,
-    PLATWOOD7,
     FINISH_PORTAL1,
     FINISH_PORTAL2,
     THORN1,
@@ -45,8 +46,9 @@ public:
     uint Width() const;
     uint Height() const;
 
-    void Update();                          // atualiza��o do objeto
     void Draw();                            // desenho do objeto
+    void Update();                          // atualização do objeto
+    void OnCollision(Object* obj);
 }; 
 
 inline uint WorldEntity::Width() const { return width;  }

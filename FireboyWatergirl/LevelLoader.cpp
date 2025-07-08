@@ -86,7 +86,8 @@ void loadLevel(Level& level, Window* window, const std::string& path) {
 
             entity = new WorldEntity(posX, posY, posZ, (EntityTypeSprite)entityType, scale, rotation * (PI/180), Color{cR, cG, cB, 1});
 
-            level.scene->Add(entity, STATIC);
+            ObjectGroup object_group = (entity->Type() == MOVABLE_BOX) ? MOVING : STATIC;
+            level.scene->Add(entity, object_group);
         }
         else {
             fin.clear();
