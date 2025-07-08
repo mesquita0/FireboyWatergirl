@@ -23,6 +23,7 @@ void Level::Init()
     backg = new Background("");
     font  = new Font("Resources/Font.png");
     font->Spacing("Resources/FontMetrics.dat");
+    time_frame = new Sprite("Resources/TimeFrame.png");
     timer = {};
 
     loadLevel(*this, window, "Level" + std::to_string(level_number) + ".txt");
@@ -69,7 +70,8 @@ void Level::Draw()
 
     // Tempo do level
     int seconds = timer.Elapsed();
-    font->Draw(window->CenterX() - 25, 15, std::format("{:02}:{:02}", seconds / 60, seconds % 60), Color{1, 1, 1, 1}, 0, 2);
+    time_frame->Draw(window->CenterX() - 10, 15, Layer::FRONT, 0.21);
+    font->Draw(window->CenterX() - 25, 15, std::format("{:02}:{:02}", seconds / 60, seconds % 60), Color{0, 0, 0, 1}, 0, 2);
 
     if (FireboyWatergirl::viewBBox)
         scene->DrawBBox();
@@ -77,6 +79,7 @@ void Level::Draw()
 
 void Level::Finalize()
 {
+    delete time_frame;
     delete font;
     scene->Remove(FireboyWatergirl::fireboy, MOVING);
     scene->Remove(FireboyWatergirl::watergirl, MOVING);

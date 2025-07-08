@@ -32,7 +32,7 @@ void Home::Init()
     scene->Add(FireboyWatergirl::fireboy, STATIC);
     scene->Add(FireboyWatergirl::watergirl, STATIC);
     FireboyWatergirl::fireboy->MoveTo(200, 750);
-    FireboyWatergirl::watergirl->MoveTo(800, 750);
+    FireboyWatergirl::watergirl->MoveTo(800, 747);
     FireboyWatergirl::fireboy->disableControls();
     FireboyWatergirl::watergirl->disableControls();
 

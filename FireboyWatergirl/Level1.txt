@@ -99,9 +99,8 @@
     702      600       d            0     0.8         d          d        d        d
     //ANDAR 2                      
     100      380       d           14     1.0        d         d        d        d
-    100      300       d           15     1.0        d         d        d        d
-    180      379       d            0     0.8         d          d        d        d
-    206      379       d            0     0.8         d          d        d        d
+    100      285       d           15     1.0        d         d        d        d
+    100      425       d           15     1.0        d         d        d        d
     232      379       d            0     0.8         d          d        d        d
     258      379       d            0     0.8         d          d        d        d
     284      379       d            0     0.8         d          d        d        d

@@ -82,7 +82,6 @@ Player::~Player()
 void Player::Reset()
 {
     // estado inicial
-    enable_controls = true;
     is_alive = true;
 
     if (velocity)
@@ -115,7 +114,7 @@ void Player::updateState()
     else if (abs(velocity->XComponent()) > 0.1) {
         state = RUNNING;
     }
-    else if (velocity->YComponent() < 0) {
+    else if (velocity->YComponent() < -85) {
         state = FALLING;
     }
     else {
@@ -212,8 +211,9 @@ void Player::OnCollision(Object* obj)
         }
 
         else if (
-            (is_fireboy  && angle_fb == 90) ||
-            (!is_fireboy && angle_wg == 90)
+            ((is_fireboy  && angle_fb == 90) ||
+            (!is_fireboy && angle_wg == 90)) &&
+            (velocity->YComponent() > 0)
         ) {
             velocity->YComponent(0);
         }
@@ -235,7 +235,7 @@ void Player::Update()
     current_anim_body->NextFrame();
 
     if (!enable_controls) return;
-
+    
     // Resetar o estado em todo frame para conferir na colisão com o portal para o próximo nível
     ready_next_level = false;
 

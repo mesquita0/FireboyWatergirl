@@ -15,6 +15,7 @@ private:
 public:
     static Scene* scene;           // cena do nível
     Background * backg = nullptr;  // pano de fundo
+    Sprite * time_frame = nullptr;
     Font * font;
     int num_ground_blocks = 0;
 
