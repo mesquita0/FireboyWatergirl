@@ -46,6 +46,7 @@
 //            13 - Plataforma madeira que se move no eixo x
 //            14 - Plataforma madeira que se move no eixo y
 //            15 - Parada plataforma
+//            16 - Portão genérico
 //
 //  posX    posY   posZ  EntityType   scale   rotation   color_R  color_G  color_B
      0       750      d           7     1.0          d         d        d        d
@@ -94,7 +95,9 @@
      695      400       d            4     0.8         d          d        d        d 
 
      // ANDAR 3   
-     869      400       d            3     1.0         d          d        d       d
+     869      400       d           14     1.0         d          d        d       d
+     869      232       d           15     1.0         d          d        d       d
+     869      500       d           15     1.0         d          d        d       d
      808      264       d            0     0.8         d          d        d       d
      782      264       d            0     0.8         d          d        d       d
      756      264       d            0     0.8         d          d        d       d
@@ -122,7 +125,7 @@
      //ANDAR 4                     
      880      110       d            4     0.8         d          d        d       d
      805      110       d            4     0.8         d          d        d       d
-     880      70        d            9     0.13        d          d        d       d
+     880      70        d           16     0.13        d          d        d       d
      730      110       d            4     0.8         d          d        d       d
      655      110       d            4     0.8         d          d        d       d
      580      110       d            4     0.8         d          d        d       d

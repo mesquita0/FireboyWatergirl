@@ -21,6 +21,7 @@ WorldEntity::WorldEntity(float posX, float posY, float posZ, EntityTypeSprite pl
     case THORN3:             type = THORN;               entity = new Sprite("Resources/Espinhos/Espinho7.png"); break;
     case MOVING_PLATFORM_X1: type = MOVING_PLATFORM_X;   entity = new Sprite("Resources/Platforms/Madeira/MeiaPlataformaMadeira4.png"); break;
     case MOVING_PLATFORM_Y1: type = MOVING_PLATFORM_Y;   entity = new Sprite("Resources/Platforms/Madeira/MeiaPlataformaMadeira4.png"); break;
+    case FINISH_PORTAL_3:    type = FINISH_PORTAL_ANY;   entity = new Sprite("Resources/Door.png"); break;
     case PLATFORM_STOPPER:   type = _PLATFORM_STOPPER;   break;
     }
 
@@ -40,6 +41,7 @@ WorldEntity::WorldEntity(float posX, float posY, float posZ, EntityTypeSprite pl
     case GROUND:
     case FINISH_PORTAL_FIRE:
     case FINISH_PORTAL_WATER:
+    case FINISH_PORTAL_ANY:
         points[0] = { -entity->Width() / 2.0f, -entity->Height() / 2.0f };
         points[1] = {  entity->Width() / 2.0f, -entity->Height() / 2.0f };
         points[3] = { -entity->Width() / 2.0f,  entity->Height() / 2.0f };

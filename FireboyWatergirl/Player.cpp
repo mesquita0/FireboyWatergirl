@@ -144,6 +144,10 @@ void Player::OnCollision(Object* obj)
 {
     switch (obj->Type())
     {
+    case FINISH_PORTAL_ANY:
+        ready_next_level = true;
+        break;
+
     case FINISH_PORTAL_FIRE:
         if (is_fireboy) ready_next_level = true;
         break;
@@ -204,7 +208,7 @@ void Player::OnCollision(Object* obj)
             }
 
             // Ação pulo
-            if (window->KeyDown(controls[key_up][is_fireboy]) || FireboyWatergirl::gamepad->XboxButton(ButtonA)) {
+            if (window->KeyPress(controls[key_up][is_fireboy]) || FireboyWatergirl::gamepad->XboxButton(ButtonA)) {
                 velocity->Add(jump);
                 FireboyWatergirl::audio->Play(is_fireboy ? FB_JUMP : WG_JUMP);
             }
