@@ -13,6 +13,13 @@
 // Informações sobre as entidades do mundo
 //
 // posX e posY são as posições do centro da plataforma
+// posZ:
+//             profundidade da plataforma (defualt = LAYER::FRONT)
+//             Layer::FRONT  = F
+//             Layer::UPPER  = U
+//             Layer::MIDDLE = M
+//             Layer::LOWER  = L
+//             Layer::BACK   = B (nível de profundidade do background)
 // rotation: 
 //             rotação das plataforma em graus (default = 0)
 // scale: 
@@ -40,7 +47,7 @@
 //  posX    posY    posZ   EntityType   scale   rotation   color_R  color_G  color_B
      0       750       d            7     1.0          d         d        d        d
      250     750       d            7     1.0          d         d        d        d
-     250     700       d            6     0.4          d         d        d        d
+     250     700       U            6     0.4          d         d        d        d
      500     750       d            7     1.0          d         d        d        d
      750     750       d            7     1.0          d         d        d        d
      900     750       d            7     1.0          d         d        d        d
