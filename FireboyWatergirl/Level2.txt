@@ -83,9 +83,10 @@
      444      365       d            0     0.8         d          d        d        d
      470      365       d            0     0.8         d          d        d        d
      496      365       d            0     0.8         d          d        d        d 
+     695      400       d            4     0.8         d          d        d        d 
 
      // ANDAR 3   
-     869      264       d            3     1.0         d          d        d       d
+     869      400       d            3     1.0         d          d        d       d
      808      264       d            0     0.8         d          d        d       d
      782      264       d            0     0.8         d          d        d       d
      756      264       d            0     0.8         d          d        d       d
