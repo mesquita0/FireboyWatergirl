@@ -177,6 +177,7 @@ void Player::OnCollision(Object* obj)
 
     case MOVING_PLATFORM_X:
     case MOVING_PLATFORM_Y:
+    case ROTATING_PLATFORM:
     case GROUND:
         if (
             !static_cast<Level*>(FireboyWatergirl::current_level)->scene->Collision(this, obj) ||

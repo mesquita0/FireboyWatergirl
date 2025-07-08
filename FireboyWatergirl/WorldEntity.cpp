@@ -22,6 +22,7 @@ WorldEntity::WorldEntity(float posX, float posY, float posZ, EntityTypeSprite pl
     case MOVING_PLATFORM_X1: type = MOVING_PLATFORM_X;   entity = new Sprite("Resources/Platforms/Madeira/MeiaPlataformaMadeira4.png"); break;
     case MOVING_PLATFORM_Y1: type = MOVING_PLATFORM_Y;   entity = new Sprite("Resources/Platforms/Madeira/MeiaPlataformaMadeira4.png"); break;
     case FINISH_PORTAL_3:    type = FINISH_PORTAL_ANY;   entity = new Sprite("Resources/Door.png"); break;
+    case ROTATING_PLATFORM1: type = ROTATING_PLATFORM;   entity = new Sprite("Resources/Platforms/Madeira/MeiaPlataformaMadeira4.png"); break;
     case PLATFORM_STOPPER:   type = _PLATFORM_STOPPER;   break;
     }
 
@@ -42,6 +43,7 @@ WorldEntity::WorldEntity(float posX, float posY, float posZ, EntityTypeSprite pl
     case FINISH_PORTAL_FIRE:
     case FINISH_PORTAL_WATER:
     case FINISH_PORTAL_ANY:
+    case ROTATING_PLATFORM:
         points[0] = { -entity->Width() / 2.0f, -entity->Height() / 2.0f };
         points[1] = {  entity->Width() / 2.0f, -entity->Height() / 2.0f };
         points[3] = { -entity->Width() / 2.0f,  entity->Height() / 2.0f };
@@ -77,6 +79,8 @@ WorldEntity::~WorldEntity()
 void WorldEntity::Update()
 {
     constexpr float platform_speed = 50;
+    constexpr float platform_rotation_speed = 0.5;
+
     changed_direction = false;
     switch (type)
     {
@@ -86,6 +90,11 @@ void WorldEntity::Update()
 
     case MOVING_PLATFORM_Y:
         Translate(0, (direction_moving ? -1 : 1) * platform_speed * gameTime);
+        break;
+
+    case ROTATING_PLATFORM:
+        rotation += platform_rotation_speed * gameTime;
+        BBox()->RotateTo(rotation);
         break;
 
     default:

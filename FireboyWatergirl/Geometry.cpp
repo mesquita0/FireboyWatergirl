@@ -364,21 +364,21 @@ void Poly::ScaleTo(float scale)
 // --------------------------------------------------------------------------
 
 void Poly::Rotate(float angle) {
-    RotateTo(rotation + angle);
+    rotation += angle;
+
+    for (uint i = 0; i < vertexCount; i++) {
+        float old_x = vertexList[i].X() + x;
+        float old_y = vertexList[i].Y() + y;
+
+        vertexList[i].X(x - (center.X() + (old_x - center.X()) * cos(angle) - (old_y - center.Y()) * sin(angle)));
+        vertexList[i].Y(y - (center.Y() + (old_x - center.X()) * sin(angle) + (old_y - center.Y()) * cos(angle)));
+    }
 }
 
 // --------------------------------------------------------------------------
 
 void Poly::RotateTo(float angle) {
-    rotation = angle;
-
-    for (uint i = 0; i < vertexCount; i++) {
-        float old_x = vertexList[i].X();
-        float old_y = vertexList[i].Y();
-
-        vertexList[i].X(center.X() + (old_x - center.X()) * cos(angle) - (old_y - center.Y()) * sin(angle));
-        vertexList[i].Y(center.Y() + (old_x - center.X()) * sin(angle) + (old_y - center.Y()) * cos(angle));
-    }
+    Rotate(angle - rotation);
 }
 
 // --------------------------------------------------------------------------
