@@ -114,13 +114,8 @@ int APIENTRY WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 {
     Engine * engine = new Engine();
 
-#ifdef _DEBUG
     engine->window->Mode(WINDOWED);
     engine->window->Size(960, 768);
-#else
-    engine->window->Mode(BORDERLESS);
-    engine->window->Size(1280, 1024);
-#endif
    
     // configura o motor
     engine->window->Color(30, 50, 80);
