@@ -21,8 +21,6 @@ const Vector slow_down_r = { 180, 20 };
 
 Player::Player(bool is_fireboy) : is_fireboy(is_fireboy)
 {
-    is_alive = true;
-
     if (is_fireboy) {
         tiles = new Image("Resources/Characters/Fireboy.png");
 
@@ -57,10 +55,11 @@ Player::Player(bool is_fireboy) : is_fireboy(is_fireboy)
     }
 
     // cria bounding box
-    int offset_center = 100 * scale;
+    int offset_center = is_fireboy ? 100 * scale : 120 * scale;
+    int offset_top = is_fireboy ? 0 : 35 * scale;
     BBox(new Rect(
         -1.0f * (Width()) / 2.0f,
-        -1.0f * (Height() + offset_center) / 2.0f,
+        -1.0f * (Height() + offset_center) / 2.0f + offset_top,
         (Width()) / 2.0f,
         (Height() - offset_center) / 2.0f));
 
@@ -84,6 +83,7 @@ void Player::Reset()
 {
     // estado inicial
     enable_controls = true;
+    is_alive = true;
 
     if (velocity)
         delete velocity;
