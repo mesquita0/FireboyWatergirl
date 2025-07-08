@@ -39,7 +39,7 @@ private:
     uint  width = 0;
     uint  height = 0;
     float scale, rotation;
-    bool direction_moving, changed_direction;
+    bool direction_moving, changed_direction, is_movable;
 
 public:
     WorldEntity(float posX, float posY, float posZ,
@@ -50,6 +50,8 @@ public:
 
     uint Width() const;
     uint Height() const;
+
+    bool isMovable() const { return is_movable; }
 
     void Draw();                            // desenho do objeto
     void Update();                          // atualização do objeto

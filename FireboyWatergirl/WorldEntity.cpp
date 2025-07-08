@@ -30,12 +30,15 @@ WorldEntity::WorldEntity(float posX, float posY, float posZ, EntityTypeSprite pl
     
     Point points[4];
     switch (type) {
-    case GROUND:
-    case FINISH_PORTAL_FIRE:
-    case FINISH_PORTAL_WATER:
     case MOVABLE_BOX:
     case MOVING_PLATFORM_X:
     case MOVING_PLATFORM_Y:
+        is_movable = true;
+        [[fallthrough]];
+
+    case GROUND:
+    case FINISH_PORTAL_FIRE:
+    case FINISH_PORTAL_WATER:
         points[0] = { -entity->Width() / 2.0f, -entity->Height() / 2.0f };
         points[1] = {  entity->Width() / 2.0f, -entity->Height() / 2.0f };
         points[3] = { -entity->Width() / 2.0f,  entity->Height() / 2.0f };
