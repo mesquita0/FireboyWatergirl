@@ -13,36 +13,6 @@
 // Informações sobre as entidades do mundo
 //
 // posX e posY são as posições do centro da plataforma
-// posZ:
-//             profundidade da plataforma (defualt = LAYER::FRONT)
-//             Layer::FRONT  = F
-//             Layer::UPPER  = U
-//             Layer::MIDDLE = M
-//             Layer::LOWER  = L
-//             Layer::BACK   = B (nível de profundidade do background)
-// rotation: 
-//             rotação das plataforma em graus (default = 0)
-// scale: 
-//             escala da plataforma (default = 1)
-// color RGB: 
-//             componentes RGB entre 0 e 1 (default = branco)
-// 
-// d - valor default para coluna
-//
-// EntityType:
-//            0 - chão (1)
-//            1 - Plataforma de madeira (1)
-//            2 - Plataforma de madeira (2)
-//            3 - Plataforma de madeira (3)
-//            4 - Plataforma de madeira (4)
-//            5 - Plataforma de madeira (5)
-//            6 - Plataforma de madeira (6)
-//            7 - Portão próximo nível fogo
-//            8 - Portão próximo nível água
-//
-// Informações sobre as entidades do mundo
-//
-// posX e posY são as posições do centro da plataforma
 // rotation: 
 //             rotação das plataforma em graus (default = 0)
 // scale: 
@@ -59,14 +29,18 @@
 //            3 - Plataforma madeira (3)
 //            4 - Plataforma madeira (4)
 //            5 - Plataforma madeira (5)
-//            6 - Plataforma madeira (6)
-//            7 - Plataform madeira (7)
+//            6 - Caixa de madeira (movivel)
+//            7 - Plataforma madeira (6)
 //            8 - Portão fogo
 //            9 - Portão água
+//            10 - Espinho (1)
+//            11 - Espinho (2)
+//            12 - Espinho (3)
 //
 //  posX    posY    posZ   EntityType   scale   rotation   color_R  color_G  color_B
      0       750       d            7     1.0          d         d        d        d
      250     750       d            7     1.0          d         d        d        d
+     250     700       d            6     0.4          d         d        d        d
      500     750       d            7     1.0          d         d        d        d
      750     750       d            7     1.0          d         d        d        d
      900     750       d            7     1.0          d         d        d        d
@@ -111,9 +85,9 @@
     466      500       d            0     0.8         d          d        d        d
     550      545       U            7     0.8         30         d        d        d
     645      601       d            0     0.8         30         d        d        d
-    650      601       d            0     0.8         d          d        d        d
-    676      601       d            0     0.8         d          d        d        d
-    702      601       d            0     0.8         d          d        d        d
+    650      600       d            0     0.8         d          d        d        d
+    676      600       d            0     0.8         d          d        d        d
+    702      600       d            0     0.8         d          d        d        d
     //ANDAR 2                      
     96       380       d            5     1.0         90         d        d        d
     154      379       d            0     0.8         d          d        d        d
