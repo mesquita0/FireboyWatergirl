@@ -897,6 +897,11 @@ bool Renderer::Initialize(Window* window, Graphics* graphics)
     float xScale = (graphics->viewport.Width > 0) ? 2.0f / graphics->viewport.Width : 0.0f;
     float yScale = (graphics->viewport.Height > 0) ? 2.0f / graphics->viewport.Height : 0.0f;
 
+#ifndef _DEBUG
+    xScale *= 4 / 3.0f;
+    yScale *= 4 / 3.0f;
+#endif
+
     // transforma para coordenadas da tela
     XMMATRIX transformMatrix
     (
