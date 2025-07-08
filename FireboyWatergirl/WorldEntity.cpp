@@ -16,6 +16,9 @@ WorldEntity::WorldEntity(float posX, float posY, float posZ, EntityTypeSprite pl
     case PLATWOOD7:      type = GROUND;              entity = new Sprite("Resources/Platforms/Madeira/ParedeMadeira.png"); break;
     case FINISH_PORTAL1: type = FINISH_PORTAL_FIRE;  entity = new Sprite("Resources/FireDoor.png"); break;
     case FINISH_PORTAL2: type = FINISH_PORTAL_WATER; entity = new Sprite("Resources/WaterDoor.png"); break;
+    case THORN1:         type = THORN;               entity = new Sprite("Resources/Espinhos/Espinho.png"); break;
+    case THORN2:         type = THORN;               entity = new Sprite("Resources/Espinhos/Espinho6.png"); break;
+    case THORN3:         type = THORN;               entity = new Sprite("Resources/Espinhos/Espinho7.png"); break;
     }
 
     if (entity) {
@@ -38,6 +41,13 @@ WorldEntity::WorldEntity(float posX, float posY, float posZ, EntityTypeSprite pl
         BBox()->RotateTo(rotation);
         BBox()->ScaleTo(scale);
 
+        break;
+
+    case THORN:
+        points[0] = { -entity->Width() / 2.0f, entity->Height() / 2.0f };
+        points[1] = { entity->Width() / 2.0f, entity->Height() / 2.0f };
+        points[2] = { 0.0, -entity->Height() / 2.0f };
+        BBox(new Poly(points, 3));
         break;
     }
 

@@ -153,6 +153,10 @@ void Player::OnCollision(Object* obj)
         if (!is_fireboy) ready_next_level = true;
         break;
 
+    case THORN:
+        is_alive = false;
+        break;
+
     case GROUND:
         if (
             !static_cast<Level*>(FireboyWatergirl::current_level)->scene->Collision(this, obj) ||
