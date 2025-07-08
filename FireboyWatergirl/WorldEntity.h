@@ -8,7 +8,9 @@ enum EntityType {
     FINISH_PORTAL_FIRE,
     FINISH_PORTAL_WATER,
     THORN,
-    MOVABLE_BOX
+    MOVABLE_BOX,
+    MOVING_PLATFORM_X,
+    MOVING_PLATFORM_Y
 };
 
 enum EntityTypeSprite {
@@ -24,7 +26,9 @@ enum EntityTypeSprite {
     FINISH_PORTAL2,
     THORN1,
     THORN2,
-    THORN3
+    THORN3,
+    MOVING_PLATFORM_X1,
+    MOVING_PLATFORM_Y1
 };
 
 class WorldEntity : public Object
@@ -35,6 +39,7 @@ private:
     uint  width = 0;
     uint  height = 0;
     float scale, rotation;
+    bool direction_moving, changed_direction, is_movable;
 
 public:
     WorldEntity(float posX, float posY, float posZ,
@@ -45,6 +50,8 @@ public:
 
     uint Width() const;
     uint Height() const;
+
+    bool isMovable() const { return is_movable; }
 
     void Draw();                            // desenho do objeto
     void Update();                          // atualização do objeto

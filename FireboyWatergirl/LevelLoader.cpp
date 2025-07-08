@@ -25,9 +25,9 @@ void loadLevel(Level& level, Window* window, const std::string& path) {
     // Carregar background
     std::getline(fin >> std::ws, background, ' ');
     background = "Resources/" + background + ".png";
-    fin >> cR;
-    fin >> cG;
-    fin >> cB;
+    cR = getAttribute(fin, 1);
+    cG = getAttribute(fin, 1);
+    cB = getAttribute(fin, 1);
     level.backg = new Background(background, Color{cR, cG, cB, 1});
     level.scene->Add(level.backg, STATIC);
 
@@ -86,7 +86,7 @@ void loadLevel(Level& level, Window* window, const std::string& path) {
 
             entity = new WorldEntity(posX, posY, posZ, (EntityTypeSprite)entityType, scale, rotation * (PI/180), Color{cR, cG, cB, 1});
 
-            ObjectGroup object_group = (entity->Type() == MOVABLE_BOX) ? MOVING : STATIC;
+            ObjectGroup object_group = entity->isMovable() ? MOVING : STATIC;
             level.scene->Add(entity, object_group);
         }
         else {

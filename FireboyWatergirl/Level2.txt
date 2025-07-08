@@ -31,13 +31,20 @@
 //
 // EntityType:
 //            0 - chão (1)
-//            1 - Plataforma de madeira (1)
-//            2 - Plataforma de madeira (2)
-//            3 - Plataforma de madeira (3)
-//            4 - Plataforma de madeira (4)
-//            5 - Plataforma de madeira (5)
-//            6 - Portão próximo nível fogo
-//            7 - Portão próximo nível água
+//            1 - Plataforma madeira (1)
+//            2 - Plataforma madeira (2)
+//            3 - Plataforma madeira (3)
+//            4 - Plataforma madeira (4)
+//            5 - Plataforma madeira (5)
+//            6 - Caixa de madeira (movivel)
+//            7 - Plataforma madeira (6)
+//            8 - Portão fogo
+//            9 - Portão água
+//            10 - Espinho (1)
+//            11 - Espinho (2)
+//            12 - Espinho (3)
+//            13 - Plataforma madeira que se move no eixo x
+//            14 - Plataforma madeira que se move no eixo y
 //
 //  posX    posY   posZ  EntityType   scale   rotation   color_R  color_G  color_B
      0       750      d           7     1.0          d         d        d        d
