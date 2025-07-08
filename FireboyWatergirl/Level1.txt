@@ -49,7 +49,6 @@
 //  posX    posY    posZ   EntityType   scale   rotation   color_R  color_G  color_B
      0       750       d            7     1.0          d         d        d        d
      250     750       d            7     1.0          d         d        d        d
-     250     700       U            6     0.4          d         d        d        d
      500     750       d            7     1.0          d         d        d        d
      750     750       d            7     1.0          d         d        d        d
      900     750       d            7     1.0          d         d        d        d
@@ -134,7 +133,7 @@
     550      200       d            0     0.8          d         d        d       d
     524      200       d            0     0.8          d         d        d       d
     498      200       d            0     0.8          d         d        d       d
-    534      155       d            6     0.4          d         d        d       d
+    465      180       d            6     0.4          d         d        d       d
     454      212       d            1     1.0          d         d        d       d
     392      212       d            1     1.0          d         d        d       d
     330      212       d            1     1.0          d         d        d       d
