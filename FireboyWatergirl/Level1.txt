@@ -1,7 +1,7 @@
 // Informações sobre plano de fundo do level
 // Componentes RGB entre 0 e 1
 // background    color_R  color_G  color_B
-          bkg        0.2      0.2        1
+   Background        0.2      0.2        1
 
 
 // Informações sobre a posição inicial dos jogadores
