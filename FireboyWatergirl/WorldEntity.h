@@ -10,7 +10,8 @@ enum EntityType {
     THORN,
     MOVABLE_BOX,
     MOVING_PLATFORM_X,
-    MOVING_PLATFORM_Y
+    MOVING_PLATFORM_Y,
+    _PLATFORM_STOPPER
 };
 
 enum EntityTypeSprite {
@@ -28,7 +29,8 @@ enum EntityTypeSprite {
     THORN2,
     THORN3,
     MOVING_PLATFORM_X1,
-    MOVING_PLATFORM_Y1
+    MOVING_PLATFORM_Y1,
+    PLATFORM_STOPPER
 };
 
 class WorldEntity : public Object

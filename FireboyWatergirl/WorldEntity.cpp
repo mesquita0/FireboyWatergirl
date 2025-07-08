@@ -21,6 +21,7 @@ WorldEntity::WorldEntity(float posX, float posY, float posZ, EntityTypeSprite pl
     case THORN3:             type = THORN;               entity = new Sprite("Resources/Espinhos/Espinho7.png"); break;
     case MOVING_PLATFORM_X1: type = MOVING_PLATFORM_X;   entity = new Sprite("Resources/Platforms/Madeira/MeiaPlataformaMadeira4.png"); break;
     case MOVING_PLATFORM_Y1: type = MOVING_PLATFORM_Y;   entity = new Sprite("Resources/Platforms/Madeira/MeiaPlataformaMadeira4.png"); break;
+    case PLATFORM_STOPPER:   type = _PLATFORM_STOPPER;   break;
     }
 
     if (entity) {
@@ -56,6 +57,10 @@ WorldEntity::WorldEntity(float posX, float posY, float posZ, EntityTypeSprite pl
         points[1] = { entity->Width() / 2.0f, entity->Height() / 2.0f };
         points[2] = { 0.0, -entity->Height() / 2.0f };
         BBox(new Poly(points, 3));
+        break;
+
+    case _PLATFORM_STOPPER:
+        BBox(new Rect(-5, -5, 5, 5));
         break;
     }
 
@@ -100,7 +105,7 @@ void WorldEntity::OnCollision(Object* obj) {
         break;
 
     case MOVING_PLATFORM_X:
-        if (obj->Type() == GROUND) {
+        if (obj->Type() == GROUND || obj->Type() == _PLATFORM_STOPPER) {
             // Mantém caixa fora do chão (pode colidir apenas no eixo x)
             Translate(-obj->BBox()->mtv_water.XComponent(), 0);
 
@@ -112,7 +117,7 @@ void WorldEntity::OnCollision(Object* obj) {
         break;
 
     case MOVING_PLATFORM_Y:
-        if (obj->Type() == GROUND) {
+        if (obj->Type() == GROUND || obj->Type() == _PLATFORM_STOPPER) {
             // Mantém caixa fora do chão (pode colidir apenas no eixo y)
             Translate(0, -obj->BBox()->mtv_water.YComponent());
 

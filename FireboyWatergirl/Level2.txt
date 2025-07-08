@@ -45,6 +45,7 @@
 //            12 - Espinho (3)
 //            13 - Plataforma madeira que se move no eixo x
 //            14 - Plataforma madeira que se move no eixo y
+//            15 - Parada plataforma
 //
 //  posX    posY   posZ  EntityType   scale   rotation   color_R  color_G  color_B
      0       750      d           7     1.0          d         d        d        d
