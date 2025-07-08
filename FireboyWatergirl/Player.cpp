@@ -21,8 +21,6 @@ const Vector slow_down_r = { 180, 20 };
 
 Player::Player(bool is_fireboy) : is_fireboy(is_fireboy)
 {
-    is_alive = true;
-
     if (is_fireboy) {
         tiles = new Image("Resources/Characters/Fireboy.png");
 
@@ -57,10 +55,11 @@ Player::Player(bool is_fireboy) : is_fireboy(is_fireboy)
     }
 
     // cria bounding box
-    int offset_center = 100 * scale;
+    int offset_center = is_fireboy ? 100 * scale : 120 * scale;
+    int offset_top = is_fireboy ? 0 : 35 * scale;
     BBox(new Rect(
         -1.0f * (Width()) / 2.0f,
-        -1.0f * (Height() + offset_center) / 2.0f,
+        -1.0f * (Height() + offset_center) / 2.0f + offset_top,
         (Width()) / 2.0f,
         (Height() - offset_center) / 2.0f));
 
@@ -84,6 +83,7 @@ void Player::Reset()
 {
     // estado inicial
     enable_controls = true;
+    is_alive = true;
 
     if (velocity)
         delete velocity;
@@ -151,6 +151,25 @@ void Player::OnCollision(Object* obj)
 
     case FINISH_PORTAL_WATER:
         if (!is_fireboy) ready_next_level = true;
+        break;
+
+    case THORN:
+        is_alive = false;
+        break;
+
+    case MOVABLE_BOX:
+        // Mantém plataforma para fora do personagem no eixo x (pode ser movida horizontalmente)
+        // Mantém personagem para fora da plataforma no eixo y (não pode ser movida verticalmente)
+        if (is_fireboy) {
+            obj->Translate(-obj->BBox()->mtv_fire.XComponent(), 0);
+            this->Translate(0, obj->BBox()->mtv_fire.YComponent());
+            if (obj->BBox()->mtv_fire.Angle() == 270) velocity->YComponent(0);
+        }      
+        else {
+            obj->Translate(-obj->BBox()->mtv_water.XComponent(), 0);
+            this->Translate(0, obj->BBox()->mtv_water.YComponent());
+            if (obj->BBox()->mtv_water.Angle() == 270) velocity->YComponent(0);
+        }
         break;
 
     case GROUND:
