@@ -14,7 +14,7 @@
 //
 // posX e posY são as posições do centro da plataforma
 // posZ:
-//             profundidade da plataforma (defualt = LAYER::FRONT)
+//             profundidade da plataforma (defualt = LAYER::UPPER)
 //             Layer::FRONT  = F
 //             Layer::UPPER  = U
 //             Layer::MIDDLE = M
@@ -94,7 +94,7 @@
     414      500       d            0     0.8         d          d        d        d
     440      500       d            0     0.8         d          d        d        d
     466      500       d            0     0.8         d          d        d        d
-    550      545       U            7     0.8         30         d        d        d
+    550      545       M            7     0.8         30         d        d        d
     645      601       d            0     0.8         30         d        d        d
     650      600       d            0     0.8         d          d        d        d
     676      600       d            0     0.8         d          d        d        d
@@ -117,7 +117,7 @@
     518      379       d            0     0.8         d          d        d        d
     544      379       d            0     0.8         d          d        d        d
     570      379       d            0     0.8         d          d        d        d
-    660      410       U            7     0.8        20          d        d       d
+    660      410       M            7     0.8        20          d        d       d
     749      440       d            0     0.8         d          d        d       d
     775      440       d            0     0.8         d          d        d       d
     801      440       d            0     0.8         d          d        d       d
@@ -126,30 +126,30 @@
     879      440       d            0     0.8         d          d        d       d
     905      440       d            0     0.8         d          d        d       d
     // ANDAR 3                     
-    869      350       d           17     1.0         d          d        d       d
-    808      264       d            0     0.8         d          d        d       d
-    782      264       d            0     0.8         d          d        d       d
-    756      264       d            0     0.8         d          d        d       d
-    730      264       d            0     0.8         d          d        d       d
-    646      230       U            7     0.7         25         d        d       d
-    576      200       d            0     0.8          d         d        d       d
-    550      200       d            0     0.8          d         d        d       d
-    524      200       d            0     0.8          d         d        d       d
-    498      200       d            0     0.8          d         d        d       d
-    465      180       d            6     0.4          d         d        d       d
-    454      212       d            1     1.0          d         d        d       d
-    392      212       d            1     1.0          d         d        d       d
-    330      212       d            1     1.0          d         d        d       d
-    268      212       d            1     1.0          d         d        d       d
-    206      212       d            1     1.0          d         d        d       d
-    144      212       d            1     1.0          d         d        d       d
-     82      212       d            1     1.0          d         d        d       d
-     82      184       d            1     1.0          d         d        d       d
-    144      184       d            1     1.0          d         d        d       d
-    206      184       d            1     1.0          d         d        d       d
-     82      156       d            1     1.0          d         d        d       d
-    144      156       d            1     1.0          d         d        d       d
-    206      156       d            1     1.0          d         d        d       d
+    869      354       d           17     1.0         d          d        d       d
+    808      274       d            0     0.8         d          d        d       d
+    782      274       d            0     0.8         d          d        d       d
+    756      274       d            0     0.8         d          d        d       d
+    730      274       d            0     0.8         d          d        d       d
+    646      240       M            7     0.7         25         d        d       d
+    576      210       d            0     0.8          d         d        d       d
+    550      210       d            0     0.8          d         d        d       d
+    524      210       d            0     0.8          d         d        d       d
+    498      210       d            0     0.8          d         d        d       d
+    465      190       d            6     0.4          d         d        d       d
+    454      222       d            1     1.0          d         d        d       d
+    392      222       d            1     1.0          d         d        d       d
+    330      222       d            1     1.0          d         d        d       d
+    268      222       d            1     1.0          d         d        d       d
+    206      222       d            1     1.0          d         d        d       d
+    144      222       d            1     1.0          d         d        d       d
+     82      222       d            1     1.0          d         d        d       d
+     82      194       d            1     1.0          d         d        d       d
+    144      194       d            1     1.0          d         d        d       d
+    206      194       d            1     1.0          d         d        d       d
+     82      166       d            1     1.0          d         d        d       d
+    144      166       d            1     1.0          d         d        d       d
+    206      166       d            1     1.0          d         d        d       d
     //ANDAR 4                     
     880      110       d            4     0.8         d          d        d       d
     805      110       d            4     0.8         d          d        d       d

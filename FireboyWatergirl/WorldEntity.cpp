@@ -114,10 +114,10 @@ void WorldEntity::OnCollision(Object* obj) {
     case MOVABLE_BOX:
         if (obj->Type() == GROUND) {
             // Mantém caixa fora do chão (pode colidir apenas no eixo x)
-            Translate(-obj->BBox()->mtv_water.XComponent(), 0);
+            Translate(-obj->BBox()->mtv_ground.XComponent(), 0);
 
             // Quando a caixa colide uma vez, não é mais possível move-la
-            if (abs(obj->BBox()->mtv_water.XComponent()) > 1) type = GROUND;
+            if (abs(obj->BBox()->mtv_ground.XComponent()) > 1) type = GROUND;
         }
         break;
 
