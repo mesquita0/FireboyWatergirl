@@ -48,17 +48,7 @@ void GameOver::Init()
             title = new Sprite("Resources/Platforms/back3.png");
         }
     }
-    else if (level == 3) {
-        if (time <= 30) {
-            title = new Sprite("Resources/Platforms/back1.png");
-        }
-        else if (time < 50) {
-            title = new Sprite("Resources/Platforms/back2.png");
-        }
-        else if (time > 50) {
-            title = new Sprite("Resources/Platforms/back3.png");
-        }
-    }
+
 }
 
 void GameOver::Update()
