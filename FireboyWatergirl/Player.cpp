@@ -223,6 +223,7 @@ void Player::OnCollision(Object* obj)
                 (controllerOn && is_xbox_controller  && gamepad->XboxButton(ButtonA)) ||
                 (controllerOn && !is_xbox_controller && gamepad->ButtonPress(0))
             ) {
+                velocity->YComponent(0);
                 velocity->Add(jump);
                 FireboyWatergirl::audio->Play(is_fireboy ? FB_JUMP : WG_JUMP);
             }
