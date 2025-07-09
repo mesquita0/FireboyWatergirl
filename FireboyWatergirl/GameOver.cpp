@@ -40,19 +40,15 @@ void GameOver::Init()
         else if (time > 50) {
             title = new Sprite("Resources/Platforms/back3.png");
         }
-    }
-    else if (level_number == 2) {
-        if (time <= 30) {
-            title = new Sprite("Resources/Platforms/back1.png");
-        }
-        else if (time < 50) {
-            title = new Sprite("Resources/Platforms/back2.png");
-        }
-        else if (time > 50) {
-            title = new Sprite("Resources/Platforms/back3.png");
-        }
-    }
 
+        if (static_cast<Level*>(FireboyWatergirl::last_level)->didFireboyWin()) {
+            scene->Add(FireboyWatergirl::fireboy, STATIC);
+        }
+        else {
+            scene->Add(FireboyWatergirl::watergirl, STATIC);
+        }
+    }
+        
     // Adiciona botões
     callback_function play_sfx = []() { FireboyWatergirl::audio->Play(BUTTON_SELECT); };
     failed = static_cast<Level*>(FireboyWatergirl::last_level)->failed();
@@ -63,6 +59,9 @@ void GameOver::Init()
     menu_button = new Button(window->CenterX() - 6, window->CenterY() + 78, "Main Menu", *font, Color{ 1, 1, 1, 1 }, Color{ 1, 1, 0, 1 }, 1.65, play_sfx);
 
     scene->Add(menu_button, STATIC);
+
+    FireboyWatergirl::fireboy->disableControls();
+    FireboyWatergirl::watergirl->disableControls();
 }
 
 void GameOver::Update()
@@ -93,6 +92,9 @@ void GameOver::Draw()
 
 void GameOver::Finalize()
 {
+    scene->Remove(FireboyWatergirl::fireboy, STATIC);
+    scene->Remove(FireboyWatergirl::watergirl, STATIC);
+
     delete scene;
     delete font;
     delete title;
