@@ -17,7 +17,7 @@ void GameOver::Init()
     scene->Add(mouse, MOVING);
 
     int level_number = FireboyWatergirl::fireboy->LevelNumber();
-    int time = static_cast<Level*>(FireboyWatergirl::last_level)->timer.Elapsed();
+    seconds = static_cast<Level*>(FireboyWatergirl::last_level)->timer.Elapsed();
 
     //if (level_number == failed) {
     //    title = new Sprite("Resources/Platforms/backback.png");
@@ -26,24 +26,24 @@ void GameOver::Init()
         title = new Sprite("Resources/Platforms/backback.png");
     }
     else if (level_number == 0) {
-        if (time <= 30) {
+        if (seconds <= 30) {
             title = new Sprite("Resources/back3.png");
         }
-        else if (time < 50) {
+        else if (seconds < 50) {
             title = new Sprite("Resources/back2.png");
         }
-        else if (time > 50) {
+        else if (seconds > 50) {
             title = new Sprite("Resources/back1.png");
         }
     }
     else if (level_number == 1) {
-        if (time <= 30) {
+        if (seconds <= 30) {
             title = new Sprite("Resources/back3.png");
         }
-        else if (time < 50) {
+        else if (seconds < 50) {
             title = new Sprite("Resources/back2.png");
         }
-        else if (time > 50) {
+        else if (seconds > 50) {
             title = new Sprite("Resources/back1.png");
         }
 
@@ -98,7 +98,9 @@ void GameOver::Update()
 void GameOver::Draw()
 {
     scene->Draw();
-    title->Draw(window->CenterX(), window->CenterY(), Layer::BACK);
+    title->Draw(window->CenterX(), window->CenterY(), Layer::BACK); 
+    
+    font->Draw(window->CenterX() - 25, 100, std::format("{:02}:{:02}", seconds / 60, seconds % 60), Color{ 0, 0, 0, 1 }, 0, 2);
 
     if (!static_cast<Level*>(FireboyWatergirl::last_level)->is_run || static_cast<Level*>(FireboyWatergirl::last_level)->failed()) {
         quadrado->Draw(window->CenterX() - 130, window->CenterY() + 80, Layer::MIDDLE);

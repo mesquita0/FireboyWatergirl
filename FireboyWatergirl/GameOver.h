@@ -21,6 +21,7 @@ private:
     Mouse* mouse;
     bool failed = false;
     Sprite* quadrado = nullptr; 
+    int seconds;
 
     Button* play_button, * menu_button;
     //Animation* anim1 = nullptr;  
