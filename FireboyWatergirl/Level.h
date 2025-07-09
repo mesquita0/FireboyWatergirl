@@ -18,6 +18,7 @@ public:
     Sprite * time_frame = nullptr;
     Font * font;
     int num_ground_blocks = 0;
+    bool is_run = false;
 
     Level(int level_number);
 

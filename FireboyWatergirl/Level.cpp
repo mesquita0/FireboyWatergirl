@@ -27,6 +27,7 @@ void Level::Init()
     timer = {};
 
     loadLevel(*this, window, "Level" + std::to_string(level_number) + ".txt");
+    if (level_number == 2) is_run = true;
     Engine::ResetFrameTime();
 
     FireboyWatergirl::fireboy->LevelNumber(level_number - 1);
@@ -43,6 +44,9 @@ void Level::Update()
     scene->Update();
     scene->CollisionDetection();
 
+    bool fireboy_ready   = FireboyWatergirl::fireboy->IsReadyNextLevel() && FireboyWatergirl::fireboy->IsStill();
+    bool watergirl_ready = FireboyWatergirl::watergirl->IsReadyNextLevel() && FireboyWatergirl::watergirl->IsStill();
+
     if (!FireboyWatergirl::fireboy->IsAlive() || !FireboyWatergirl::watergirl->IsAlive())
     {
         FireboyWatergirl::audio->Stop(MUSIC);
@@ -51,10 +55,7 @@ void Level::Update()
         FireboyWatergirl::fireboy->Reset(level_number-1); 
         FireboyWatergirl::watergirl->Reset(level_number-1); 
     }
-    else if (
-        (FireboyWatergirl::fireboy->IsReadyNextLevel()  && FireboyWatergirl::fireboy->IsStill() &&
-        FireboyWatergirl::watergirl->IsReadyNextLevel() && FireboyWatergirl::watergirl->IsStill())
-        || window->KeyPress('N'))
+    else if ((fireboy_ready && watergirl_ready) || (is_run && (fireboy_ready || watergirl_ready)) || window->KeyPress('N'))
     {
         FireboyWatergirl::audio->Stop(MUSIC);
         FireboyWatergirl::fireboy->Reset(level_number-1);
