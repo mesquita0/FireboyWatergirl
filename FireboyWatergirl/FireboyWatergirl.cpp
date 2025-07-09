@@ -119,7 +119,7 @@ int APIENTRY WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
    
     // configura o motor
     engine->window->Color(30, 50, 80);
-    engine->window->Title("Fireboy and Watergirl");
+    engine->window->Title("Element Twins");
     engine->window->Icon(IDI_ICON);
     engine->window->Cursor(IDC_CURSOR);
     engine->graphics->VSync(true);

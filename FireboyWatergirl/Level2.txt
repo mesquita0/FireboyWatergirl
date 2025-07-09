@@ -1,7 +1,7 @@
 // Informações sobre plano de fundo do level
 // Componentes RGB entre 0 e 1
 // background    color_R  color_G  color_B
-          bkg        0.2      0.2        1
+   Background          d        d        d
 
 
 // Informações sobre a posição inicial dos jogadores
@@ -47,6 +47,7 @@
 //            14 - Plataforma madeira que se move no eixo y
 //            15 - Parada plataforma
 //            16 - Portão genérico
+//            17 - Plataforma madeira giratória
 //
 //  posX    posY   posZ  EntityType   scale   rotation   color_R  color_G  color_B
      0       750      d           7     1.0          d         d        d        d
