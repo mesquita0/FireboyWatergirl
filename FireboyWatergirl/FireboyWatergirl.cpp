@@ -54,6 +54,8 @@ void FireboyWatergirl::Init()
         new GameOver(),
         new Level(2),
         new GameOver(),
+        new Level(3),
+        new GameOver(),
     };
 
     // inicializa nível de abertura do jogo

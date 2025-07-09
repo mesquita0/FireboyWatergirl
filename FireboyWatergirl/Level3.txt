@@ -1,0 +1,200 @@
+// Informações sobre plano de fundo do level
+// Componentes RGB entre 0 e 1
+// background    color_R  color_G  color_B
+   Background          d        d        d
+
+
+// Informações sobre a posição inicial dos jogadores
+// posX e posY são as posições do centro do player
+// posXFireboy    posYFireboy    posXWatergirl    posYWatergirl    scale
+           100             686              100             590       0.2
+
+
+// Informações sobre as entidades do mundo
+//
+// posX e posY são as posições do centro da plataforma
+// posZ:
+//             profundidade da plataforma (defualt = LAYER::UPPER)
+//             Layer::FRONT  = F
+//             Layer::UPPER  = U
+//             Layer::MIDDLE = M
+//             Layer::LOWER  = L
+//             Layer::BACK   = B (nível de profundidade do background)
+// rotation: 
+//             rotação das plataforma em graus (default = 0)
+// scale: 
+//             escala da plataforma (default = 1)
+// color RGB: 
+//             componentes RGB entre 0 e 1 (default = branco)
+// 
+// d - valor default para coluna
+//
+// EntityType:
+//            0 - chão (1)
+//            1 - Plataforma madeira (1)
+//            2 - Plataforma madeira (2)
+//            3 - Plataforma madeira (3)
+//            4 - Plataforma madeira (4)
+//            5 - Plataforma madeira (5)
+//            6 - Caixa de madeira (movivel)
+//            7 - Plataforma madeira (6)
+//            8 - Portão fogo
+//            9 - Portão água
+//            10 - Espinho (1)
+//            11 - Espinho (2)
+//            12 - Espinho (3)
+//            13 - Plataforma madeira que se move no eixo x
+//            14 - Plataforma madeira que se move no eixo y
+//            15 - Parada plataforma
+//            16 - Portão genérico
+//            17 - Plataforma madeira giratória
+//              18 - piso de pedra
+//              19 - plataforma metal 1
+//
+//   posX    posY   posZ  EntityType   scale   rotation   color_R  color_G  color_B
+     256     708      d           10     1.0          d         d        d        d
+     288     708      d           10     1.0          d         d        d        d
+     320     708      d           10     1.0          d         d        d        d
+     352     708      d           10     1.0          d         d        d        d
+     384     708      d           10     1.0          d         d        d        d
+     416     708      d           10     1.0          d         d        d        d
+     448     708      d           10     1.0          d         d        d        d
+     480     708      d           10     1.0          d         d        d        d
+     512     708      d           10     1.0          d         d        d        d
+       544     708      d           10     1.0          d         d        d        d
+       576     708      d           10     1.0          d         d        d        d
+       608     708      d           10     1.0          d         d        d        d
+       640     708      d           10     1.0          d         d        d        d
+       672     708      d           10     1.0          d         d        d        d
+       704     708      d           10     1.0          d         d        d        d
+       736     708      d           10     1.0          d         d        d        d
+       768     708      d           10     1.0          d         d        d        d
+       800     708      d           10     1.0          d         d        d        d
+       832     708      d           10     1.0          d         d        d        d
+        864     708      d           10     1.0          d         d        d        d
+       896     708      d           10     1.0          d         d        d        d
+       928     708      d           10     1.0          d         d        d        d
+       960     708      d           10     1.0          d         d        d        d
+
+
+
+        350     650      d           19     1.0          d         d        d        d
+        635     650      d           19     1.0          d         d        d        d
+
+
+
+
+
+
+
+
+
+
+
+
+       0     750      d           18     1.0          d         d        d        d
+       32     750      d           18     1.0          d         d        d        d
+       64     750      d           18     1.0          d         d        d        d
+       96     750      d           18     1.0          d         d        d        d
+       128     750      d           18     1.0          d         d        d        d
+       160     750      d           18     1.0          d         d        d        d
+       192     750      d           18     1.0          d         d        d        d
+       224     750      d           18     1.0          d         d        d        d
+       256     750      d           18     1.0          d         d        d        d
+       288     750      d           18     1.0          d         d        d        d
+       320     750      d           18     1.0          d         d        d        d
+       352     750      d           18     1.0          d         d        d        d
+       384     750      d           18     1.0          d         d        d        d
+       416     750      d           18     1.0          d         d        d        d
+       448     750      d           18     1.0          d         d        d        d
+       480     750      d           18     1.0          d         d        d        d
+       512     750      d           18     1.0          d         d        d        d
+       544     750      d           18     1.0          d         d        d        d
+       576     750      d           18     1.0          d         d        d        d
+       608     750      d           18     1.0          d         d        d        d
+       640     750      d           18     1.0          d         d        d        d
+       672     750      d           18     1.0          d         d        d        d
+       704     750      d           18     1.0          d         d        d        d
+       736     750      d           18     1.0          d         d        d        d
+       768     750      d           18     1.0          d         d        d        d
+       800     750      d           18     1.0          d         d        d        d
+       832     750      d           18     1.0          d         d        d        d
+       864     750      d           18     1.0          d         d        d        d
+       896     750      d           18     1.0          d         d        d        d
+       928     750      d           18     1.0          d         d        d        d
+       960     750      d           18     1.0          d         d        d        d
+
+
+
+      975      0           d           18     1.0          270         d        d        d
+      975       32           d           18     1.0          270         d        d        d
+      975       64           d           18     1.0          270         d        d        d
+      975       96           d           18     1.0          270         d        d        d
+      975       128           d           18     1.0          270         d        d        d
+      975       160           d           18     1.0          270         d        d        d
+      975       192           d           18     1.0          270         d        d        d
+      975       224           d           18     1.0          270         d        d        d
+      975      256           d           18     1.0          270         d        d        d
+      975      288           d           18     1.0          270         d        d        d
+      975     320           d           18     1.0          270         d        d        d
+      975      352           d           18     1.0          270         d        d        d
+      975      384           d           18     1.0          270         d        d        d
+      975         416           d           18     1.0          270         d        d        d
+      975      448           d           18     1.0          270         d        d        d
+      975         480           d           18     1.0          270         d        d        d
+      975         512           d           18     1.0          270         d        d        d
+      975         544           d           18     1.0          270         d        d        d
+      975         576           d           18     1.0          270         d        d        d
+      975         608           d           18     1.0          270         d        d        d
+      975         640           d           18     1.0          270         d        d        d
+      975         672           d           18     1.0          270         d        d        d
+      975         704           d           18     1.0          270         d        d        d
+      975         736           d           18     1.0          270         d        d        d
+      975         768           d           18     1.0          270         d        d        d
+      975         800           d           18     1.0          270         d        d        d
+      975         832           d           18     1.0          270         d        d        d
+      975         864           d           18     1.0          270         d        d        d
+      975         896           d           18     1.0          270         d        d        d
+      975         928           d           18     1.0          270         d        d        d
+      975         960           d           18     1.0          270         d        d        d
+
+      -18      0           d           18     1.0          90         d        d        d
+      -18       32           d           18     1.0          90         d        d        d
+      -18       64           d           18     1.0          90         d        d        d
+      -18       96           d           18     1.0          90         d        d        d
+      -18       128           d           18     1.0          90         d        d        d
+      -18       160           d           18     1.0          90         d        d        d
+      -18       192           d           18     1.0          90         d        d        d
+      -18       224           d           18     1.0          90         d        d        d
+      -18      256           d           18     1.0          90         d        d        d
+      -18      288           d           18     1.0          90         d        d        d
+      -18     320           d           18     1.0          90         d        d        d
+      -18      352           d           18     1.0          90         d        d        d
+      -18      384           d           18     1.0          90         d        d        d
+      -18         416           d           18     1.0          90         d        d        d
+      -18      448           d           18     1.0          90         d        d        d
+      -18         480           d           18     1.0          90         d        d        d
+      -18         512           d           18     1.0          90         d        d        d
+      -18         544           d           18     1.0          90         d        d        d
+      -18         576           d           18     1.0          90         d        d        d
+      -18         608           d           18     1.0          90         d        d        d
+      -18         640           d           18     1.0          90         d        d        d
+      -18         672           d           18     1.0          90         d        d        d
+      -18         704           d           18     1.0          90         d        d        d
+      -18         736           d           18     1.0          90         d        d        d
+      -18         768           d           18     1.0          90         d        d        d
+      -18         800           d           18     1.0          90         d        d        d
+      -18         832           d           18     1.0          90         d        d        d
+      -18         864           d           18     1.0          90         d        d        d
+      -18         896           d           18     1.0          90         d        d        d
+      -18         928           d           18     1.0          90         d        d        d
+      -18         960           d           18     1.0          90         d        d        d
+
+     
+    
+     
+     
+     
+
+
+                      

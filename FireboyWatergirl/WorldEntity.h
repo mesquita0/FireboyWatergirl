@@ -34,7 +34,9 @@ enum EntityTypeSprite {
     MOVING_PLATFORM_Y1,
     PLATFORM_STOPPER,
     FINISH_PORTAL_3,
-    ROTATING_PLATFORM1
+    ROTATING_PLATFORM1,
+    GROUND2,
+    PLATMETAL1,
 };
 
 class WorldEntity : public Object
