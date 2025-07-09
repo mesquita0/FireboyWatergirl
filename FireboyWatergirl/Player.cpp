@@ -19,7 +19,8 @@ const Vector gravity = { 270,  700 };
 const Vector slow_down_l = { 0,   20 };
 const Vector slow_down_r = { 180, 20 };
 
-Player::Player(bool is_fireboy) : is_fireboy(is_fireboy)
+Player::Player(bool is_fireboy, Controller* controller, bool controllerOn, bool xboxOn)
+    : is_fireboy(is_fireboy), gamepad(controller), controllerOn(controllerOn), is_xbox_controller(xboxOn)
 {
     if (is_fireboy) {
         tiles = new Image("Resources/Characters/Fireboy.png");
@@ -77,12 +78,12 @@ Player::~Player()
     delete anim_head_fall;
     delete anim_head_idle;
     delete tiles;
+    delete gamepad;
 }
 
 void Player::Reset()
 {
     // estado inicial
-    enable_controls = true;
     is_alive = true;
 
     if (velocity)
@@ -115,7 +116,7 @@ void Player::updateState()
     else if (abs(velocity->XComponent()) > 0.1) {
         state = RUNNING;
     }
-    else if (velocity->YComponent() < 0) {
+    else if (velocity->YComponent() < -85) {
         state = FALLING;
     }
     else {
@@ -145,12 +146,23 @@ void Player::OnCollision(Object* obj)
 {
     switch (obj->Type())
     {
+    case FINISH_PORTAL_ANY:
+        ready_next_level = true;
+        static_cast<WorldEntity*>(obj)->ToggleEnity();
+        break;
+
     case FINISH_PORTAL_FIRE:
-        if (is_fireboy) ready_next_level = true;
+        if (is_fireboy) {
+            ready_next_level = true;
+            static_cast<WorldEntity*>(obj)->ToggleEnity();
+        }
         break;
 
     case FINISH_PORTAL_WATER:
-        if (!is_fireboy) ready_next_level = true;
+        if (!is_fireboy) {
+            ready_next_level = true;
+            static_cast<WorldEntity*>(obj)->ToggleEnity();
+        }
         break;
 
     case THORN:
@@ -174,6 +186,7 @@ void Player::OnCollision(Object* obj)
 
     case MOVING_PLATFORM_X:
     case MOVING_PLATFORM_Y:
+    case ROTATING_PLATFORM:
     case GROUND:
         if (
             !static_cast<Level*>(FireboyWatergirl::current_level)->scene->Collision(this, obj) ||
@@ -205,15 +218,21 @@ void Player::OnCollision(Object* obj)
             }
 
             // Ação pulo
-            if (window->KeyDown(controls[key_up][is_fireboy]) || FireboyWatergirl::gamepad->XboxButton(ButtonA)) {
+            if (
+                (!controllerOn && window->KeyPress(controls[key_up][is_fireboy])) ||
+                (controllerOn && is_xbox_controller  && gamepad->XboxButton(ButtonA)) ||
+                (controllerOn && !is_xbox_controller && gamepad->ButtonPress(0))
+            ) {
+                velocity->YComponent(0);
                 velocity->Add(jump);
                 FireboyWatergirl::audio->Play(is_fireboy ? FB_JUMP : WG_JUMP);
             }
         }
 
         else if (
-            (is_fireboy  && angle_fb == 90) ||
-            (!is_fireboy && angle_wg == 90)
+            ((is_fireboy  && angle_fb == 90) ||
+            (!is_fireboy && angle_wg == 90)) &&
+            (velocity->YComponent() > 0)
         ) {
             velocity->YComponent(0);
         }
@@ -236,19 +255,30 @@ void Player::Update()
 
     if (!enable_controls) return;
 
+    // Resetar player para posição inicial se saiu da tela
+    if (((Rect*)BBox())->Top() > window->Height()) {
+        MoveTo(initial_posX, initial_posY);
+        FireboyWatergirl::audio->Play(DIED);
+    }
+    
     // Resetar o estado em todo frame para conferir na colisão com o portal para o próximo nível
     ready_next_level = false;
 
-    FireboyWatergirl::gamepad->XboxUpdateState();
+    if (controllerOn) {
+        if (is_xbox_controller) gamepad->XboxUpdateState();
+        else                    gamepad->UpdateState();
+    }
 
-    if (FireboyWatergirl::xboxOn) {
-        //
-        if (velocity->XComponent() * FireboyWatergirl::gamepad->XboxAnalog(ThumbLX) < 0)
+    if (controllerOn) {
+        float dx = is_xbox_controller ? gamepad->XboxAnalog(ThumbLX) : gamepad->Axis(AxisX);
+        short max_axis = is_xbox_controller ? SHRT_MAX : 10000;
+
+        if (velocity->XComponent() * dx < 0)
             velocity->XComponent(0);
 
-        velocity->Add(move_right * (static_cast<float>(FireboyWatergirl::gamepad->XboxAnalog(ThumbLX)) / SHRT_MAX));
+        velocity->Add(move_right * (dx / max_axis));
 
-        if (FireboyWatergirl::gamepad->XboxAnalog(ThumbLX) == 0)
+        if (dx == 0)
             slowDown();
     }
     else {
@@ -350,6 +380,7 @@ inline void Player::Draw()
     }
     else {
         offset_y -= 25;
+        head_y += 5;
         current_anim_head->Draw(head_x, head_y, z, scale_head * scale, -rotation_head, mirror_x);
         current_anim_body->Draw(x, y + (current_anim_body->tileSet()->TileHeight() / 2.0 - offset_body) * scale, z, scale, 0, mirror_x);
     }

@@ -23,9 +23,11 @@ void Level::Init()
     backg = new Background("");
     font  = new Font("Resources/Font.png");
     font->Spacing("Resources/FontMetrics.dat");
+    time_frame = new Sprite("Resources/TimeFrame.png");
     timer = {};
 
     loadLevel(*this, window, "Level" + std::to_string(level_number) + ".txt");
+    if (level_number == 2) is_run = true;
     Engine::ResetFrameTime();
 
     FireboyWatergirl::fireboy->LevelNumber(level_number - 1);
@@ -42,19 +44,25 @@ void Level::Update()
     scene->Update();
     scene->CollisionDetection();
 
+    bool fireboy_ready   = FireboyWatergirl::fireboy->IsReadyNextLevel() && FireboyWatergirl::fireboy->IsStill();
+    bool watergirl_ready = FireboyWatergirl::watergirl->IsReadyNextLevel() && FireboyWatergirl::watergirl->IsStill();
+
     if (!FireboyWatergirl::fireboy->IsAlive() || !FireboyWatergirl::watergirl->IsAlive())
     {
+        did_fail = true;
         FireboyWatergirl::audio->Stop(MUSIC);
         FireboyWatergirl::audio->Play(DIED);
-        FireboyWatergirl::GameOverL();
+        FireboyWatergirl::NextLevel();
         FireboyWatergirl::fireboy->Reset(level_number-1); 
         FireboyWatergirl::watergirl->Reset(level_number-1); 
     }
-    else if (
-        (FireboyWatergirl::fireboy->IsReadyNextLevel() 
-        && FireboyWatergirl::watergirl->IsReadyNextLevel())
-        || window->KeyPress('N'))
+    else if ((fireboy_ready && watergirl_ready) || (is_run && (fireboy_ready || watergirl_ready)) || window->KeyPress('N'))
     {
+        did_fail = false;
+        if (is_run) {
+            did_fireboy_win = fireboy_ready;
+        }
+
         FireboyWatergirl::audio->Stop(MUSIC);
         FireboyWatergirl::fireboy->Reset(level_number-1);
         FireboyWatergirl::watergirl->Reset(level_number-1); 
@@ -69,7 +77,8 @@ void Level::Draw()
 
     // Tempo do level
     int seconds = timer.Elapsed();
-    font->Draw(window->CenterX() - 25, 15, std::format("{:02}:{:02}", seconds / 60, seconds % 60), Color{1, 1, 1, 1}, 0, 2);
+    time_frame->Draw(window->CenterX() - 10, 15, Layer::FRONT, 0.21);
+    font->Draw(window->CenterX() - 25, 15, std::format("{:02}:{:02}", seconds / 60, seconds % 60), Color{0, 0, 0, 1}, 0, 2);
 
     if (FireboyWatergirl::viewBBox)
         scene->DrawBBox();
@@ -77,6 +86,7 @@ void Level::Draw()
 
 void Level::Finalize()
 {
+    delete time_frame;
     delete font;
     scene->Remove(FireboyWatergirl::fireboy, MOVING);
     scene->Remove(FireboyWatergirl::watergirl, MOVING);

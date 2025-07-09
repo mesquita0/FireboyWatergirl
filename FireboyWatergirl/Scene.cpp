@@ -394,9 +394,11 @@ bool Scene::Collision(Poly* pa, Poly* pb, Rect * r = nullptr)
         }
     }
 
-    bool is_fireboy = (r && r == FireboyWatergirl::fireboy->BBox());
-    Vector* mtv_pa = is_fireboy ? &pa->mtv_fire : &pa->mtv_water;
-    Vector* mtv_pb = is_fireboy ? &pb->mtv_fire : &pb->mtv_water;
+    bool is_fireboy   = (r && r == FireboyWatergirl::fireboy->BBox());
+    bool is_watergirl = (r && r == FireboyWatergirl::watergirl->BBox());
+
+    Vector* mtv_pa = is_fireboy ? &pa->mtv_fire : (is_watergirl ? &pa->mtv_water : &pa->mtv_ground);
+    Vector* mtv_pb = is_fireboy ? &pb->mtv_fire : (is_watergirl ? &pb->mtv_water : &pb->mtv_ground);
     
     // Save axis with minimum overlap to geometries
     mtv_pa->XComponent(axis_min_overlap.X());
