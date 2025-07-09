@@ -61,9 +61,9 @@ WorldEntity::WorldEntity(float posX, float posY, float posZ, EntityTypeSprite pl
         break;
 
     case THORN:
-        points[0] = { -entity->Width() / 2.0f, entity->Height() / 2.0f };
-        points[1] = { entity->Width() / 2.0f, entity->Height() / 2.0f };
-        points[2] = { 0.0, -entity->Height() / 2.0f };
+        points[0] = { -entity->Width() / 2.0f, -entity->Height() / 2.0f };
+        points[1] = { entity->Width() / 2.0f, -entity->Height() / 2.0f };
+        points[2] = { 0.0, entity->Height() / 2.0f };
         BBox(new Poly(points, 3));
         break;
 
