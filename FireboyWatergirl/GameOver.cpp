@@ -29,21 +29,21 @@ void GameOver::Init()
         if (seconds <= 30) {
             title = new Sprite("Resources/back3.png");
         }
-        else if (seconds < 50) {
+        else if (seconds <= 50) {
             title = new Sprite("Resources/back2.png");
         }
-        else if (seconds > 50) {
+        else if (seconds <= 80) {
             title = new Sprite("Resources/back1.png");
         }
     }
     else if (level_number == 1) {
-        if (seconds <= 30) {
+        if (seconds <= 50) {
             title = new Sprite("Resources/back3.png");
         }
-        else if (seconds < 50) {
+        else if (seconds <= 70) {
             title = new Sprite("Resources/back2.png");
         }
-        else if (seconds > 50) {
+        else if (seconds <= 120) {
             title = new Sprite("Resources/back1.png");
         }
     }
