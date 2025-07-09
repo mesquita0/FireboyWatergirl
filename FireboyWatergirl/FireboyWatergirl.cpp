@@ -8,6 +8,7 @@
 
 std::vector<Game*> FireboyWatergirl::levels = {};
 Game*   FireboyWatergirl::current_level = nullptr;
+Game*   FireboyWatergirl::last_level = nullptr;
 int     FireboyWatergirl::level_index = 0;
 Player* FireboyWatergirl::fireboy   = nullptr;
 Player* FireboyWatergirl::watergirl = nullptr;
@@ -90,6 +91,7 @@ void FireboyWatergirl::Finalize()
 
 void FireboyWatergirl::NextLevel() 
 {
+    last_level = current_level;
     current_level->Finalize();
     level_index = (level_index + 1) % levels.size();
     current_level = levels[level_index];
@@ -98,11 +100,28 @@ void FireboyWatergirl::NextLevel()
 
 void FireboyWatergirl::GameOverL()
 {
+    last_level = current_level;
     current_level->Finalize();
     level_index = levels.size() - 1;
     current_level = levels[level_index];
     current_level->Init();
 };
+
+void FireboyWatergirl::LastLevel() {
+    last_level = current_level;
+    current_level->Finalize();
+    level_index = (level_index - 1) % levels.size();
+    current_level = levels[level_index];
+    current_level->Init();
+}
+
+void FireboyWatergirl::HomeLevel() {
+    last_level = current_level;
+    current_level->Finalize();
+    level_index = 0;
+    current_level = levels[level_index];
+    current_level->Init();
+}
 
 
 // ------------------------------------------------------------------------------

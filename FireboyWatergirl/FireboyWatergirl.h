@@ -12,12 +12,14 @@ class FireboyWatergirl : public Game
 {
 private:
     static int level_index;
+    static std::vector<Game*> levels;
 
 public:
     static Player * fireboy;
     static Player * watergirl;
     static Audio * audio;           // sistema de �udio
     static Game * current_level;    // n�vel atual do jogo
+    static Game * last_level;
     static bool viewBBox;           // estado da bounding box
     static int game_speed;
 
@@ -28,6 +30,6 @@ public:
 
     static void NextLevel();        // muda para pr�ximo n�vel do jogo
     static void GameOverL();
-
-    static std::vector<Game*> levels;
+    static void LastLevel();
+    static void HomeLevel();
 };

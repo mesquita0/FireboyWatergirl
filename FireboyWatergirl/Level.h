@@ -18,9 +18,11 @@ public:
     Sprite * time_frame = nullptr;
     Font * font;
     int num_ground_blocks = 0;
-    bool is_run = false;
+    bool is_run = false, did_fail = false;
 
     Level(int level_number);
+
+    bool failed();
 
     void Init();                    // inicialização do nível
     void Update();                  // atualiza lógica do jogo
@@ -30,6 +32,9 @@ public:
     int levelNumber();
     Timer timer; 
 }; 
+
+inline bool Level::failed()
+{ return did_fail; }
 
 inline int Level::levelNumber()
 { return level_number; } 
