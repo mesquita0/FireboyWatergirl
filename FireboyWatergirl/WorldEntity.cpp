@@ -24,6 +24,11 @@ WorldEntity::WorldEntity(float posX, float posY, float posZ, EntityTypeSprite pl
     case FINISH_PORTAL_3:    type = FINISH_PORTAL_ANY;   entity = new Sprite("Resources/Door.png"); break;
     case ROTATING_PLATFORM1: type = ROTATING_PLATFORM;   entity = new Sprite("Resources/Platforms/Madeira/MeiaPlataformaMadeira4.png"); break;
     case PLATFORM_STOPPER:   type = _PLATFORM_STOPPER;   break;
+    case GROUND2:            type = GROUND;              entity = new Sprite("Resources/Platforms/Metal/PisoMetal.png"); break;
+    case PLATMETAL1:            type = GROUND;              entity = new Sprite("Resources/Platforms/Metal/PlataformaMediaMetal4.png"); break;
+    case PLATMETAL2: type = MOVING_PLATFORM_Y;   entity = new Sprite("Resources/Platforms/Metal/PlataformaMediaMetal5.png"); break;
+    case BLOCOMETAL:            type = GROUND;              entity = new Sprite("Resources/Platforms/Metal/BlocoMetal.png"); break;
+    case RAMPAMETAL:            type = GROUND;              entity = new Sprite("Resources/aaa.jpeg"); break;
     }
 
     if (entity) {

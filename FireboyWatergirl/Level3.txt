@@ -50,9 +50,6 @@
 //            17 - Plataforma madeira giratória
 //              18 - piso de pedra
 //              19 - plataforma metal 1
-//              20 - plataforma metal eixo y
-//              21 - bloco metal
-//              22 - rampa
 //
 //   posX    posY   posZ  EntityType   scale   rotation   color_R  color_G  color_B
      256     708      d           10     1.0          d         d        d        d
@@ -83,15 +80,8 @@
 
         350     650      d           19     1.0          d         d        d        d
         635     650      d           19     1.0          d         d        d        d
-        880     500      d           15     1.0          d         d        d        d
-        880     650      d           20     1.0          d         d        d        d
-        880     680      d           15     1.0          d         d        d        d
-        670     450      d           21     1.0          d         d        d        d
-        565     370      d           21     1.0          d         d        d        d
-        350     465      d           22     1.0          140         d        d        d
-       350     465      d           10     1.0           30        d        d        d
-       500     465      d           10     1.0           30        d        d        d
-       
+
+
 
 
 

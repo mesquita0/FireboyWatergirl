@@ -17,7 +17,6 @@ private:
     Scene * scene = nullptr;
     Sprite* title = nullptr;
     Sprite* quadrado1 = nullptr;
-    Sprite* quadrado2 = nullptr;
     Background * backg = nullptr; 
     Font * font = nullptr;
     float titleY;
