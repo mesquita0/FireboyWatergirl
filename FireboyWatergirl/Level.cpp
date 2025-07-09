@@ -77,8 +77,8 @@ void Level::Draw()
 
     // Tempo do level
     int seconds = timer.Elapsed();
-    time_frame->Draw(window->CenterX() - 10, 15, Layer::FRONT, 0.21);
-    font->Draw(window->CenterX() - 25, 15, std::format("{:02}:{:02}", seconds / 60, seconds % 60), Color{0, 0, 0, 1}, 0, 2);
+    time_frame->Draw(480 - 10, 15, Layer::FRONT, 0.21);
+    font->Draw(480 - 25, 15, std::format("{:02}:{:02}", seconds / 60, seconds % 60), Color{0, 0, 0, 1}, 0, 2);
 
     if (FireboyWatergirl::viewBBox)
         scene->DrawBBox();

@@ -48,22 +48,19 @@ void GameOver::Init()
         }
     }
         
-    // Adiciona botões
+    // Adiciona botÃµes
     callback_function play_sfx = []() { FireboyWatergirl::audio->Play(BUTTON_SELECT); };
     failed = static_cast<Level*>(FireboyWatergirl::last_level)->failed();
     if (level_number != 1 || failed) {
-        play_button = new Button(window->CenterX() - 173, window->CenterY() + 78, failed ? "Try Again" : "Continue", *font, Color{ 1, 1, 1, 1 }, Color{ 1, 1, 0, 1 }, 1.75, play_sfx);
+        play_button = new Button(480 - 173, 384 + 78, failed ? "Try Again" : "Continue", *font, Color{ 1, 1, 1, 1 }, Color{ 1, 1, 0, 1 }, 1.75, play_sfx);
         scene->Add(play_button, STATIC);
-        menu_button = new Button(window->CenterX() + 83, window->CenterY() + 78, "Main Menu", *font, Color{ 1, 1, 1, 1 }, Color{ 1, 1, 0, 1 }, 1.65, play_sfx);
+        menu_button = new Button(480 + 83, 384 + 78, "Main Menu", *font, Color{ 1, 1, 1, 1 }, Color{ 1, 1, 0, 1 }, 1.65, play_sfx);
     }
     else {
-        menu_button = new Button(window->CenterX() - 45, window->CenterY() + 78, "Main Menu", *font, Color{ 1, 1, 1, 1 }, Color{ 1, 1, 0, 1 }, 1.65, play_sfx);
+        menu_button = new Button(480 - 45, 384 + 78, "Main Menu", *font, Color{ 1, 1, 1, 1 }, Color{ 1, 1, 0, 1 }, 1.65, play_sfx);
     }
 
     scene->Add(menu_button, STATIC);
-
-    FireboyWatergirl::fireboy->disableControls();
-    FireboyWatergirl::watergirl->disableControls();
 }
 
 void GameOver::Update()
@@ -89,9 +86,9 @@ void GameOver::Update()
 void GameOver::Draw()
 {
     scene->Draw();
-    title->Draw(window->CenterX(), window->CenterY(), Layer::BACK); 
+    title->Draw(480, 384, Layer::BACK); 
     
-    font->Draw(window->CenterX() - 25, 100, std::format("{:02}:{:02}", seconds / 60, seconds % 60), Color{ 0, 0, 0, 1 }, 0, 2);
+    font->Draw(480 - 25, 100, std::format("{:02}:{:02}", seconds / 60, seconds % 60), Color{ 0, 0, 0, 1 }, 0, 2);
 
     if (static_cast<Level*>(FireboyWatergirl::last_level)->is_run && static_cast<Level*>(FireboyWatergirl::last_level)->didFireboyWin()) {
         font->Draw(480 - 100, 150, "Fireboy Wins!", Color{ 0, 0, 0, 1 }, 0, 2);
@@ -99,13 +96,13 @@ void GameOver::Draw()
     else if (static_cast<Level*>(FireboyWatergirl::last_level)->is_run) {
         font->Draw(480 - 100, 150, "Watergirl Wins!", Color{ 0, 0, 0, 1 }, 0, 2);
     }
-
+  
     if (!static_cast<Level*>(FireboyWatergirl::last_level)->is_run || static_cast<Level*>(FireboyWatergirl::last_level)->failed()) {
-        quadrado->Draw(window->CenterX() - 130, window->CenterY() + 80, Layer::MIDDLE);
-        quadrado->Draw(window->CenterX() + 130, window->CenterY() + 80, Layer::MIDDLE);
+        quadrado->Draw(480 - 130, 384 + 80, Layer::MIDDLE);
+        quadrado->Draw(480 + 130, 384 + 80, Layer::MIDDLE);
     }
     else {
-        quadrado->Draw(window->CenterX(), window->CenterY() + 80, Layer::MIDDLE);
+        quadrado->Draw(480, 384 + 80, Layer::MIDDLE);
     }
 
     if (FireboyWatergirl::viewBBox)
