@@ -15,10 +15,6 @@ private:
     static int level_index;
 
 public:
-    static Controller* gamepad;     // controle de jogo
-    static bool controllerOn;       // controle directinput ativado
-    static bool xboxOn;             // controle xinput ativado
-
     static Player * fireboy;
     static Player * watergirl;
     static Audio * audio;           // sistema de �udio

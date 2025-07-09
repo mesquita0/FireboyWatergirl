@@ -48,6 +48,8 @@ void loadLevel(Level& level, Window* window, const std::string& path) {
     fin >> posXwater;
     fin >> posYwater;
     fin >> player_scale;
+    FireboyWatergirl::fireboy->setInitialPosition(posXfire, posYfire);
+    FireboyWatergirl::watergirl->setInitialPosition(posXwater, posYwater);
     FireboyWatergirl::fireboy->MoveTo(posXfire, posYfire);
     FireboyWatergirl::fireboy->ScaleTo(player_scale);
     FireboyWatergirl::watergirl->MoveTo(posXwater, posYwater);
