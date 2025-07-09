@@ -20,6 +20,7 @@ private:
     TileSet* tileset = nullptr;    // tileset da animação
     Mouse* mouse;
     bool failed = false;
+    Sprite* quadrado = nullptr; 
 
     Button* play_button, * menu_button;
     //Animation* anim1 = nullptr;  

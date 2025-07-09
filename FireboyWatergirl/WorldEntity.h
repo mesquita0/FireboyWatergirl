@@ -37,6 +37,9 @@ enum EntityTypeSprite {
     ROTATING_PLATFORM1,
     GROUND2,
     PLATMETAL1,
+    PLATMETAL2,
+    BLOCOMETAL,
+    RAMPAMETAL,
 };
 
 class WorldEntity : public Object
