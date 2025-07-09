@@ -30,6 +30,10 @@ WorldEntity::WorldEntity(float posX, float posY, float posZ, EntityTypeSprite pl
         width  = entity->Width();
         height = entity->Height();
     }
+
+    if (type == FINISH_PORTAL_FIRE || type == FINISH_PORTAL_WATER || type == FINISH_PORTAL_ANY) {
+        entity_2 = new Sprite("Resources/OpenDoor2.png");
+    }
     
     Point points[4];
     switch (type) {
@@ -73,7 +77,8 @@ WorldEntity::WorldEntity(float posX, float posY, float posZ, EntityTypeSprite pl
 
 WorldEntity::~WorldEntity()
 {
-    delete entity;
+    if (entity)   delete entity;
+    if (entity_2) delete entity_2;
 }
 
 void WorldEntity::Update()
@@ -82,6 +87,7 @@ void WorldEntity::Update()
     constexpr float platform_rotation_speed = 0.5;
 
     changed_direction = false;
+    draw_entity_2 = false;
     switch (type)
     {
     case MOVING_PLATFORM_X:

@@ -153,8 +153,8 @@
     //ANDAR 4                     
     880      110       d            4     0.8         d          d        d       d
     805      110       d            4     0.8         d          d        d       d
-    880      70        d            9     0.13        d          d        d       d
-    805      70        d            8     0.13        d          d        d       d
+    880      67        d            9     0.15        d          d        d       d
+    805      67        d            8     0.15        d          d        d       d
     730      110       d            4     0.8         d          d        d       d
     655      110       d            4     0.8         d          d        d       d
     580      110       d            4     0.8         d          d        d       d

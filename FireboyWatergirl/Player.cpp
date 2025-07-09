@@ -146,14 +146,21 @@ void Player::OnCollision(Object* obj)
     {
     case FINISH_PORTAL_ANY:
         ready_next_level = true;
+        static_cast<WorldEntity*>(obj)->ToggleEnity();
         break;
 
     case FINISH_PORTAL_FIRE:
-        if (is_fireboy) ready_next_level = true;
+        if (is_fireboy) {
+            ready_next_level = true;
+            static_cast<WorldEntity*>(obj)->ToggleEnity();
+        }
         break;
 
     case FINISH_PORTAL_WATER:
-        if (!is_fireboy) ready_next_level = true;
+        if (!is_fireboy) {
+            ready_next_level = true;
+            static_cast<WorldEntity*>(obj)->ToggleEnity();
+        }
         break;
 
     case THORN:
@@ -355,6 +362,7 @@ inline void Player::Draw()
     }
     else {
         offset_y -= 25;
+        head_y += 5;
         current_anim_head->Draw(head_x, head_y, z, scale_head * scale, -rotation_head, mirror_x);
         current_anim_body->Draw(x, y + (current_anim_body->tileSet()->TileHeight() / 2.0 - offset_body) * scale, z, scale, 0, mirror_x);
     }

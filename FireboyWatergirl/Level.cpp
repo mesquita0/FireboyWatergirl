@@ -52,8 +52,8 @@ void Level::Update()
         FireboyWatergirl::watergirl->Reset(level_number-1); 
     }
     else if (
-        (FireboyWatergirl::fireboy->IsReadyNextLevel() 
-        && FireboyWatergirl::watergirl->IsReadyNextLevel())
+        (FireboyWatergirl::fireboy->IsReadyNextLevel()  && FireboyWatergirl::fireboy->IsStill() &&
+        FireboyWatergirl::watergirl->IsReadyNextLevel() && FireboyWatergirl::watergirl->IsStill())
         || window->KeyPress('N'))
     {
         FireboyWatergirl::audio->Stop(MUSIC);

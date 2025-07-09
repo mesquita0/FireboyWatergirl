@@ -46,7 +46,9 @@ public:
     float Top();                        // coordenadas do topo
     float Height();                        
     float Width();                        
+    bool  IsFireboy();
     bool  IsAlive();
+    bool  IsStill();
     bool  IsReadyNextLevel();
 
     void setScale(float scale);
@@ -70,8 +72,14 @@ inline float Player::Bottom()
 inline float Player::Top()
 { return y - Height()/2; }
 
+inline bool Player::IsFireboy()
+{ return is_fireboy; }
+
 inline bool Player::IsAlive() 
 { return is_alive; }
+
+inline bool Player::IsStill()
+{ return velocity->Magnitude() == 0; }
 
 inline bool Player::IsReadyNextLevel() 
 { return ready_next_level; }
