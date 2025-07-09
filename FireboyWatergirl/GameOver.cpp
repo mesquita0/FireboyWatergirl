@@ -49,11 +49,11 @@ void GameOver::Init()
 
         if (static_cast<Level*>(FireboyWatergirl::last_level)->didFireboyWin()) {
             scene->Add(FireboyWatergirl::fireboy, STATIC);
-            FireboyWatergirl::watergirl->MoveTo(window->CenterX() + 30, window->CenterY() - 55); 
+            FireboyWatergirl::watergirl->MoveTo(window->CenterX() + 30, 400); 
         }
         else {
             scene->Add(FireboyWatergirl::watergirl, STATIC);
-            FireboyWatergirl::fireboy->MoveTo(window->CenterX() - 30, window->CenterY() - 50);
+            FireboyWatergirl::fireboy->MoveTo(window->CenterX() - 30, 400);
         }
     }
         
@@ -63,8 +63,11 @@ void GameOver::Init()
     if (level_number != 1 || failed) {
         play_button = new Button(window->CenterX() - 173, window->CenterY() + 78, failed ? "Try Again" : "Continue", *font, Color{ 1, 1, 1, 1 }, Color{ 1, 1, 0, 1 }, 1.75, play_sfx);
         scene->Add(play_button, STATIC);
+        menu_button = new Button(window->CenterX() + 83, window->CenterY() + 78, "Main Menu", *font, Color{ 1, 1, 1, 1 }, Color{ 1, 1, 0, 1 }, 1.65, play_sfx);
     }
-    menu_button = new Button(window->CenterX() + 83, window->CenterY() + 78, "Main Menu", *font, Color{ 1, 1, 1, 1 }, Color{ 1, 1, 0, 1 }, 1.65, play_sfx);
+    else {
+        menu_button = new Button(window->CenterX() - 45, window->CenterY() + 78, "Main Menu", *font, Color{ 1, 1, 1, 1 }, Color{ 1, 1, 0, 1 }, 1.65, play_sfx);
+    }
 
     scene->Add(menu_button, STATIC);
 
@@ -97,8 +100,13 @@ void GameOver::Draw()
     scene->Draw();
     title->Draw(window->CenterX(), window->CenterY(), Layer::BACK);
 
-    quadrado->Draw(window->CenterX() - 130, window->CenterY() + 80, Layer::MIDDLE);
-    quadrado->Draw(window->CenterX() + 130, window->CenterY() + 80, Layer::MIDDLE);
+    if (!static_cast<Level*>(FireboyWatergirl::last_level)->is_run || static_cast<Level*>(FireboyWatergirl::last_level)->failed()) {
+        quadrado->Draw(window->CenterX() - 130, window->CenterY() + 80, Layer::MIDDLE);
+        quadrado->Draw(window->CenterX() + 130, window->CenterY() + 80, Layer::MIDDLE);
+    }
+    else {
+        quadrado->Draw(window->CenterX(), window->CenterY() + 80, Layer::MIDDLE);
+    }
 
     if (FireboyWatergirl::viewBBox)
         scene->DrawBBox();
