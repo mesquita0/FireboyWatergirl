@@ -21,8 +21,8 @@ void Home::Init()
 
     // Adiciona botões
     callback_function play_sfx = []() { FireboyWatergirl::audio->Play(BUTTON_SELECT); };
-    play_button = new Button(window->CenterX(), window->CenterY(), "PLAY", *font, Color{1, 1, 1, 1}, Color{1, 1, 0, 1}, 2, play_sfx);
-    quit_button = new Button(window->CenterX(), window->CenterY() + 100, "QUIT", *font, Color{1, 1, 1, 1}, Color{1, 1, 0, 1}, 2, play_sfx);
+    play_button = new Button(480, 384, "PLAY", *font, Color{ 1, 1, 1, 1 }, Color{ 1, 1, 0, 1 }, 2, play_sfx);
+    quit_button = new Button(480, 384 + 100, "QUIT", *font, Color{1, 1, 1, 1}, Color{1, 1, 0, 1}, 2, play_sfx);
     scene->Add(play_button, STATIC);
     scene->Add(quit_button, STATIC);
 
