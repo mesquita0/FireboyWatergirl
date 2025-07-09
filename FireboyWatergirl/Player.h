@@ -2,6 +2,7 @@
 #include "Types.h"                      // tipos específicos da engine
 #include "Object.h"                     // interface de Object
 #include "Animation.h"                  // animação de sprites
+#include "Controller.h"
 #include "Vector.h"
 
 enum State { IDLE, RUNNING, JUMPING, FALLING };
@@ -9,6 +10,9 @@ enum State { IDLE, RUNNING, JUMPING, FALLING };
 class Player : public Object
 {
 private:
+    Controller* gamepad;
+    bool controllerOn, is_xbox_controller;
+
     Image* tiles;
     Timer* animation_timer;
 
@@ -26,7 +30,8 @@ private:
     Animation    * current_anim_body;
 
     Vector       * velocity;
-    int          level;                  // nível finalizado
+    int          level;                  
+    float        initial_posX, initial_posY;
     bool         is_alive, is_fireboy, ready_next_level, enable_controls;
 
     State state;
@@ -35,20 +40,23 @@ private:
     void slowDown();
 
 public:
-    Player(bool is_fireboy);            // construtor
-    ~Player();                          // destrutor
+    Player(bool is_fireboy, Controller* controller, bool controllerOn, bool xboxOn);
+    ~Player();                          
 
     void Reset();                       // volta ao estado inicial
     void Reset(int level);              
-    int LevelNumber();                        // último nível finalizado                     
+    int LevelNumber();                  // último nível finalizado                     
     void LevelNumber(int level);                                          
     float Bottom();                     // coordenadas da base
     float Top();                        // coordenadas do topo
     float Height();                        
     float Width();                        
+    bool  IsFireboy();
     bool  IsAlive();
+    bool  IsStill();
     bool  IsReadyNextLevel();
 
+    void setInitialPosition(float x, float y);
     void setScale(float scale);
     void enableControls();
     void disableControls();
@@ -70,11 +78,20 @@ inline float Player::Bottom()
 inline float Player::Top()
 { return y - Height()/2; }
 
+inline bool Player::IsFireboy()
+{ return is_fireboy; }
+
 inline bool Player::IsAlive() 
 { return is_alive; }
 
+inline bool Player::IsStill()
+{ return velocity->Magnitude() == 0; }
+
 inline bool Player::IsReadyNextLevel() 
 { return ready_next_level; }
+
+inline void Player::setInitialPosition(float x, float y)
+{ initial_posX = x; initial_posY = y; }
 
 inline void Player::setScale(float scale)
 { ScaleTo(scale); }

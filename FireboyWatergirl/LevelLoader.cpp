@@ -48,6 +48,8 @@ void loadLevel(Level& level, Window* window, const std::string& path) {
     fin >> posXwater;
     fin >> posYwater;
     fin >> player_scale;
+    FireboyWatergirl::fireboy->setInitialPosition(posXfire, posYfire);
+    FireboyWatergirl::watergirl->setInitialPosition(posXwater, posYwater);
     FireboyWatergirl::fireboy->MoveTo(posXfire, posYfire);
     FireboyWatergirl::fireboy->ScaleTo(player_scale);
     FireboyWatergirl::watergirl->MoveTo(posXwater, posYwater);
@@ -73,7 +75,7 @@ void loadLevel(Level& level, Window* window, const std::string& path) {
             case 'M': posZ = Layer::MIDDLE; break;
             case 'L': posZ = Layer::LOWER;  break;
             case 'B': posZ = Layer::BACK;   break;
-            default:  posZ = Layer::FRONT;  break;
+            default:  posZ = Layer::UPPER;  break;
             }
 
             // Lê linha com informações da entidade
@@ -86,17 +88,7 @@ void loadLevel(Level& level, Window* window, const std::string& path) {
 
             entity = new WorldEntity(posX, posY, posZ, (EntityTypeSprite)entityType, scale, rotation * (PI/180), Color{cR, cG, cB, 1});
 
-            ObjectGroup object_group = STATIC;
-            switch (entity->Type()) {
-            case MOVABLE_BOX:
-            case MOVING_PLATFORM_X:
-            case MOVING_PLATFORM_Y:
-                object_group = MOVING;
-                break;
-            default:
-                object_group = STATIC;
-                break;
-            }
+            ObjectGroup object_group = entity->isMovable() ? MOVING : STATIC;
             level.scene->Add(entity, object_group);
         }
         else {

@@ -11,7 +11,11 @@
 void Home::Init()
 {
     scene = new Scene();
-    backg = new Background("");
+    backg = new Background("Resources/Background.png",Color{1,1,1,5});
+    title = new Sprite("Resources/title.png");
+    quadrado1 = new Sprite("Resources/Platforms/teste2.png");
+   
+    titleY = 180;  
 
     font = new Font("Resources/Font.png");
     font->Spacing("Resources/FontMetrics.dat");
@@ -19,7 +23,7 @@ void Home::Init()
     mouse = new Mouse();
     scene->Add(mouse, MOVING);
 
-    // Adiciona botões
+    // Adiciona botÃµes
     callback_function play_sfx = []() { FireboyWatergirl::audio->Play(BUTTON_SELECT); };
     play_button = new Button(480, 384, "PLAY", *font, Color{ 1, 1, 1, 1 }, Color{ 1, 1, 0, 1 }, 2, play_sfx);
     quit_button = new Button(480, 384 + 100, "QUIT", *font, Color{1, 1, 1, 1}, Color{1, 1, 0, 1}, 2, play_sfx);
@@ -31,12 +35,12 @@ void Home::Init()
     FireboyWatergirl::watergirl->Reset();
     scene->Add(FireboyWatergirl::fireboy, STATIC);
     scene->Add(FireboyWatergirl::watergirl, STATIC);
-    FireboyWatergirl::fireboy->MoveTo(200, 750);
-    FireboyWatergirl::watergirl->MoveTo(800, 750);
+    FireboyWatergirl::fireboy->MoveTo(window->CenterX() - 30, window->CenterY() - 50);
+    FireboyWatergirl::watergirl->MoveTo(window->CenterX() + 30, window->CenterY() - 55);
     FireboyWatergirl::fireboy->disableControls();
     FireboyWatergirl::watergirl->disableControls();
 
-    // inicia com música
+    // inicia com mÃºsica
     FireboyWatergirl::audio->Play(MENU, true);
 }
 
@@ -63,6 +67,10 @@ void Home::Draw()
 {
     backg->Draw();
     scene->Draw();
+    title->Draw(window->CenterX(), titleY, Layer::FRONT);
+    quadrado1->Draw(window->CenterX(), window->CenterY(), Layer::MIDDLE);
+    quadrado1->Draw(window->CenterX(), window->CenterY() + 80, Layer::MIDDLE);
+
 
     if (FireboyWatergirl::viewBBox)
         scene->DrawBBox();

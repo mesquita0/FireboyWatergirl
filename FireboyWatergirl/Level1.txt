@@ -1,27 +1,27 @@
-// Informações sobre plano de fundo do level
+// Informaï¿½ï¿½es sobre plano de fundo do level
 // Componentes RGB entre 0 e 1
 // background    color_R  color_G  color_B
    Background        0.2      0.2        1
 
 
-// Informações sobre a posição inicial dos jogadores
-// posX e posY são as posições do centro do player
+// Informaï¿½ï¿½es sobre a posiï¿½ï¿½o inicial dos jogadores
+// posX e posY sï¿½o as posiï¿½ï¿½es do centro do player
 // posXFireboy    posYFireboy    posXWatergirl    posYWatergirl    scale
            100             686              100             590       0.2
 
 
-// Informações sobre as entidades do mundo
+// Informaï¿½ï¿½es sobre as entidades do mundo
 //
-// posX e posY são as posições do centro da plataforma
+// posX e posY sï¿½o as posiï¿½ï¿½es do centro da plataforma
 // posZ:
-//             profundidade da plataforma (defualt = LAYER::FRONT)
+//             profundidade da plataforma (defualt = LAYER::UPPER)
 //             Layer::FRONT  = F
 //             Layer::UPPER  = U
 //             Layer::MIDDLE = M
 //             Layer::LOWER  = L
-//             Layer::BACK   = B (nível de profundidade do background)
+//             Layer::BACK   = B (nï¿½vel de profundidade do background)
 // rotation: 
-//             rotação das plataforma em graus (default = 0)
+//             rotaï¿½ï¿½o das plataforma em graus (default = 0)
 // scale: 
 //             escala da plataforma (default = 1)
 // color RGB: 
@@ -30,7 +30,7 @@
 // d - valor default para coluna
 //
 // EntityType:
-//            0 - chão (1)
+//            0 - chï¿½o (1)
 //            1 - Plataforma madeira (1)
 //            2 - Plataforma madeira (2)
 //            3 - Plataforma madeira (3)
@@ -38,13 +38,16 @@
 //            5 - Plataforma madeira (5)
 //            6 - Caixa de madeira (movivel)
 //            7 - Plataforma madeira (6)
-//            8 - Portão fogo
-//            9 - Portão água
+//            8 - Portï¿½o fogo
+//            9 - Portï¿½o ï¿½gua
 //            10 - Espinho (1)
 //            11 - Espinho (2)
 //            12 - Espinho (3)
 //            13 - Plataforma madeira que se move no eixo x
 //            14 - Plataforma madeira que se move no eixo y
+//            15 - Parada plataforma
+//            16 - Portï¿½o genï¿½rico
+//            17 - Plataforma madeira giratï¿½ria
 //
 //  posX    posY    posZ   EntityType   scale   rotation   color_R  color_G  color_B
      0       750       d            7     1.0          d         d        d        d
@@ -52,16 +55,15 @@
      500     750       d            7     1.0          d         d        d        d
      750     750       d            7     1.0          d         d        d        d
      900     750       d            7     1.0          d         d        d        d
-     950     720       d            7     1.0          270       d        d        d
-     950     470       d            7     1.0          270       d        d        d
-     950     220       d            7     1.0          270       d        d        d    
-     950     30        d            7     1.0          270       d        d        d
+     950     290       d            7     1.0          270       d        d        d 
+     950     540       d            7     1.0          270       d        d        d 
+     950     790       d            7     1.0          270       d        d        d 
+     950     50        d            7     1.0          270       d        d        d
      
      //                             
-     16     700        d            7     1.0          90        d        d        d
-     16     450        d            7     1.0          90        d        d        d
-     16     200        d            7     1.0          90        d        d        d
-     16      0        d             7     1.0          90        d        d        d
+     16     600        d            7     1.0          90        d        d        d
+     16     400        d            7     1.0          90        d        d        d
+     16     150        d            7     1.0          90        d        d        d
      //                             
       0       0       d            7     1.0           180       d        d        d
       250     0       d            7    1.0            180       d        d        d
@@ -73,6 +75,7 @@
      98     622       d             4     1.0         d          d        d        d
      194     622       d            4     1.0         d          d        d        d
      290     622       d            4     1.0         d          d        d        d
+     500    705      d              10    0.8         d          d        d        d
      850     680       d            2     2.0         d          d        d        d
      60      500       d            0     0.8         d          d        d        d
      86      500       d            0     0.8         d          d        d        d
@@ -91,31 +94,32 @@
     414      500       d            0     0.8         d          d        d        d
     440      500       d            0     0.8         d          d        d        d
     466      500       d            0     0.8         d          d        d        d
-    550      545       U            7     0.8         30         d        d        d
+    550      545       M            7     0.8         30         d        d        d
     645      601       d            0     0.8         30         d        d        d
     650      600       d            0     0.8         d          d        d        d
     676      600       d            0     0.8         d          d        d        d
     702      600       d            0     0.8         d          d        d        d
     //ANDAR 2                      
-    100      380       d           14     1.0        d         d        d        d
-    180      379       d            0     0.8         d          d        d        d
-    206      379       d            0     0.8         d          d        d        d
-    232      379       d            0     0.8         d          d        d        d
-    258      379       d            0     0.8         d          d        d        d
-    284      379       d            0     0.8         d          d        d        d
-    310      379       d            0     0.8         d          d        d        d
-    336      379       d            0     0.8         d          d        d        d
-    362      379       d            0     0.8         d          d        d        d
-    388      379       d            0     0.8         d          d        d        d
-    414      379       d            0     0.8         d          d        d        d
-    440      379       d            0     0.8         d          d        d        d
-    466      379       d            0     0.8         d          d        d        d
-    492      379       d            0     0.8         d          d        d        d
-    518      379       d            0     0.8         d          d        d        d
-    544      379       d            0     0.8         d          d        d        d
-    570      379       d            0     0.8         d          d        d        d
-    660      410       U            7     0.8        20          d        d       d
-    749      440       d            0     0.8         d          d        d       d
+    100      390       d           14     1.0        d         d        d        d
+    100      285       d           15     1.0        d         d        d        d
+    100      425       d           15     1.0        d         d        d        d
+    340      340       d           10     0.8        d         d        d        d
+    460      340       d           10     0.8        d         d        d        d
+    232      380      d            0     0.8         d          d        d        d
+    258      380       d            0     0.8         d          d        d        d
+    284      380       d            0     0.8         d          d        d        d
+    310      380       d            0     0.8         d          d        d        d
+    336      380       d            0     0.8         d          d        d        d
+    362      380       d            0     0.8         d          d        d        d
+    388      380       d            0     0.8         d          d        d        d
+    414      380       d            0     0.8         d          d        d        d
+    440      380       d            0     0.8         d          d        d        d
+    466      380      d            0     0.8         d          d        d        d
+    492      380       d            0     0.8         d          d        d        d
+    518      380       d            0     0.8         d          d        d        d
+    544      380       d            0     0.8         d          d        d        d
+    569      380       d            0     0.8         d          d        d        d
+    670      411       M            7     0.8        19          d        d       d
     775      440       d            0     0.8         d          d        d       d
     801      440       d            0     0.8         d          d        d       d
     827      440       d            0     0.8         d          d        d       d
@@ -123,35 +127,31 @@
     879      440       d            0     0.8         d          d        d       d
     905      440       d            0     0.8         d          d        d       d
     // ANDAR 3                     
-    869      264       d           14     1.0         d          d        d       d
-    808      264       d            0     0.8         d          d        d       d
-    782      264       d            0     0.8         d          d        d       d
-    756      264       d            0     0.8         d          d        d       d
-    730      264       d            0     0.8         d          d        d       d
-    646      230       U            7     0.7         25         d        d       d
-    576      200       d            0     0.8          d         d        d       d
-    550      200       d            0     0.8          d         d        d       d
-    524      200       d            0     0.8          d         d        d       d
-    498      200       d            0     0.8          d         d        d       d
-    465      180       d            6     0.4          d         d        d       d
-    454      212       d            1     1.0          d         d        d       d
-    392      212       d            1     1.0          d         d        d       d
-    330      212       d            1     1.0          d         d        d       d
-    268      212       d            1     1.0          d         d        d       d
-    206      212       d            1     1.0          d         d        d       d
-    144      212       d            1     1.0          d         d        d       d
-     82      212       d            1     1.0          d         d        d       d
-     82      184       d            1     1.0          d         d        d       d
-    144      184       d            1     1.0          d         d        d       d
-    206      184       d            1     1.0          d         d        d       d
-     82      156       d            1     1.0          d         d        d       d
-    144      156       d            1     1.0          d         d        d       d
-    206      156       d            1     1.0          d         d        d       d
+    830      300       d           17     1.0         d          d        d       d
+    646      240       M            7     0.7         25         d        d       d
+    576      210       d            0     0.8          d         d        d       d
+    550      210       d            0     0.8          d         d        d       d
+    524      210       d            0     0.8          d         d        d       d
+    498      210       d            0     0.8          d         d        d       d
+    465      190       d            6     0.4          d         d        d       d
+    454      222       d            1     1.0          d         d        d       d
+    392      222       d            1     1.0          d         d        d       d
+    330      222       d            1     1.0          d         d        d       d
+    268      222       d            1     1.0          d         d        d       d
+    206      222       d            1     1.0          d         d        d       d
+    144      222       d            1     1.0          d         d        d       d
+     82      222       d            1     1.0          d         d        d       d
+     82      194       d            1     1.0          d         d        d       d
+    144      194       d            1     1.0          d         d        d       d
+    206      194       d            1     1.0          d         d        d       d
+     82      166       d            1     1.0          d         d        d       d
+    144      166       d            1     1.0          d         d        d       d
+    206      166       d            1     1.0          d         d        d       d
     //ANDAR 4                     
     880      110       d            4     0.8         d          d        d       d
     805      110       d            4     0.8         d          d        d       d
-    880      70        d            9     0.13        d          d        d       d
-    805      70        d            8     0.13        d          d        d       d
+    880      67        d            9     0.15        d          d        d       d
+    805      67        d            8     0.15        d          d        d       d
     730      110       d            4     0.8         d          d        d       d
     655      110       d            4     0.8         d          d        d       d
     580      110       d            4     0.8         d          d        d       d

@@ -11,18 +11,15 @@ enum Sounds { MENU, MUSIC, DIED, FB_JUMP, WG_JUMP, GAMEOVER, LEVEL_START, BUTTON
 class FireboyWatergirl : public Game
 {
 private:
-    static std::vector<Game*> levels;
     static int level_index;
+    static std::vector<Game*> levels;
 
 public:
-    static Controller* gamepad;     // controle de jogo
-    static bool controllerOn;       // controle directinput ativado
-    static bool xboxOn;             // controle xinput ativado
-
     static Player * fireboy;
     static Player * watergirl;
     static Audio * audio;           // sistema de �udio
     static Game * current_level;    // n�vel atual do jogo
+    static Game * last_level;
     static bool viewBBox;           // estado da bounding box
     static int game_speed;
 
@@ -33,4 +30,6 @@ public:
 
     static void NextLevel();        // muda para pr�ximo n�vel do jogo
     static void GameOverL();
+    static void LastLevel();
+    static void HomeLevel();
 };

@@ -46,6 +46,7 @@ protected:
 public:
     Vector mtv_fire = {};
     Vector mtv_water = {};
+    Vector mtv_ground = {};
 
     Geometry();                                         // construtor
     virtual ~Geometry();                                // destrutor
