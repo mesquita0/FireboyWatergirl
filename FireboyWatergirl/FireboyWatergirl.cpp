@@ -6,9 +6,6 @@
 #include "Level.h"
 #include "Player.h"
 
-Controller* FireboyWatergirl::gamepad = nullptr;
-bool FireboyWatergirl::controllerOn = false;
-bool FireboyWatergirl::xboxOn = false;
 std::vector<Game*> FireboyWatergirl::levels = {};
 Game*   FireboyWatergirl::current_level = nullptr;
 int     FireboyWatergirl::level_index = 0;
@@ -20,7 +17,7 @@ int     FireboyWatergirl::game_speed = 250;
 
 void FireboyWatergirl::Init() 
 {
-    // cria sistema de �udio
+    // cria sistema de áudio
     audio = new Audio();
     audio->Add(MENU, "Resources/sfx/Menu.wav");
     audio->Add(MUSIC, "Resources/sfx/Level.wav");
@@ -32,21 +29,23 @@ void FireboyWatergirl::Init()
     audio->Add(BUTTON_SELECT, "Resources/sfx/ButtonSelect.wav");
 
     // cria gerenciador de controles
-    gamepad = new Controller();
+    Controller* gamepad_fire = new Controller();
+    Controller* gamepad_water = new Controller();
 
     // tenta inicializar um controle do xbox
-    xboxOn = gamepad->XboxInitialize();
-
-    // se falhar, tenta inicializar um controle qualquer
-    if (!xboxOn)
-        controllerOn = gamepad->Initialize();
+    bool controller_on_fire = gamepad_fire->XboxInitialize(PLAYER1);
+    bool controller_on_water = false;
+    if (controller_on_fire) {
+        gamepad_water->Initialize();
+        controller_on_water = gamepad_water->DeviceNext();
+    }
 
     // bounding box não visível
     viewBBox = false;
 
     // cria jogadores
-    fireboy   = new Player(true);
-    watergirl = new Player(false);
+    fireboy = new Player(true, gamepad_fire, controller_on_fire, true);
+    watergirl = new Player(false, gamepad_water, controller_on_water, false);
 
     // cria níveis
     levels = {
@@ -84,7 +83,6 @@ void FireboyWatergirl::Finalize()
 
     delete fireboy;
     delete watergirl;
-    delete gamepad;
     delete audio;
 
     for (auto level : levels) delete level;

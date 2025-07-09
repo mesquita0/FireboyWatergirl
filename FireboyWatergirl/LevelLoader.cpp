@@ -48,6 +48,8 @@ void loadLevel(Level& level, Window* window, const std::string& path) {
     fin >> posXwater;
     fin >> posYwater;
     fin >> player_scale;
+    FireboyWatergirl::fireboy->setInitialPosition(posXfire, posYfire);
+    FireboyWatergirl::watergirl->setInitialPosition(posXwater, posYwater);
     FireboyWatergirl::fireboy->MoveTo(posXfire, posYfire);
     FireboyWatergirl::fireboy->ScaleTo(player_scale);
     FireboyWatergirl::watergirl->MoveTo(posXwater, posYwater);
@@ -73,7 +75,7 @@ void loadLevel(Level& level, Window* window, const std::string& path) {
             case 'M': posZ = Layer::MIDDLE; break;
             case 'L': posZ = Layer::LOWER;  break;
             case 'B': posZ = Layer::BACK;   break;
-            default:  posZ = Layer::FRONT;  break;
+            default:  posZ = Layer::UPPER;  break;
             }
 
             // Lê linha com informações da entidade
