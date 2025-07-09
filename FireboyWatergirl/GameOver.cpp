@@ -91,11 +91,12 @@ void GameOver::Draw()
     font->Draw(480 - 25, 100, std::format("{:02}:{:02}", seconds / 60, seconds % 60), Color{ 0, 0, 0, 1 }, 0, 2);
 
     if (static_cast<Level*>(FireboyWatergirl::last_level)->is_run && static_cast<Level*>(FireboyWatergirl::last_level)->didFireboyWin()) {
-        font->Draw(480 - 100, 150, "Fireboy Wins!", Color{0, 0, 0, 1}, 0, 2);
+        font->Draw(480 - 100, 150, "Fireboy Wins!", Color{ 0, 0, 0, 1 }, 0, 2);
     }
     else if (static_cast<Level*>(FireboyWatergirl::last_level)->is_run) {
         font->Draw(480 - 100, 150, "Watergirl Wins!", Color{ 0, 0, 0, 1 }, 0, 2);
     }
+  
     if (!static_cast<Level*>(FireboyWatergirl::last_level)->is_run || static_cast<Level*>(FireboyWatergirl::last_level)->failed()) {
         quadrado->Draw(480 - 130, 384 + 80, Layer::MIDDLE);
         quadrado->Draw(480 + 130, 384 + 80, Layer::MIDDLE);
