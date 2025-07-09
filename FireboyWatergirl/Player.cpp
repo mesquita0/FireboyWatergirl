@@ -247,6 +247,12 @@ void Player::Update()
     current_anim_body->NextFrame();
 
     if (!enable_controls) return;
+
+    // Resetar player para posição inicial se saiu da tela
+    if (((Rect*)BBox())->Top() > window->Height()) {
+        MoveTo(initial_posX, initial_posY);
+        FireboyWatergirl::audio->Play(DIED);
+    }
     
     // Resetar o estado em todo frame para conferir na colisão com o portal para o próximo nível
     ready_next_level = false;
