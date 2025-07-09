@@ -53,10 +53,10 @@ void GameOver::Init()
     callback_function play_sfx = []() { FireboyWatergirl::audio->Play(BUTTON_SELECT); };
     failed = static_cast<Level*>(FireboyWatergirl::last_level)->failed();
     if (level_number != 1 || failed) {
-        play_button = new Button(window->CenterX() - 6, window->CenterY(), failed ? "Try Again" : "Continue", *font, Color{ 1, 1, 1, 1 }, Color{ 1, 1, 0, 1 }, 1.75, play_sfx);
+        play_button = new Button(480 - 6, 384, failed ? "Try Again" : "Continue", *font, Color{ 1, 1, 1, 1 }, Color{ 1, 1, 0, 1 }, 1.75, play_sfx);
         scene->Add(play_button, STATIC);
     }
-    menu_button = new Button(window->CenterX() - 6, window->CenterY() + 78, "Main Menu", *font, Color{ 1, 1, 1, 1 }, Color{ 1, 1, 0, 1 }, 1.65, play_sfx);
+    menu_button = new Button(480 - 6, 384 + 78, "Main Menu", *font, Color{ 1, 1, 1, 1 }, Color{ 1, 1, 0, 1 }, 1.65, play_sfx);
 
     scene->Add(menu_button, STATIC);
 
@@ -87,7 +87,7 @@ void GameOver::Update()
 void GameOver::Draw()
 {
     scene->Draw();
-    title->Draw(window->CenterX(), window->CenterY(), Layer::FRONT);
+    title->Draw(480, 384, Layer::FRONT);
 
     if (FireboyWatergirl::viewBBox)
         scene->DrawBBox();

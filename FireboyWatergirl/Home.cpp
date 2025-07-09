@@ -35,8 +35,8 @@ void Home::Init()
     FireboyWatergirl::watergirl->Reset();
     scene->Add(FireboyWatergirl::fireboy, STATIC);
     scene->Add(FireboyWatergirl::watergirl, STATIC);
-    FireboyWatergirl::fireboy->MoveTo(window->CenterX() - 30, window->CenterY() - 50);
-    FireboyWatergirl::watergirl->MoveTo(window->CenterX() + 30, window->CenterY() - 55);
+    FireboyWatergirl::fireboy->MoveTo(480 - 30, 384 - 50);
+    FireboyWatergirl::watergirl->MoveTo(480 + 30, 384 - 55);
     FireboyWatergirl::fireboy->disableControls();
     FireboyWatergirl::watergirl->disableControls();
 
@@ -67,9 +67,9 @@ void Home::Draw()
 {
     backg->Draw();
     scene->Draw();
-    title->Draw(window->CenterX(), titleY, Layer::FRONT);
-    quadrado1->Draw(window->CenterX(), window->CenterY(), Layer::MIDDLE);
-    quadrado1->Draw(window->CenterX(), window->CenterY() + 80, Layer::MIDDLE);
+    title->Draw(480, titleY, Layer::FRONT);
+    quadrado1->Draw(480 + 5, 384, Layer::MIDDLE);
+    quadrado1->Draw(480 + 1, 384 + 80, Layer::MIDDLE);
 
 
     if (FireboyWatergirl::viewBBox)
