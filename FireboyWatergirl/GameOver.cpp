@@ -88,6 +88,9 @@ void GameOver::Draw()
 {
     scene->Draw();
     title->Draw(window->CenterX(), window->CenterY(), Layer::FRONT);
+
+    if (FireboyWatergirl::viewBBox)
+        scene->DrawBBox();
 }
 
 void GameOver::Finalize()
