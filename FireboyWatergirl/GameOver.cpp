@@ -46,15 +46,6 @@ void GameOver::Init()
         else if (seconds > 50) {
             title = new Sprite("Resources/back1.png");
         }
-
-        if (static_cast<Level*>(FireboyWatergirl::last_level)->didFireboyWin()) {
-            scene->Add(FireboyWatergirl::fireboy, STATIC);
-            FireboyWatergirl::watergirl->MoveTo(window->CenterX() + 30, 400); 
-        }
-        else {
-            scene->Add(FireboyWatergirl::watergirl, STATIC);
-            FireboyWatergirl::fireboy->MoveTo(window->CenterX() - 30, 400);
-        }
     }
         
     // Adiciona botões
@@ -102,6 +93,13 @@ void GameOver::Draw()
     
     font->Draw(window->CenterX() - 25, 100, std::format("{:02}:{:02}", seconds / 60, seconds % 60), Color{ 0, 0, 0, 1 }, 0, 2);
 
+    if (static_cast<Level*>(FireboyWatergirl::last_level)->is_run && static_cast<Level*>(FireboyWatergirl::last_level)->didFireboyWin()) {
+        font->Draw(480 - 100, 150, "Fireboy Wins!", Color{ 0, 0, 0, 1 }, 0, 2);
+    }
+    else if (static_cast<Level*>(FireboyWatergirl::last_level)->is_run) {
+        font->Draw(480 - 100, 150, "Watergirl Wins!", Color{ 0, 0, 0, 1 }, 0, 2);
+    }
+
     if (!static_cast<Level*>(FireboyWatergirl::last_level)->is_run || static_cast<Level*>(FireboyWatergirl::last_level)->failed()) {
         quadrado->Draw(window->CenterX() - 130, window->CenterY() + 80, Layer::MIDDLE);
         quadrado->Draw(window->CenterX() + 130, window->CenterY() + 80, Layer::MIDDLE);
@@ -116,9 +114,6 @@ void GameOver::Draw()
 
 void GameOver::Finalize()
 {
-    scene->Remove(FireboyWatergirl::fireboy, STATIC);
-    scene->Remove(FireboyWatergirl::watergirl, STATIC);
-
     delete scene;
     delete font;
     delete title;
