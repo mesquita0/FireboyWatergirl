@@ -13,10 +13,11 @@ Button::Button(float posX, float posY, std::string text, Font& font, Color color
 
     // cria bounding box
     int width = text.length() * font.getCharWidth();
+    int x = (text.length() == 4) ? 3.1 : 6;
     BBox(new Rect(
         -(1 / scale) * font.getCharWidth(),
         - font.getCharHeight() / 2.0f,
-        width - font.getCharWidth() * 3.1,
+        width - font.getCharWidth() * x,
         font.getCharHeight() / 2.0f));
 
     // ajusta posição e escala do botão

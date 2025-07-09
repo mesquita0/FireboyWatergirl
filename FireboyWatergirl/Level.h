@@ -18,9 +18,12 @@ public:
     Sprite * time_frame = nullptr;
     Font * font;
     int num_ground_blocks = 0;
-    bool is_run = false;
+    bool is_run = false, did_fail = false, did_fireboy_win = false;
 
     Level(int level_number);
+
+    bool failed();
+    bool didFireboyWin();
 
     void Init();                    // inicialização do nível
     void Update();                  // atualiza lógica do jogo
@@ -30,6 +33,12 @@ public:
     int levelNumber();
     Timer timer; 
 }; 
+
+inline bool Level::failed()
+{ return did_fail; }
+
+inline bool Level::didFireboyWin()
+{ return did_fireboy_win; }
 
 inline int Level::levelNumber()
 { return level_number; } 
