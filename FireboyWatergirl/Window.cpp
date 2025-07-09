@@ -176,8 +176,8 @@ LRESULT CALLBACK Window::WinProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPar
     {
         // movimento do mouse
     case WM_MOUSEMOVE:
-        windowMouseX = GET_X_LPARAM(lParam);
-        windowMouseY = GET_Y_LPARAM(lParam);
+        windowMouseX = GET_X_LPARAM(lParam) / (4 / 3.0f);
+        windowMouseY = GET_Y_LPARAM(lParam) / (4 / 3.0f);
         return 0;
 
     case WM_MOUSEWHEEL:
