@@ -131,11 +131,10 @@ void FireboyWatergirl::HomeLevel() {
 int APIENTRY WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPSTR lpCmdLine, _In_ int nCmdShow)
 {
     Engine * engine = new Engine();
-
-    engine->window->Mode(WINDOWED);
-    engine->window->Size(960, 768);
    
     // configura o motor
+    engine->window->Mode(BORDERLESS);
+    engine->window->Size(1280, 1024);
     engine->window->Color(30, 50, 80);
     engine->window->Title("Element Twins");
     engine->window->Icon(IDI_ICON);

@@ -3,7 +3,7 @@
 
 Background::Background(std::string background, Color tint) : color(tint)
 {
-    MoveTo(window->CenterX(), window->CenterY(), Layer::BACK);
+    MoveTo(480, 384, Layer::BACK);
 
     // cria sprite do plano de fundo 
     backg = new Sprite(background);

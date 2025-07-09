@@ -57,7 +57,7 @@ void GameOver::Init()
         }
     }
         
-    // Adiciona botões
+    // Adiciona botÃµes
     callback_function play_sfx = []() { FireboyWatergirl::audio->Play(BUTTON_SELECT); };
     failed = static_cast<Level*>(FireboyWatergirl::last_level)->failed();
     if (level_number != 1 || failed) {
