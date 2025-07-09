@@ -9,9 +9,14 @@ class GameOver : public Game
 {
 private:
     Sprite* title = nullptr;               // tela de fim
+    Sprite* estrela0 = nullptr;
     Font* font = nullptr;
     float progress_barX;
     float playerPercentage;
+    TileSet* tileset = nullptr;    // tileset da animação
+    //Animation* anim1 = nullptr;  
+    //Animation* anim2 = nullptr;
+    //Animation* anim3 = nullptr;
 
 public:
     void Init();                    // inicialização do nível

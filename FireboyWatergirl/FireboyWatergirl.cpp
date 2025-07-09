@@ -52,6 +52,7 @@ void FireboyWatergirl::Init()
     levels = {
         new Home(),
         new Level(1),
+        new GameOver(),
         new Level(2),
         new GameOver(),
     };

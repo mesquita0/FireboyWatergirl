@@ -10,7 +10,7 @@ class Level : public Game
 {
 private:
     int level_number;
-    Timer timer;
+    
 
 public:
     static Scene* scene;           // cena do nível
@@ -28,7 +28,8 @@ public:
     void Finalize();                // finalização do nível
 
     int levelNumber();
-};
+    Timer timer; 
+}; 
 
 inline int Level::levelNumber()
-{ return level_number; }
+{ return level_number; } 
