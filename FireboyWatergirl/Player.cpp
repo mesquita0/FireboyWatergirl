@@ -313,12 +313,12 @@ void Player::Update()
     // Voltar para a tela se saiu da camera
     ViewPort viewport = FireboyWatergirl::current_level->viewport;
     float pw = Width();
-    if (x - pw < viewport.left) {
-        Translate(viewport.left - (x - pw), 0);
-    }
-    else if (x + pw > viewport.right) {
-        Translate(viewport.right - (x + pw), 0);
-    }
+    float zoom_dif = 0.999;
+    float margin   = 1.0;
+    if (x - pw < viewport.left - margin || x + pw > viewport.right + margin)
+        FireboyWatergirl::zoom *= zoom_dif;
+    else if (FireboyWatergirl::zoom < FireboyWatergirl::initial_zoom && (x - pw > viewport.left && x + pw < viewport.right))
+        FireboyWatergirl::zoom *= (1 / zoom_dif);
 
     current_anim_head->NextFrame();
     current_anim_body->NextFrame();

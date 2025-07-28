@@ -22,7 +22,7 @@ public:
     static Game * last_level;
     static bool viewBBox;           // estado da bounding box
     static int game_speed;
-    static float zoom;
+    static float initial_zoom, zoom;
 
     void Init();                    // inicializa jogo
     void Update();                  // atualiza l�gica do jogo
