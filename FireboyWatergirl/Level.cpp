@@ -90,10 +90,13 @@ void Level::Update()
     // atualiza a viewport
     // --------------------
 
-    viewport.left = FireboyWatergirl::fireboy->X() - window->CenterX()   * ( 1 / FireboyWatergirl::zoom);
-    viewport.right = FireboyWatergirl::fireboy->X() + window->CenterX()  * ( 1 / FireboyWatergirl::zoom);
-    viewport.top = FireboyWatergirl::fireboy->Y() - window->CenterY()    * ( 1 / FireboyWatergirl::zoom);
-    viewport.bottom = FireboyWatergirl::fireboy->Y() + window->CenterY() * ( 1 / FireboyWatergirl::zoom);
+    float posX = (FireboyWatergirl::fireboy->X() + FireboyWatergirl::watergirl->X()) / 2.0f;
+    float posY = (FireboyWatergirl::fireboy->Y() + FireboyWatergirl::watergirl->Y()) / 2.0f;
+
+    viewport.left = posX - window->CenterX()   * ( 1 / FireboyWatergirl::zoom);
+    viewport.right = posX + window->CenterX()  * ( 1 / FireboyWatergirl::zoom);
+    viewport.top = posY - window->CenterY()    * ( 1 / FireboyWatergirl::zoom);
+    viewport.bottom = posY + window->CenterY() * ( 1 / FireboyWatergirl::zoom);
 
     if (viewport.left < 0)
     {

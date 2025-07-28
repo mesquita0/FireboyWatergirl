@@ -14,7 +14,7 @@ enum EntityType {
     MOVING_PLATFORM_Y,
     _PLATFORM_STOPPER,
     FINISH_PORTAL_ANY,
-    ROTATING_PLATFORM
+    ROTATING_PLATFORM,
 };
 
 enum EntityTypeSprite {

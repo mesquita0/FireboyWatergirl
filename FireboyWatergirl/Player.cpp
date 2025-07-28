@@ -310,6 +310,16 @@ void Player::Update()
 
     Translate(velocity->XComponent() * gameTime, -velocity->YComponent() * gameTime);
 
+    // Voltar para a tela se saiu da camera
+    ViewPort viewport = FireboyWatergirl::current_level->viewport;
+    float pw = Width();
+    if (x - pw < viewport.left) {
+        Translate(viewport.left - (x - pw), 0);
+    }
+    else if (x + pw > viewport.right) {
+        Translate(viewport.right - (x + pw), 0);
+    }
+
     current_anim_head->NextFrame();
     current_anim_body->NextFrame();
 }
