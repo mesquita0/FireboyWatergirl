@@ -102,8 +102,8 @@ void Level::Draw()
     backg->Draw();
     scene->Draw();
 
-    float px = (viewport.right  - viewport.left) / 2.0f;
-    float py = viewport.top;
+    float px = (viewport.right + viewport.left) / 2.0f;
+    float py = viewport.top + 15;
 
     // Tempo do level
     int seconds = timer.Elapsed();
