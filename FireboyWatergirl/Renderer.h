@@ -96,6 +96,7 @@ public:
     // ----------------------------------------
 
     bool Initialize(Window * window, Graphics * graphics);      // inicializa o renderizador
+    void UpdateBuffer(Window * window, Graphics * graphics);      // inicializa o renderizador
     void Draw(SpriteData & sprite);                             // adiciona sprite para desenho
     void Render();                                              // envia sprites para desenho    
 };

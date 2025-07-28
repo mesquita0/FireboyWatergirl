@@ -2,6 +2,7 @@
 #include "Types.h"                                      // tipos espec�ficos da engine
 #include "Object.h"                                     // interface de Object
 #include "Sprite.h"                                     // desenho de sprites
+#include "FireboyWatergirl.h"                                     // desenho de sprites
 
 enum EntityType { 
     GROUND,
@@ -77,7 +78,15 @@ inline uint WorldEntity::Height() const { return height;  }
 inline void WorldEntity::Draw()
 { 
     Sprite* current_entity = draw_entity_2 ? entity_2 : entity;
-    if (current_entity) current_entity->Draw(x, y, z, scale, rotation, false, color); 
+    if (current_entity) current_entity->Draw(
+        x,
+        y,
+        z, 
+        scale, 
+        rotation, 
+        false, 
+        color
+    );
 }
 
 inline void WorldEntity::ToggleEnity()

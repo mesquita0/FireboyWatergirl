@@ -892,7 +892,7 @@ bool Renderer::Initialize(Window* window, Graphics* graphics)
     constBufferDesc.Usage = D3D11_USAGE_DYNAMIC;
     constBufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
     constBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-
+    
     // calcula a matriz de transformação
     float xScale = (graphics->viewport.Width > 0) ? 2.0f / graphics->viewport.Width : 0.0f;
     float yScale = (graphics->viewport.Height > 0) ? 2.0f / graphics->viewport.Height : 0.0f;
@@ -1008,6 +1008,125 @@ bool Renderer::Initialize(Window* window, Graphics* graphics)
     return true;
 }
 
+void Renderer::UpdateBuffer(Window* window, Graphics* graphics) {
+    D3D11_BUFFER_DESC constBufferDesc = { 0 };
+    constBufferDesc.ByteWidth = sizeof(XMMATRIX);
+    constBufferDesc.Usage = D3D11_USAGE_DYNAMIC;
+    constBufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+    constBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+
+    // calcula a matriz de transformação
+    float xScale = (graphics->viewport.Width > 0) ? 2.0f / graphics->viewport.Width : 0.0f;
+    float yScale = (graphics->viewport.Height > 0) ? 2.0f / graphics->viewport.Height : 0.0f;
+
+    // transforma para coordenadas da tela
+    XMMATRIX transformMatrix
+    (
+        xScale, 0, 0, 0,
+        0, -yScale, 0, 0,
+        0, 0, 1, 0,
+        -1, 1, 0, 1
+    );
+
+    D3D11_SUBRESOURCE_DATA constantData = { 0 };
+    XMMATRIX worldViewProj = XMMatrixTranspose(transformMatrix);
+    constantData.pSysMem = &worldViewProj;
+
+    graphics->device->CreateBuffer(&constBufferDesc, &constantData, &constantBuffer);
+
+    //-------------------------------
+    // Texture Sampler
+    //-------------------------------
+
+    D3D11_SAMPLER_DESC samplerDesc;
+    ZeroMemory(&samplerDesc, sizeof(samplerDesc));
+    samplerDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
+    samplerDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
+    samplerDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
+    samplerDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
+    samplerDesc.MipLODBias = 0.0f;
+    samplerDesc.MaxAnisotropy = (graphics->device->GetFeatureLevel() > D3D_FEATURE_LEVEL_9_1) ? 16 : 2;
+    samplerDesc.ComparisonFunc = D3D11_COMPARISON_NEVER;
+    samplerDesc.BorderColor[0] = 0.0f;
+    samplerDesc.BorderColor[1] = 0.0f;
+    samplerDesc.BorderColor[2] = 0.0f;
+    samplerDesc.BorderColor[3] = 0.0f;
+    samplerDesc.MinLOD = 0;
+    samplerDesc.MaxLOD = D3D11_FLOAT32_MAX;
+
+    // cria o amostrador da textura
+    graphics->device->CreateSamplerState(&samplerDesc, &sampler);
+
+    //-------------------------------
+    // Configura Direct3D Pipeline
+    //-------------------------------
+
+    uint vertexStride = sizeof(Vertex);
+    uint vertexOffset = 0;
+    graphics->context->IASetVertexBuffers(0, 1, &vertexBuffer, &vertexStride, &vertexOffset);
+    graphics->context->IASetIndexBuffer(indexBuffer, DXGI_FORMAT_R16_UINT, 0);
+    graphics->context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+    graphics->context->IASetInputLayout(inputLayout);
+    graphics->context->VSSetShader(vertexShader, NULL, 0);
+    graphics->context->VSSetConstantBuffers(0, 1, &constantBuffer);
+    graphics->context->PSSetShader(pixelShader, NULL, 0);
+    graphics->context->PSSetSamplers(0, 1, &sampler);
+    graphics->context->RSSetState(rasterState);
+
+    // ---------------------------------------------
+    // Textura de Plotagem de Pixels
+    // ---------------------------------------------
+
+    // descreve uma textura a ser preenchida manualmente
+    D3D11_TEXTURE2D_DESC desc;
+    ZeroMemory(&desc, sizeof(desc));
+
+    desc.Width = int(window->Width());              // largura da textura
+    desc.Height = int(window->Height());            // altura da textura
+    desc.MipLevels = 1;                             // usa apenas um nível
+    desc.ArraySize = 1;                             // cria apenas uma textura
+    desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;       // formato RGBA de 32 bits
+    desc.SampleDesc.Count = 1;                      // uma amostra por pixel (sem antialiasing)
+    desc.Usage = D3D11_USAGE_DYNAMIC;               // alocada em RAM para acesso rápido via CPU
+    desc.BindFlags = D3D11_BIND_SHADER_RESOURCE;    // será acessada por um shader
+    desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;   // CPU pode escrever na textura
+
+    // cria textura a ser preenchida com pixels
+    if FAILED(graphics->device->CreateTexture2D(&desc, nullptr, &pixelPlotTexture))
+        return;
+
+    // configura visualização para a textura de pixels
+    D3D11_SHADER_RESOURCE_VIEW_DESC pixelPlotDesc;
+    ZeroMemory(&pixelPlotDesc, sizeof(pixelPlotDesc));
+
+    pixelPlotDesc.Format = desc.Format;
+    pixelPlotDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+    pixelPlotDesc.Texture2D.MipLevels = desc.MipLevels;
+    pixelPlotDesc.Texture2D.MostDetailedMip = desc.MipLevels - 1;
+
+    // cria uma visualização para a textura de pixels
+    if FAILED(graphics->device->CreateShaderResourceView((ID3D11Resource*)pixelPlotTexture, &pixelPlotDesc, &pixelPlotView))
+        return;
+
+    // ---------------------------------------------
+    // Sprite 
+    // ---------------------------------------------
+
+    pixelPlotSprite.x = window->CenterX();
+    pixelPlotSprite.y = window->CenterY();
+    pixelPlotSprite.scale = 1.0f;
+    pixelPlotSprite.depth = 0.0f;
+    pixelPlotSprite.rotation = 0.0f;
+    pixelPlotSprite.width = window->Width();
+    pixelPlotSprite.height = window->Height();
+    pixelPlotSprite.texture = pixelPlotView;
+    pixelPlotSprite.texCoord.x = 0.0f;
+    pixelPlotSprite.texCoord.y = 0.0f;
+    pixelPlotSprite.texSize.x = 1.0f;
+    pixelPlotSprite.texSize.y = 1.0f;
+    pixelPlotSprite.color = Color(1.0f, 1.0f, 1.0f, 1.0f);
+}
+
 // ---------------------------------------------------------------------------------
 
 void Renderer::RenderBatch(ID3D11ShaderResourceView* texture, SpriteData** sprites, uint count)
@@ -1057,7 +1176,7 @@ void Renderer::RenderBatch(ID3D11ShaderResourceView* texture, SpriteData** sprit
             XMVECTOR inverseTextureSize = XMVectorReciprocal(textureSize);
 
             // organiza informações do sprite
-            XMFLOAT2 positionxy(sprites[i]->x, sprites[i]->y);
+            XMFLOAT2 positionxy(sprites[i]->x - graphics->viewport.TopLeftX, sprites[i]->y - graphics->viewport.TopLeftY);
             float scale = sprites[i]->scale;
             XMFLOAT2 center(sprites[i]->width * sprites[i]->texSize.x / 2.0f, sprites[i]->height * sprites[i]->texSize.y / 2.0f);
             float rotation = sprites[i]->rotation;

@@ -148,6 +148,8 @@ int Engine::Loop()
 
             if (!paused)
             {
+                
+
                 // calcula o tempo do quadro
                 frameTime = FrameTime();
 

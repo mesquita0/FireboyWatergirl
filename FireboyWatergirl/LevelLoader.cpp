@@ -29,7 +29,6 @@ void loadLevel(Level& level, Window* window, const std::string& path) {
     cG = getAttribute(fin, 1);
     cB = getAttribute(fin, 1);
     level.backg = new Background(background, Color{cR, cG, cB, 1});
-    level.scene->Add(level.backg, STATIC);
 
     skipComments(fin);
 

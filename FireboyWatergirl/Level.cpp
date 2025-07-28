@@ -15,6 +15,9 @@ Scene * Level::scene = nullptr;
 
 Level::Level(int level_number) : level_number(level_number) {}
 
+constexpr int game_width  = 960;
+constexpr int game_height = 768;
+
 void Level::Init()
 {
     if (scene) return;
@@ -37,6 +40,20 @@ void Level::Init()
     FireboyWatergirl::audio->Frequency(MUSIC, 0.94f);
     FireboyWatergirl::audio->Play(MUSIC, true);
     timer.Start();
+
+    // ----------------------
+    // inicializa a viewport
+    // ----------------------
+
+    // calcula posição para manter viewport centralizada
+    float difx = (game_width  * FireboyWatergirl::zoom - window->Width()) / 2.0f;
+    float dify = (game_height * FireboyWatergirl::zoom - window->Height()) / 2.0f;
+
+    // inicializa viewport para o centro do mundo
+    viewport.left = 0.0f + difx;
+    viewport.right = viewport.left + window->Width();
+    viewport.top = 0.0f + dify;
+    viewport.bottom = viewport.top + window->Height();
 }
 
 void Level::Update()
@@ -68,6 +85,16 @@ void Level::Update()
         FireboyWatergirl::watergirl->Reset(level_number-1); 
         FireboyWatergirl::NextLevel();
     } 
+
+    // --------------------
+    // atualiza a viewport
+    // --------------------
+
+    viewport.left = FireboyWatergirl::fireboy->X() - window->CenterX() * ( 1 / FireboyWatergirl::zoom);
+    viewport.right = FireboyWatergirl::fireboy->X() + window->CenterX() * ( 1 / FireboyWatergirl::zoom);
+    viewport.top = FireboyWatergirl::fireboy->Y() - window->CenterY()    * ( 1 / FireboyWatergirl::zoom);
+    viewport.bottom = FireboyWatergirl::fireboy->Y() + window->CenterY() * ( 1 / FireboyWatergirl::zoom);
+
 }
 
 void Level::Draw()
@@ -75,10 +102,13 @@ void Level::Draw()
     backg->Draw();
     scene->Draw();
 
+    float px = (viewport.right  - viewport.left) / 2.0f;
+    float py = viewport.top;
+
     // Tempo do level
     int seconds = timer.Elapsed();
-    time_frame->Draw(window->CenterX() - 10, 15, Layer::FRONT, 0.21);
-    font->Draw(window->CenterX() - 25, 15, std::format("{:02}:{:02}", seconds / 60, seconds % 60), Color{0, 0, 0, 1}, 0, 2);
+    time_frame->Draw(px + 15, py, Layer::FRONT, 0.21);
+    font->Draw(px, py, std::format("{:02}:{:02}", seconds / 60, seconds % 60), Color{0, 0, 0, 1}, 0, 2);
 
     if (FireboyWatergirl::viewBBox)
         scene->DrawBBox();

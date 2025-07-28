@@ -15,6 +15,7 @@ Player* FireboyWatergirl::watergirl = nullptr;
 Audio*  FireboyWatergirl::audio = nullptr;
 bool    FireboyWatergirl::viewBBox = false;
 int     FireboyWatergirl::game_speed = 250;
+float   FireboyWatergirl::zoom = 1.5f;
 
 void FireboyWatergirl::Init() 
 {
@@ -70,6 +71,15 @@ void FireboyWatergirl::Update()
 
     // atualiza nível
     current_level->Update();
+
+    // atualiza viewport
+    Engine::graphics->viewport.TopLeftX = current_level->viewport.left;
+    Engine::graphics->viewport.TopLeftY = current_level->viewport.top;
+    if (current_level->viewport.right - current_level->viewport.left != Engine::graphics->viewport.Width) {
+        Engine::graphics->viewport.Height = (current_level->viewport.bottom - current_level->viewport.top);
+        Engine::graphics->viewport.Width = (current_level->viewport.right - current_level->viewport.left);
+        Engine::renderer->UpdateBuffer(window, Engine::graphics);
+    }
 } 
 
 void FireboyWatergirl::Draw()
@@ -140,7 +150,7 @@ int APIENTRY WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
     engine->window->Title("Element Twins");
     engine->window->Icon(IDI_ICON);
     engine->window->Cursor(IDC_CURSOR);
-    engine->graphics->VSync(true);
+    //engine->graphics->VSync(true);
 
     // inicia o jogo
     int status = engine->Start(new FireboyWatergirl());

@@ -111,6 +111,14 @@ void WorldEntity::Update()
     default:
         break;
     }
+
+    ViewPort viewport = FireboyWatergirl::current_level->viewport;
+
+    //float dx = x - viewport.left;
+    //float dy = y - viewport.top;
+    //
+    //MoveTo(dx * FireboyWatergirl::zoom + (window->Width() / 2.0f) * (1 - FireboyWatergirl::zoom),
+    //       dy * FireboyWatergirl::zoom + (window->Height() / 2.0f) * (1 - FireboyWatergirl::zoom));
 }
 
 void WorldEntity::OnCollision(Object* obj) {
