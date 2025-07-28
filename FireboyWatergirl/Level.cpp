@@ -90,11 +90,32 @@ void Level::Update()
     // atualiza a viewport
     // --------------------
 
-    viewport.left = FireboyWatergirl::fireboy->X() - window->CenterX() * ( 1 / FireboyWatergirl::zoom);
-    viewport.right = FireboyWatergirl::fireboy->X() + window->CenterX() * ( 1 / FireboyWatergirl::zoom);
+    viewport.left = FireboyWatergirl::fireboy->X() - window->CenterX()   * ( 1 / FireboyWatergirl::zoom);
+    viewport.right = FireboyWatergirl::fireboy->X() + window->CenterX()  * ( 1 / FireboyWatergirl::zoom);
     viewport.top = FireboyWatergirl::fireboy->Y() - window->CenterY()    * ( 1 / FireboyWatergirl::zoom);
     viewport.bottom = FireboyWatergirl::fireboy->Y() + window->CenterY() * ( 1 / FireboyWatergirl::zoom);
 
+    if (viewport.left < 0)
+    {
+        viewport.left = 0;
+        viewport.right = window->Width() * (1 / FireboyWatergirl::zoom);
+    }
+    else if (viewport.right > game->Width())
+    {
+        viewport.left = game->Width() - window->Width() * (1 / FireboyWatergirl::zoom);
+        viewport.right = game->Width();
+    }
+
+    if (viewport.top < 0)
+    {
+        viewport.top = 0;
+        viewport.bottom = window->Height() * (1 / FireboyWatergirl::zoom);
+    }
+    else if (viewport.bottom > game->Height())
+    {
+        viewport.top = game->Height() - window->Height() * (1 / FireboyWatergirl::zoom);
+        viewport.bottom = game->Height();
+    }
 }
 
 void Level::Draw()
