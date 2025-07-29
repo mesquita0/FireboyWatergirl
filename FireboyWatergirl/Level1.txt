@@ -73,8 +73,6 @@
     
      // ANDAR 1                   
      98     622       d             4     1.0         d          d        d        d
-     194     622       d            4     1.0         d          d        d        d
-     290     622       d            4     1.0         d          d        d        d
      500    705      d              10    0.8         d          d        d        d
      850     680       d            2     2.0         d          d        d        d
      60      500       d            0     0.8         d          d        d        d
