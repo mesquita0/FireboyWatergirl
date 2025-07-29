@@ -1,9 +1,10 @@
 #include "WorldEntity.h"
 #include "FireboyWatergirl.h"
+#include "TileSet.h" 
 
 WorldEntity::WorldEntity(float posX, float posY, float posZ, EntityTypeSprite platType, float scale, float rotation, Color tint)
     : scale(scale), rotation(rotation), color(tint)
-{
+{ 
     switch (platType)
     {
     case GROUND1:            type = GROUND;              entity = new Sprite("Resources/Platforms/Madeira/PisoMadeira.png"); break;
@@ -29,11 +30,18 @@ WorldEntity::WorldEntity(float posX, float posY, float posZ, EntityTypeSprite pl
     case PLATMETAL2:         type = MOVING_PLATFORM_Y;   entity = new Sprite("Resources/Platforms/Metal/PlataformaMediaMetal5.png"); break;
     case BLOCOMETAL:         type = GROUND;              entity = new Sprite("Resources/Platforms/Metal/BlocoMetal.png"); break;
     case RAMPAMETAL:         type = GROUND;              entity = new Sprite("Resources/aaa.jpeg"); break;
+    case WATER:              type = _WATER;              anim   = new Animation(TileSet("Resources/Liquids/Water.png", 256, 145, 16, 16, 0, 289), 0.3f, true); break;
+    case LAVA:               type = _LAVA;               anim   = new Animation(TileSet("Resources/Liquids/Lava.png", 125, 19, 1, 12, 0, 0),   0.15f, true); break;
+    case POISON:             type = _POISON;             anim   = new Animation(TileSet("Resources/Liquids/Poison.png", 129, 52, 4, 8, 0, 0),  0.15f, true); break;
     }
 
     if (entity) {
         width  = entity->Width();
         height = entity->Height();
+    }
+    else if (anim) {
+        width  = anim->tileSet()->TileWidth();
+        height = anim->tileSet()->TileHeight();
     }
 
     if (type == FINISH_PORTAL_FIRE || type == FINISH_PORTAL_WATER || type == FINISH_PORTAL_ANY) {
@@ -53,11 +61,14 @@ WorldEntity::WorldEntity(float posX, float posY, float posZ, EntityTypeSprite pl
     case FINISH_PORTAL_WATER:
     case FINISH_PORTAL_ANY:
     case ROTATING_PLATFORM:
-        points[0] = { -entity->Width() / 2.0f, -entity->Height() / 2.0f };
-        points[1] = {  entity->Width() / 2.0f, -entity->Height() / 2.0f };
-        points[3] = { -entity->Width() / 2.0f,  entity->Height() / 2.0f };
-        points[2] = {  entity->Width() / 2.0f,  entity->Height() / 2.0f };
-
+    case _WATER:
+    case _LAVA:
+    case _POISON:
+        points[0] = { -((int)width) / 2.0f, -((int)height) / 2.0f };
+        points[1] = {        width / 2.0f,  -((int)height) / 2.0f };
+        points[3] = { -((int)width) / 2.0f,        height / 2.0f };
+        points[2] = {        width / 2.0f,         height / 2.0f };
+                                              
         BBox(new Poly(points, 4));
 
         BBox()->RotateTo(rotation);
@@ -112,13 +123,8 @@ void WorldEntity::Update()
         break;
     }
 
-    ViewPort viewport = FireboyWatergirl::current_level->viewport;
-
-    //float dx = x - viewport.left;
-    //float dy = y - viewport.top;
-    //
-    //MoveTo(dx * FireboyWatergirl::zoom + (window->Width() / 2.0f) * (1 - FireboyWatergirl::zoom),
-    //       dy * FireboyWatergirl::zoom + (window->Height() / 2.0f) * (1 - FireboyWatergirl::zoom));
+    if (anim)
+        anim->NextFrame();
 }
 
 void WorldEntity::OnCollision(Object* obj) {

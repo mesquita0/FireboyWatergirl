@@ -165,6 +165,15 @@ void Player::OnCollision(Object* obj)
         }
         break;
 
+    case _LAVA:
+        if (!is_fireboy) is_alive = false;
+        break;
+
+    case _WATER:
+        if (is_fireboy)  is_alive = false;
+        break;
+
+    case _POISON:
     case THORN:
         is_alive = false;
         break;

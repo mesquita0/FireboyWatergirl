@@ -15,7 +15,7 @@ Player* FireboyWatergirl::watergirl = nullptr;
 Audio*  FireboyWatergirl::audio = nullptr;
 bool    FireboyWatergirl::viewBBox = false;
 int     FireboyWatergirl::game_speed = 250;
-float   FireboyWatergirl::initial_zoom = 1.5f;
+float   FireboyWatergirl::initial_zoom = 1.0f;
 float   FireboyWatergirl::zoom = FireboyWatergirl::initial_zoom;
 
 void FireboyWatergirl::Init() 

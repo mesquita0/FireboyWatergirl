@@ -3,6 +3,7 @@
 #include "Object.h"                                     // interface de Object
 #include "Sprite.h"                                     // desenho de sprites
 #include "FireboyWatergirl.h"                                     // desenho de sprites
+#include "TileSet.h" 
 
 enum EntityType { 
     GROUND,
@@ -15,6 +16,9 @@ enum EntityType {
     _PLATFORM_STOPPER,
     FINISH_PORTAL_ANY,
     ROTATING_PLATFORM,
+    _WATER,
+    _LAVA,
+    _POISON,
 };
 
 enum EntityTypeSprite {
@@ -40,13 +44,17 @@ enum EntityTypeSprite {
     PLATMETAL1,
     PLATMETAL2,
     BLOCOMETAL,
-    RAMPAMETAL,
+    RAMPAMETAL, 
+    WATER,
+    LAVA,
+    POISON,
 };
 
 class WorldEntity : public Object
 {
 private:
     Sprite * entity = nullptr, * entity_2 = nullptr; // sprite da plataforma
+    Animation * anim = nullptr;                      // animação da plataforma
     Color color;                                     // cor da plataforma
     uint  width = 0;
     uint  height = 0;
@@ -78,15 +86,28 @@ inline uint WorldEntity::Height() const { return height;  }
 inline void WorldEntity::Draw()
 { 
     Sprite* current_entity = draw_entity_2 ? entity_2 : entity;
-    if (current_entity) current_entity->Draw(
-        x,
-        y,
-        z, 
-        scale, 
-        rotation, 
-        false, 
-        color
-    );
+    if (current_entity) {
+        current_entity->Draw(
+            x,
+            y,
+            z,
+            scale,
+            rotation,
+            false,
+            color
+        );
+    }
+    else if (anim) {
+        anim->Draw(
+            x,
+            y,
+            z,
+            scale,
+            rotation,
+            false,
+            color
+        );
+    }
 }
 
 inline void WorldEntity::ToggleEnity()

@@ -67,7 +67,7 @@ TileSet::~TileSet()
     // libera memória ocupada pela imagem
     if (image && owns_image)
     {
-         delete image;
+         //delete image;
     }
 }
 
