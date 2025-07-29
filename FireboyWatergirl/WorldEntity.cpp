@@ -30,7 +30,7 @@ WorldEntity::WorldEntity(float posX, float posY, float posZ, EntityTypeSprite pl
     case PLATMETAL2:         type = MOVING_PLATFORM_Y;   entity = new Sprite("Resources/Platforms/Metal/PlataformaMediaMetal5.png"); break;
     case BLOCOMETAL:         type = GROUND;              entity = new Sprite("Resources/Platforms/Metal/BlocoMetal.png"); break;
     case RAMPAMETAL:         type = GROUND;              entity = new Sprite("Resources/aaa.jpeg"); break;
-    case WATER:              type = _WATER;              anim   = new Animation(TileSet("Resources/Liquids/Water.png", 256, 145, 16, 16, 0, 289), 0.3f, true); break;
+    case WATER:              type = _WATER;              anim   = new Animation(TileSet("Resources/Liquids/wat.png", 256, 263, 3, 3, 0, 0), 0.3f, true); break;
     case LAVA:               type = _LAVA;               anim   = new Animation(TileSet("Resources/Liquids/Lava.png", 125, 19, 1, 12, 0, 0),   0.15f, true); break;
     case POISON:             type = _POISON;             anim   = new Animation(TileSet("Resources/Liquids/Poison.png", 129, 52, 4, 8, 0, 0),  0.15f, true); break;
     }

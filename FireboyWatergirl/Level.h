@@ -19,6 +19,7 @@ public:
     Font * font;
     int num_ground_blocks = 0;
     bool is_run = false, did_fail = false, did_fireboy_win = false;
+    float height, width;
 
     Level(int level_number);
 
@@ -29,6 +30,9 @@ public:
     void Update();                  // atualiza lógica do jogo
     void Draw();                    // desenha jogo
     void Finalize();                // finalização do nível
+
+    float Width();
+    float Height();
 
     int levelNumber();
     Timer timer; 
@@ -42,3 +46,9 @@ inline bool Level::didFireboyWin()
 
 inline int Level::levelNumber()
 { return level_number; } 
+
+inline float Level::Width()
+{ return width; }
+
+inline float Level::Height()
+{ return height; }

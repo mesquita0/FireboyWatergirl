@@ -9,6 +9,10 @@
 // posXFireboy    posYFireboy    posXWatergirl    posYWatergirl    scale
            100             686              100             590       0.2
 
+// Informações sobre o mundo
+// Largura      Altura
+       960         768
+
 
 // Informa��es sobre as entidades do mundo
 //

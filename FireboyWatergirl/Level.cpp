@@ -103,10 +103,10 @@ void Level::Update()
         viewport.left = 0;
         viewport.right = window->Width() * (1 / FireboyWatergirl::zoom);
     }
-    else if (viewport.right > game->Width())
+    else if (viewport.right > Width())
     {
-        viewport.left = game->Width() - window->Width() * (1 / FireboyWatergirl::zoom);
-        viewport.right = game->Width();
+        viewport.left = Width() - window->Width() * (1 / FireboyWatergirl::zoom);
+        viewport.right = Width();
     }
 
     if (viewport.top < 0)
@@ -114,10 +114,10 @@ void Level::Update()
         viewport.top = 0;
         viewport.bottom = window->Height() * (1 / FireboyWatergirl::zoom);
     }
-    else if (viewport.bottom > game->Height())
+    else if (viewport.bottom > Height())
     {
-        viewport.top = game->Height() - window->Height() * (1 / FireboyWatergirl::zoom);
-        viewport.bottom = game->Height();
+        viewport.top = Height() - window->Height() * (1 / FireboyWatergirl::zoom);
+        viewport.bottom = Height();
     }
 }
 

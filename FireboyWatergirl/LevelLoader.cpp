@@ -54,6 +54,15 @@ void loadLevel(Level& level, Window* window, const std::string& path) {
     FireboyWatergirl::watergirl->MoveTo(posXwater, posYwater);
     FireboyWatergirl::watergirl->ScaleTo(player_scale);
 
+    // Largura e altura do mundo
+    skipComments(fin);
+    float width, height;
+    fin >> width;
+    fin >> height;
+
+    level.width  = width;
+    level.height = height;
+
     char layer;
     float posX, posY, posZ, rotation, scale;
     uint  entityType;
