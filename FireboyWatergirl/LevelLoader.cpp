@@ -83,7 +83,7 @@ void loadLevel(Level& level, Window* window, const std::string& path) {
             case 'M': posZ = Layer::MIDDLE; break;
             case 'L': posZ = Layer::LOWER;  break;
             case 'B': posZ = Layer::BACK;   break;
-            default:  posZ = Layer::UPPER;  break;
+            default:  posZ = Layer::MIDDLE;  break;
             }
 
             // Lê linha com informações da entidade

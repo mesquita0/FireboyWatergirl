@@ -7,6 +7,7 @@
 #include "Font.h"
 #include "WorldEntity.h"
 #include "Smoke.h"
+#include "Enemy.h"
 #include <format>
 #include <string>
 
@@ -31,7 +32,7 @@ void Level::Init()
     timer = {};
 
     loadLevel(*this, window, "Level" + std::to_string(level_number) + ".txt");
-    if (level_number == 2) is_run = true;
+    scene->Add(new Enemy(0, 0, 30), STATIC);
     Engine::ResetFrameTime();
 
     FireboyWatergirl::fireboy->LevelNumber(level_number - 1);

@@ -178,6 +178,7 @@ void Player::OnCollision(Object* obj)
         if (is_fireboy)  is_alive = false;
         break;
 
+    case ENEMY:
     case _POISON:
     case THORN:
         is_alive = false;
@@ -227,7 +228,7 @@ void Player::OnCollision(Object* obj)
             if (was_in_air)
             {
                 // Acessa o Level atual e chama a nova função
-                static_cast<Level*>(FireboyWatergirl::current_level)->scene->Add(new ParticleJump(x, y + Height() / 2.0f), STATIC);
+                static_cast<Level*>(FireboyWatergirl::current_level)->scene->Add(new ParticleJump(x, y + Height() / 2.0f - 10), STATIC);
                 was_in_air = false;
             }
 
@@ -418,14 +419,14 @@ inline void Player::Draw()
         head_x += point_rotation_x * (1 - cos(angle_radians)) + point_rotation_y * sin(angle_radians);
         head_y += -point_rotation_x * sin(angle_radians) + point_rotation_y * (1 - cos(angle_radians));
 
-        current_anim_body->Draw(x, y + (current_anim_body->tileSet()->TileHeight() / 2.0 - offset_body) * scale, z, scale, 0, mirror_x);
-        current_anim_head->Draw(head_x, head_y, z, scale_head * scale, -rotation_head, mirror_x);
+        current_anim_body->Draw(x, y + (current_anim_body->tileSet()->TileHeight() / 2.0 - offset_body) * scale, Layer::UPPER, scale, 0, mirror_x);
+        current_anim_head->Draw(head_x, head_y, Layer::FRONT, scale_head * scale, -rotation_head, mirror_x);
     }
     else {
         offset_y -= 25;
         head_y += 5;
-        current_anim_head->Draw(head_x, head_y, z, scale_head * scale, -rotation_head, mirror_x);
-        current_anim_body->Draw(x, y + (current_anim_body->tileSet()->TileHeight() / 2.0 - offset_body) * scale, z, scale, 0, mirror_x);
+        current_anim_head->Draw(head_x, head_y, Layer::FRONT, scale_head * scale, -rotation_head, mirror_x);
+        current_anim_body->Draw(x, y + (current_anim_body->tileSet()->TileHeight() / 2.0 - offset_body) * scale, Layer::UPPER, scale, 0, mirror_x);
     }
 
     if (drop1 && state == IDLE) {
