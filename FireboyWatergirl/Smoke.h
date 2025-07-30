@@ -16,7 +16,6 @@ public:
     ~Smoke();                           // destrutor
 
     int  Size();                        // quantidade de partículas
-    void TurnOff();                     // desligar fumaça
 
     void Update();                      // atualização
     void Draw();                        // desenho

@@ -262,6 +262,11 @@ void Player::Update()
     current_anim_head->NextFrame();
     current_anim_body->NextFrame();
 
+    if (controllerOn) {
+        if (is_xbox_controller) gamepad->XboxUpdateState();
+        else                    gamepad->UpdateState();
+    }
+
     if (!enable_controls) return;
 
     // Resetar player para posição inicial se saiu da tela
@@ -272,11 +277,6 @@ void Player::Update()
     
     // Resetar o estado em todo frame para conferir na colisão com o portal para o próximo nível
     ready_next_level = false;
-
-    if (controllerOn) {
-        if (is_xbox_controller) gamepad->XboxUpdateState();
-        else                    gamepad->UpdateState();
-    }
 
     if (controllerOn) {
         float dx = is_xbox_controller ? gamepad->XboxAnalog(ThumbLX) : gamepad->Axis(AxisX);
