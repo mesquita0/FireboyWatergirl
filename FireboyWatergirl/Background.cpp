@@ -23,4 +23,7 @@ void Background::Draw()
 {
     // desenha plano de fundo
     backg->Draw(x, y, z, 1.0f, 0.0f, false, color);
+    backg->Draw(x + backg->Width(), y, z, 1.0f, 0.0f, false, color);
+    backg->Draw(x, y + backg->Height(), z, 1.0f, 0.0f, false, color);
+    backg->Draw(x + backg->Width(), y + backg->Height(), z, 1.0f, 0.0f, false, color);
 }

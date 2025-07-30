@@ -71,7 +71,9 @@ void GameOver::Update()
     scene->Update();
     scene->CollisionDetection();
 
+    FireboyWatergirl::fireboy->disableControls();
     FireboyWatergirl::fireboy->Update();
+    FireboyWatergirl::watergirl->disableControls();
     FireboyWatergirl::watergirl->Update();
 
     bool a_click = FireboyWatergirl::controller_on_fire && FireboyWatergirl::gamepad_fire->XboxButton(ButtonStart) || FireboyWatergirl::controller_on_water && FireboyWatergirl::gamepad_water->ButtonPress(7);
