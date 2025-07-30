@@ -5,6 +5,7 @@
 #include "Background.h"
 #include "Font.h"
 #include "Timer.h"
+#include "Smoke.h"
 
 class Level : public Game
 {
@@ -17,6 +18,7 @@ public:
     Background * backg = nullptr;  // pano de fundo
     Sprite * time_frame = nullptr;
     Font * font;
+    Smoke * smoke;
     int num_ground_blocks = 0;
     bool is_run = false, did_fail = false, did_fireboy_win = false;
     float height, width;
