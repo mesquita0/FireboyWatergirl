@@ -265,7 +265,7 @@ void Player::Update()
     if (!enable_controls) return;
 
     // Resetar player para posição inicial se saiu da tela
-    if (((Rect*)BBox())->Top() > window->Height()) {
+    if (((Rect*)BBox())->Top() > ((Level*)FireboyWatergirl::current_level)->Height()) {
         MoveTo(initial_posX, initial_posY);
         FireboyWatergirl::audio->Play(DIED);
     }
