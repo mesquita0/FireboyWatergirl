@@ -6,6 +6,10 @@
 #include "Level.h"
 #include "Player.h"
 
+Controller*  FireboyWatergirl::gamepad_fire = nullptr;
+Controller*  FireboyWatergirl::gamepad_water = nullptr;
+bool    FireboyWatergirl::controller_on_fire = false;
+bool    FireboyWatergirl::controller_on_water = false;
 std::vector<Game*> FireboyWatergirl::levels = {};
 Game*   FireboyWatergirl::current_level = nullptr;
 Game*   FireboyWatergirl::last_level = nullptr;
@@ -32,12 +36,12 @@ void FireboyWatergirl::Init()
     audio->Add(BUTTON_SELECT, "Resources/sfx/ButtonSelect.wav");
 
     // cria gerenciador de controles
-    Controller* gamepad_fire = new Controller();
-    Controller* gamepad_water = new Controller();
+    gamepad_fire = new Controller();
+    gamepad_water = new Controller();
 
     // tenta inicializar um controle do xbox
-    bool controller_on_fire = gamepad_fire->XboxInitialize(PLAYER1);
-    bool controller_on_water = false;
+    controller_on_fire = gamepad_fire->XboxInitialize(PLAYER1);
+    controller_on_water = false;
     if (controller_on_fire) {
         gamepad_water->Initialize();
         controller_on_water = gamepad_water->DeviceNext();
