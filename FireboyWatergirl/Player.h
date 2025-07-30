@@ -42,6 +42,8 @@ private:
     void updateState();
     void slowDown();
 
+    bool was_in_air = false;
+
 public:
     Player(bool is_fireboy, Controller* controller, bool controllerOn, bool xboxOn);
     ~Player();                          

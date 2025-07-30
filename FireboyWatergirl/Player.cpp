@@ -115,12 +115,14 @@ void Player::updateState()
 {
     if (velocity->YComponent() > 0 && velocity->Angle() > 85 && velocity->Angle() < 95) {
         state = JUMPING;
+        was_in_air = true;
     }
     else if (abs(velocity->XComponent()) > 0.1) {
         state = RUNNING;
     }
     else if (velocity->YComponent() < -85) {
         state = FALLING;
+        was_in_air = true;
     }
     else {
         state = IDLE;
@@ -208,6 +210,7 @@ void Player::OnCollision(Object* obj)
             return;
         }
 
+
         // Mantém personagem fora da plataforma
         if (is_fireboy)
             Translate(obj->BBox()->mtv_fire.XComponent(), obj->BBox()->mtv_fire.YComponent());
@@ -221,6 +224,15 @@ void Player::OnCollision(Object* obj)
             (is_fireboy && angle_fb > 225 && angle_fb < 315) ||
             (!is_fireboy && angle_wg > 225 && angle_wg < 315)
         ) {
+            if (was_in_air)
+            {
+                // Acessa o Level atual e chama a nova função
+                static_cast<Level*>(FireboyWatergirl::current_level)->AddParticleSystem(x, y + Height() / 2.0f);
+                was_in_air = false;
+            }
+
+            velocity->YComponent(0);
+
             if (
                 (is_fireboy && (angle_fb == 270)) ||
                 (!is_fireboy && (angle_wg == 270)) ||
@@ -235,10 +247,11 @@ void Player::OnCollision(Object* obj)
                 (controllerOn && is_xbox_controller  && gamepad->XboxButton(ButtonA)) ||
                 (controllerOn && !is_xbox_controller && gamepad->ButtonPress(0))
             ) {
-                velocity->YComponent(0);
                 velocity->Add(jump);
                 FireboyWatergirl::audio->Play(is_fireboy ? FB_JUMP : WG_JUMP);
             }
+
+            
         }
 
         else if (

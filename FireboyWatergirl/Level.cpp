@@ -134,6 +134,11 @@ void Level::Draw()
     backg->Draw();
     scene->Draw();
 
+    for (const auto& p : particleSystems)
+    {
+        p->Draw(Layer::FRONT);
+    }
+
     float px = (viewport.right + viewport.left) / 2.0f;
     float py = viewport.top + 15;
 
@@ -154,4 +159,31 @@ void Level::Finalize()
     scene->Remove(FireboyWatergirl::watergirl, MOVING);
     delete scene;
     scene = nullptr;
+
+    for (const auto& p : particleSystems)
+    {
+        delete p;
+    }
+    particleSystems.clear();
+}
+
+void Level::AddParticleSystem(float x, float y)
+{
+    Generator gen;
+    gen.imgFile = "Resources/particula.png";
+    gen.angle = 90.0f;
+    gen.spread = 180.0f;
+    gen.lifetime = 0.2f;
+    gen.frequency = 0.01f;
+    gen.percentToDim = 0.1f;
+    gen.minSpeed = 20.0f;
+    gen.maxSpeed = 150.0f;
+    gen.minScale = 0.5f;
+    gen.maxScale = 1.2f;
+    gen.color = { 1.0f, 1.0f, 1.0f, 0.8f };
+   
+
+    Particles* p = new Particles(gen);
+    p->Generate(x, y, 7); 
+    particleSystems.push_back(p);
 }
