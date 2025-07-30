@@ -227,7 +227,7 @@ void Player::OnCollision(Object* obj)
             if (was_in_air)
             {
                 // Acessa o Level atual e chama a nova função
-                static_cast<Level*>(FireboyWatergirl::current_level)->AddParticleSystem(x, y + Height() / 2.0f);
+                static_cast<Level*>(FireboyWatergirl::current_level)->scene->Add(new ParticleJump(x, y + Height() / 2.0f), STATIC);
                 was_in_air = false;
             }
 

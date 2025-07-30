@@ -4,6 +4,7 @@
 #include "Animation.h"                  // animação de sprites
 #include "Controller.h"
 #include "Vector.h"
+#include "ParticleJump.h"
 
 enum State { IDLE, RUNNING, JUMPING, FALLING };
 

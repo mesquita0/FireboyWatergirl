@@ -13,6 +13,8 @@ Smoke::Smoke(float pX, float pY, float angle)
     fogger.percentToDim = 0.87f;               // desaparece após 60% da vida
     fogger.minSpeed = 40.0f;                   // velocidade mínima das partículas
     fogger.maxSpeed = 70.0f;                  // velocidade máxima das partículas
+    fogger.minScale = 0;
+    fogger.maxScale = 0;
 
     fogger.color.r = 1.0f;                   // cor da partícula
     fogger.color.g = 1.0f;                   // cor da partícula

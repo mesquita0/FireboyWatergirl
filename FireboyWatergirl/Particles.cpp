@@ -54,7 +54,7 @@ void Particles::Build(float posX, float posY)
     // ajusta vetor velocidade da partícula
     particle->speed.RotateTo(angle);    
     particle->speed.ScaleTo(speed.Rand());
-    particle->scale = scale.Rand(); 
+    if (config.minScale != 0) particle->scale = scale.Rand(); 
     particle->timestamp = timer.Stamp();
 
     // insere partícula no lista de partículas
@@ -140,10 +140,14 @@ void Particles::Draw(float z, float factor)
         lifePercent = timeElapsed/config.lifetime;
 
         // escala cresce quadraticamente com o tempo de vida
-        float currentScale = p->scale * (1.0f - lifePercent);
+        float scale;
+        if (config.minScale != 0)
+            scale = p->scale * (1.0f - lifePercent);
+        else
+            scale = 1.0f + pow(lifePercent, 2.0f) * factor;
 
         // desenha partícula
-        sprite->Draw(p->x, p->y, z, currentScale, -p->speed.Angle(), false, config.color); 
+        sprite->Draw(p->x, p->y, z, scale, -p->speed.Angle(), false, config.color); 
     }    
 }
 

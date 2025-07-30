@@ -249,6 +249,7 @@
     <ClCompile Include="LevelLoader.cpp" />
     <ClCompile Include="Mouse.cpp" />
     <ClCompile Include="Object.cpp" />
+    <ClCompile Include="ParticleJump.cpp" />
     <ClCompile Include="Particles.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Renderer.cpp" />
@@ -282,6 +283,7 @@
     <ClInclude Include="LevelLoader.h" />
     <ClInclude Include="Mouse.h" />
     <ClInclude Include="Object.h" />
+    <ClInclude Include="ParticleJump.h" />
     <ClInclude Include="Particles.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Random.h" />
