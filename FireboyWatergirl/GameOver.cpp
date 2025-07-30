@@ -106,7 +106,7 @@ void GameOver::Draw()
         font->Draw(480 - 100, 150, "Watergirl Wins!", Color{ 0, 0, 0, 1 }, 0, 2);
     }
 
-    if (!static_cast<Level*>(FireboyWatergirl::last_level)->is_run || static_cast<Level*>(FireboyWatergirl::last_level)->failed()) {
+    if (static_cast<Level*>(FireboyWatergirl::last_level)->levelNumber() != 2 || static_cast<Level*>(FireboyWatergirl::last_level)->failed()) {
         quadrado->Draw(window->CenterX() - 130, window->CenterY() + 80, Layer::MIDDLE);
         quadrado->Draw(window->CenterX() + 130, window->CenterY() + 80, Layer::MIDDLE);
     }
