@@ -125,6 +125,8 @@ void Level::Update()
         viewport.top = Height() - window->Height() * (1 / FireboyWatergirl::zoom);
         viewport.bottom = Height();
     }
+
+    smoke->MoveTo(FireboyWatergirl::fireboy->X(), FireboyWatergirl::fireboy->Y() - FireboyWatergirl::fireboy->Height() / 2.0f);
 }
 
 void Level::Draw()
