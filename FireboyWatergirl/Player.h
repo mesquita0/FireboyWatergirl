@@ -4,6 +4,7 @@
 #include "Animation.h"                  // animação de sprites
 #include "Controller.h"
 #include "Vector.h"
+#include "ParticleJump.h"
 
 enum State { IDLE, RUNNING, JUMPING, FALLING };
 
@@ -29,6 +30,9 @@ private:
     Animation    * current_anim_head;
     Animation    * current_anim_body;
 
+    Animation    * drop1 = nullptr;
+    Animation    * drop2 = nullptr;
+
     Vector       * velocity;
     int          level;                  
     float        initial_posX, initial_posY;
@@ -38,6 +42,8 @@ private:
 
     void updateState();
     void slowDown();
+
+    bool was_in_air = false;
 
 public:
     Player(bool is_fireboy, Controller* controller, bool controllerOn, bool xboxOn);

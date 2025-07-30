@@ -19,6 +19,7 @@ enum EntityType {
     _WATER,
     _LAVA,
     _POISON,
+    ENEMY,
 };
 
 enum EntityTypeSprite {

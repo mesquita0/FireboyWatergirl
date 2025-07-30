@@ -71,15 +71,23 @@ void GameOver::Update()
     scene->Update();
     scene->CollisionDetection();
 
+    FireboyWatergirl::fireboy->disableControls();
+    FireboyWatergirl::fireboy->Update();
+    FireboyWatergirl::watergirl->disableControls();
+    FireboyWatergirl::watergirl->Update();
+
+    bool a_click = FireboyWatergirl::controller_on_fire && FireboyWatergirl::gamepad_fire->XboxButton(ButtonStart) || FireboyWatergirl::controller_on_water && FireboyWatergirl::gamepad_water->ButtonPress(7);
+    bool b_click = FireboyWatergirl::controller_on_fire && FireboyWatergirl::gamepad_fire->XboxButton(ButtonBack)  || FireboyWatergirl::controller_on_water && FireboyWatergirl::gamepad_water->ButtonPress(6);
+
     // Passar para o level 1
-    if (play_button && scene->Collision(mouse, play_button) && mouse->Clicked())
+    if (play_button && scene->Collision(mouse, play_button) && mouse->Clicked() || a_click)
     {
         FireboyWatergirl::fireboy->Reset();
         FireboyWatergirl::watergirl->Reset();
         if (!failed) FireboyWatergirl::NextLevel();
         else FireboyWatergirl::LastLevel();
     }
-    else if ((scene->Collision(mouse, menu_button) && mouse->Clicked()) || window->KeyPress(VK_ESCAPE)) {
+    else if ((scene->Collision(mouse, menu_button) && mouse->Clicked()) || window->KeyPress(VK_ESCAPE) || b_click) {
         FireboyWatergirl::fireboy->Reset();
         FireboyWatergirl::watergirl->Reset();
         FireboyWatergirl::HomeLevel();
@@ -100,7 +108,7 @@ void GameOver::Draw()
         font->Draw(480 - 100, 150, "Watergirl Wins!", Color{ 0, 0, 0, 1 }, 0, 2);
     }
 
-    if (!static_cast<Level*>(FireboyWatergirl::last_level)->is_run || static_cast<Level*>(FireboyWatergirl::last_level)->failed()) {
+    if (static_cast<Level*>(FireboyWatergirl::last_level)->levelNumber() != 2 || static_cast<Level*>(FireboyWatergirl::last_level)->failed()) {
         quadrado->Draw(window->CenterX() - 130, window->CenterY() + 80, Layer::MIDDLE);
         quadrado->Draw(window->CenterX() + 130, window->CenterY() + 80, Layer::MIDDLE);
     }

@@ -15,6 +15,8 @@ private:
     static std::vector<Game*> levels;
 
 public:
+    static Controller * gamepad_fire, *gamepad_water;
+    static bool controller_on_fire, controller_on_water;
     static Player * fireboy;
     static Player * watergirl;
     static Audio * audio;           // sistema de �udio

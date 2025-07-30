@@ -49,8 +49,11 @@ void Home::Update()
     scene->Update();
     scene->CollisionDetection();
 
+    bool a_click = FireboyWatergirl::controller_on_fire  && FireboyWatergirl::gamepad_fire->XboxButton(ButtonStart) || FireboyWatergirl::controller_on_water && FireboyWatergirl::gamepad_water->ButtonPress(7);
+    bool b_click = FireboyWatergirl::controller_on_fire  && FireboyWatergirl::gamepad_fire->XboxButton(ButtonB)     || FireboyWatergirl::controller_on_water && FireboyWatergirl::gamepad_water->ButtonPress(1);
+
      // Passar para o level 1
-    if (scene->Collision(mouse, play_button) && mouse->Clicked())
+    if (scene->Collision(mouse, play_button) && mouse->Clicked() || a_click)
     {
         FireboyWatergirl::audio->Stop(MENU);
         FireboyWatergirl::audio->Play(LEVEL_START);
@@ -58,7 +61,7 @@ void Home::Update()
         FireboyWatergirl::watergirl->LevelNumber(0);
         FireboyWatergirl::NextLevel();
     }
-    else if ((scene->Collision(mouse, quit_button) && mouse->Clicked()) || window->KeyPress(VK_ESCAPE)) {
+    else if ((scene->Collision(mouse, quit_button) && mouse->Clicked()) || window->KeyPress(VK_ESCAPE) || b_click) {
         window->Close();
     }
 }

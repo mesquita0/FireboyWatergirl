@@ -53,6 +53,9 @@ Player::Player(bool is_fireboy, Controller* controller, bool controllerOn, bool 
 
         // TODO
         anim_win = new Animation(TileSet(tiles, 341, 204, 1, 5, 3, 1267), 0.05f, true);
+
+        drop1 = new Animation(TileSet("Resources/drop.png", 88, 91, 5, 15, 0, 2), 0.05f, true);
+        drop2 = new Animation(TileSet("Resources/drop.png", 88, 91, 5, 14, 0, 2), 0.05f, true);
     }
 
     // cria bounding box
@@ -112,12 +115,14 @@ void Player::updateState()
 {
     if (velocity->YComponent() > 0 && velocity->Angle() > 85 && velocity->Angle() < 95) {
         state = JUMPING;
+        was_in_air = true;
     }
     else if (abs(velocity->XComponent()) > 0.1) {
         state = RUNNING;
     }
     else if (velocity->YComponent() < -85) {
         state = FALLING;
+        was_in_air = true;
     }
     else {
         state = IDLE;
@@ -173,6 +178,7 @@ void Player::OnCollision(Object* obj)
         if (is_fireboy)  is_alive = false;
         break;
 
+    case ENEMY:
     case _POISON:
     case THORN:
         is_alive = false;
@@ -205,6 +211,7 @@ void Player::OnCollision(Object* obj)
             return;
         }
 
+
         // Mantém personagem fora da plataforma
         if (is_fireboy)
             Translate(obj->BBox()->mtv_fire.XComponent(), obj->BBox()->mtv_fire.YComponent());
@@ -218,6 +225,15 @@ void Player::OnCollision(Object* obj)
             (is_fireboy && angle_fb > 225 && angle_fb < 315) ||
             (!is_fireboy && angle_wg > 225 && angle_wg < 315)
         ) {
+            if (was_in_air)
+            {
+                // Acessa o Level atual e chama a nova função
+                static_cast<Level*>(FireboyWatergirl::current_level)->scene->Add(new ParticleJump(x, y + Height() / 2.0f - 10), STATIC);
+                was_in_air = false;
+            }
+
+            velocity->YComponent(0);
+
             if (
                 (is_fireboy && (angle_fb == 270)) ||
                 (!is_fireboy && (angle_wg == 270)) ||
@@ -232,10 +248,11 @@ void Player::OnCollision(Object* obj)
                 (controllerOn && is_xbox_controller  && gamepad->XboxButton(ButtonA)) ||
                 (controllerOn && !is_xbox_controller && gamepad->ButtonPress(0))
             ) {
-                velocity->YComponent(0);
                 velocity->Add(jump);
                 FireboyWatergirl::audio->Play(is_fireboy ? FB_JUMP : WG_JUMP);
             }
+
+            
         }
 
         else if (
@@ -262,6 +279,11 @@ void Player::Update()
     current_anim_head->NextFrame();
     current_anim_body->NextFrame();
 
+    if (controllerOn) {
+        if (is_xbox_controller) gamepad->XboxUpdateState();
+        else                    gamepad->UpdateState();
+    }
+
     if (!enable_controls) return;
 
     // Resetar player para posição inicial se saiu da tela
@@ -272,11 +294,6 @@ void Player::Update()
     
     // Resetar o estado em todo frame para conferir na colisão com o portal para o próximo nível
     ready_next_level = false;
-
-    if (controllerOn) {
-        if (is_xbox_controller) gamepad->XboxUpdateState();
-        else                    gamepad->UpdateState();
-    }
 
     if (controllerOn) {
         float dx = is_xbox_controller ? gamepad->XboxAnalog(ThumbLX) : gamepad->Axis(AxisX);
@@ -328,14 +345,22 @@ void Player::Update()
         FireboyWatergirl::zoom *= zoom_dif;
     else if (FireboyWatergirl::zoom < FireboyWatergirl::initial_zoom && (x - pw > viewport.left && x + pw < viewport.right))
         FireboyWatergirl::zoom *= (1 / zoom_dif);
-
-    current_anim_head->NextFrame();
-    current_anim_body->NextFrame();
+    
+    updateState();
+    if (drop1) {
+        if (state == IDLE) {
+            drop1->NextFrame();
+            drop2->NextFrame();
+        }
+        else {
+            drop1->Restart();
+            drop2->Restart();
+        }
+    }
 }
 
 inline void Player::Draw()
 {
-    updateState();
     bool mirror_x = false;
     float offset_x = is_fireboy ? 5 : -5;
     float offset_y = current_anim_head->tileSet()->TileHeight() / 2.0 - 25;
@@ -394,13 +419,18 @@ inline void Player::Draw()
         head_x += point_rotation_x * (1 - cos(angle_radians)) + point_rotation_y * sin(angle_radians);
         head_y += -point_rotation_x * sin(angle_radians) + point_rotation_y * (1 - cos(angle_radians));
 
-        current_anim_body->Draw(x, y + (current_anim_body->tileSet()->TileHeight() / 2.0 - offset_body) * scale, z, scale, 0, mirror_x);
-        current_anim_head->Draw(head_x, head_y, z, scale_head * scale, -rotation_head, mirror_x);
+        current_anim_body->Draw(x, y + (current_anim_body->tileSet()->TileHeight() / 2.0 - offset_body) * scale, Layer::UPPER, scale, 0, mirror_x);
+        current_anim_head->Draw(head_x, head_y, Layer::FRONT, scale_head * scale, -rotation_head, mirror_x);
     }
     else {
         offset_y -= 25;
         head_y += 5;
-        current_anim_head->Draw(head_x, head_y, z, scale_head * scale, -rotation_head, mirror_x);
-        current_anim_body->Draw(x, y + (current_anim_body->tileSet()->TileHeight() / 2.0 - offset_body) * scale, z, scale, 0, mirror_x);
+        current_anim_head->Draw(head_x, head_y, Layer::FRONT, scale_head * scale, -rotation_head, mirror_x);
+        current_anim_body->Draw(x, y + (current_anim_body->tileSet()->TileHeight() / 2.0 - offset_body) * scale, Layer::UPPER, scale, 0, mirror_x);
+    }
+
+    if (drop1 && state == IDLE) {
+        drop1->Draw(x + 9, y + 13, z, scale * 1.5, 0, false);
+        drop2->Draw(x - 11, y + 13, z, scale * 1.5, 0, false);
     }
 }

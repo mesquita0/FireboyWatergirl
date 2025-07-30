@@ -6,6 +6,8 @@
 #include "Background.h"
 #include "Font.h"
 #include "WorldEntity.h"
+#include "Smoke.h"
+#include "Enemy.h"
 #include <format>
 #include <string>
 
@@ -30,7 +32,7 @@ void Level::Init()
     timer = {};
 
     loadLevel(*this, window, "Level" + std::to_string(level_number) + ".txt");
-    if (level_number == 2) is_run = true;
+    scene->Add(new Enemy(0, 0, 30), STATIC);
     Engine::ResetFrameTime();
 
     FireboyWatergirl::fireboy->LevelNumber(level_number - 1);
@@ -54,6 +56,9 @@ void Level::Init()
     viewport.right = viewport.left + window->Width();
     viewport.top = 0.0f + dify;
     viewport.bottom = viewport.top + window->Height();
+
+    smoke = new Smoke(FireboyWatergirl::fireboy->X(), FireboyWatergirl::fireboy->Y() - FireboyWatergirl::fireboy->Height() / 2.0f, 90);
+    scene->Add(smoke, STATIC);
 }
 
 void Level::Update()
@@ -72,6 +77,7 @@ void Level::Update()
         FireboyWatergirl::NextLevel();
         FireboyWatergirl::fireboy->Reset(level_number-1); 
         FireboyWatergirl::watergirl->Reset(level_number-1); 
+        return;
     }
     else if ((fireboy_ready && watergirl_ready) || (is_run && (fireboy_ready || watergirl_ready)) || window->KeyPress('N'))
     {
@@ -84,6 +90,7 @@ void Level::Update()
         FireboyWatergirl::fireboy->Reset(level_number-1);
         FireboyWatergirl::watergirl->Reset(level_number-1); 
         FireboyWatergirl::NextLevel();
+        return;
     } 
 
     // --------------------
@@ -119,6 +126,8 @@ void Level::Update()
         viewport.top = Height() - window->Height() * (1 / FireboyWatergirl::zoom);
         viewport.bottom = Height();
     }
+
+    smoke->MoveTo(FireboyWatergirl::fireboy->X(), FireboyWatergirl::fireboy->Y() - FireboyWatergirl::fireboy->Height() / 2.0f);
 }
 
 void Level::Draw()
@@ -147,3 +156,4 @@ void Level::Finalize()
     delete scene;
     scene = nullptr;
 }
+
