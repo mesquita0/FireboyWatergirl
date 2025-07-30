@@ -5,11 +5,15 @@
 #include "Background.h"
 #include "Font.h"
 #include "Timer.h"
+#include "Particles.h" 
+#include <list>       
+using std::list;       
 
 class Level : public Game
 {
 private:
     int level_number;
+    list<Particles*> particleSystems; 
     
 
 public:
@@ -20,6 +24,7 @@ public:
     int num_ground_blocks = 0;
     bool is_run = false, did_fail = false, did_fireboy_win = false;
     float height, width;
+    void AddParticleSystem(float x, float y);
 
     Level(int level_number);
 

@@ -34,6 +34,8 @@ struct Generator
     float  percentToDim;                                        // percentual de vida para começar a desaparecer
     float  minSpeed;                                            // velocidade mínima das partículas
     float  maxSpeed;                                            // velocidade máxima das partículas
+    float  minScale;                                            // Escala mínima inicial
+    float  maxScale;                                            // Escala máxima inicial
     Color  color;                                               // cor das partículas
 };
 
@@ -41,6 +43,7 @@ struct Particle
 {
     float  x, y;                                                // posição da partícula
     Vector speed;                                               // direção e velocidade
+    float  scale;
     llong  timestamp;                                           // instante de criação
 };
 
@@ -56,6 +59,7 @@ private:
     Timer timer;                                                // controle de tempo
     Random<float> spread { -config.spread/2, config.spread/2 }; // valores aleatórios para o espalhamento
     Random<float> speed  { config.minSpeed, config.maxSpeed };  // valores aleatórios para a velocidade
+    Random<float> scale { config.minScale, config.maxScale }; 
 
     void Build(float posX, float posY);                         // cria uma partícula
 
