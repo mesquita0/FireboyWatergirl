@@ -29,6 +29,9 @@ private:
     Animation    * current_anim_head;
     Animation    * current_anim_body;
 
+    Animation    * drop1 = nullptr;
+    Animation    * drop2 = nullptr;
+
     Vector       * velocity;
     int          level;                  
     float        initial_posX, initial_posY;

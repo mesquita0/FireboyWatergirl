@@ -53,6 +53,9 @@ Player::Player(bool is_fireboy, Controller* controller, bool controllerOn, bool 
 
         // TODO
         anim_win = new Animation(TileSet(tiles, 341, 204, 1, 5, 3, 1267), 0.05f, true);
+
+        drop1 = new Animation(TileSet("Resources/drop.png", 88, 91, 5, 15, 0, 2), 0.05f, true);
+        drop2 = new Animation(TileSet("Resources/drop.png", 88, 91, 5, 14, 0, 2), 0.05f, true);
     }
 
     // cria bounding box
@@ -328,14 +331,22 @@ void Player::Update()
         FireboyWatergirl::zoom *= zoom_dif;
     else if (FireboyWatergirl::zoom < FireboyWatergirl::initial_zoom && (x - pw > viewport.left && x + pw < viewport.right))
         FireboyWatergirl::zoom *= (1 / zoom_dif);
-
-    current_anim_head->NextFrame();
-    current_anim_body->NextFrame();
+    
+    updateState();
+    if (drop1) {
+        if (state == IDLE) {
+            drop1->NextFrame();
+            drop2->NextFrame();
+        }
+        else {
+            drop1->Restart();
+            drop2->Restart();
+        }
+    }
 }
 
 inline void Player::Draw()
 {
-    updateState();
     bool mirror_x = false;
     float offset_x = is_fireboy ? 5 : -5;
     float offset_y = current_anim_head->tileSet()->TileHeight() / 2.0 - 25;
@@ -402,5 +413,10 @@ inline void Player::Draw()
         head_y += 5;
         current_anim_head->Draw(head_x, head_y, z, scale_head * scale, -rotation_head, mirror_x);
         current_anim_body->Draw(x, y + (current_anim_body->tileSet()->TileHeight() / 2.0 - offset_body) * scale, z, scale, 0, mirror_x);
+    }
+
+    if (drop1 && state == IDLE) {
+        drop1->Draw(x + 9, y + 13, z, scale * 1.5, 0, false);
+        drop2->Draw(x - 11, y + 13, z, scale * 1.5, 0, false);
     }
 }
